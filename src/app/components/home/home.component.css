@@ -1,0 +1,50 @@
+.narvar {
+    background-color: black;
+}
+
+span {
+    color: #2FCC51;
+    cursor: pointer;
+}
+mat-toolbar {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+a{
+    text-decoration: none;
+    color: #2FCC51;
+}
+body{ 
+    background-color: #2A2626;
+}
+.container {
+    padding-top: 2rem;
+    padding-left: 2rem;
+    display: flex;
+    justify-content: center;
+    width: 40rem;
+}
+
+nav a {
+    font-weight: 600;
+    padding-right: 10px;
+    
+}
+nav a:hover{
+    color: #2FCC51;
+}
+.card {
+    display:block;
+    justify-content: center;
+    align-items: center;
+    width: 50rem;
+    background-color: white;
+    padding: 2rem;
+    
+}
+.items{
+    padding: 0.8rem;
+}
