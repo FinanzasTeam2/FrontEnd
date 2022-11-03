@@ -3,7 +3,6 @@ body {
 }
 
 .container {
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,8 +30,8 @@ label {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 500px;
-    height: 500px;
+    width: 550px;
+    height: 550px;
     border-radius: 20px;
     background-color: black;
     margin: 90px;
@@ -46,19 +45,16 @@ label {
 .main-form{
     margin: 40px;
 }
+.main-form > div{
+    width: 100px;
+    height: 70px;
+}
+
 input {
     width: 300px;
     padding: 6px;
     border-radius: 8px;
     background-color: white;
-}
-.container-email{
-    width: 100px;
-    height: 70px;
-}
-.container-password{
-    width: 100px;
-    height: 70px;
 }
 .btn-success {
     display: inline-block;
@@ -70,4 +66,11 @@ input {
     color: white;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     cursor: pointer;
+}
+
+.btn-success:hover{
+    color: black;
+    background-color: white;
+    transition: 300ms;
+    transition-delay: 300ms;
 }
