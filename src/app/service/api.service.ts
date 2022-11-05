@@ -14,8 +14,10 @@ export class ApiService {
   }
 
   //Login
-  getUsers() {
-    return this.http.get<any>(this.basepath + 'userprofile');
+  getUserByEmailAndPassword(email: string, password: string) {
+    return this.http.get<any>(
+      this.basepath + `userprofile?email=${email}&password=${password}`
+    );
   }
 
   //Leasing
