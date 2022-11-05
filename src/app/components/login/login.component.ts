@@ -37,17 +37,19 @@ export class LoginComponent implements OnInit {
           this.loginForm.value.email,
           this.loginForm.value.password
         )
-        .subscribe(
-          (data: any) => {
-            localStorage.setItem('addUsuario', JSON.stringify(data));
+        .subscribe({
+          next: (res) => {
+            localStorage.setItem('addUsuario', JSON.stringify(res));
             this.loginForm.reset();
             alert('Bienvenido');
             this.router.navigate(['/home']);
           },
-          (error: any) => {
+          error: (err) => {
+            console.log(err);
+            this.loginForm.reset();
             alert('User or password incorrect');
-          }
-        );
+          },
+        });
     }
   }
 }
