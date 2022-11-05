@@ -1,37 +1,60 @@
 <body>
-    <section class="container">
-        <section class="container-img">
-            <p>lo</p>
-        </section>
-        <section class="container-login">
-
-            <form class="example-form">
-                <div class="main-text">
-                    <h1> Registrate </h1>
-                </div>
-                <div class="main-form">
-                    <div class="container-name">
-                        <label for=""> Nombres:</label>
-                        <input type="text" placeholder="Ingrese Nombres">
-                    </div>
-                    <div class="container-lastname">
-                        <label for="">Apellidos:</label>
-                        <input type="text" placeholder="Ingrese Apellidos">
-                    </div>
-                    <div class="container-email">
-                        <label for="">Emal:</label>
-                        <input type="email" placeholder="Ingrese Email">
-                    </div>
-                    <div class="container-password">
-                        <label for="">Contraseña:</label>
-                            <input type="text" placeholder="Ingrese contraseña">
-                     </div>
-                    <button class="btn-success" type="submit">
-                        Registrate
-                    </button>
-                </div>
-            </form>
-
-        </section>
+  <section class="container">
+    <section class="container-img">
+      <p>lo</p>
     </section>
+    <section class="container-login">
+      <form
+        class="example-form"
+        (ngSubmit)="this.registerUser(registerForm.value)"
+        [formGroup]="registerForm"
+      >
+        <div class="main-text">
+          <h1>Registrate</h1>
+        </div>
+        <div class="main-form">
+          <div class="container-name">
+            <label for=""> Nombres:</label>
+            <input
+              type="text"
+              placeholder="Ingrese Nombres"
+              formControlName="firstName"
+            />
+          </div>
+          <div class="container-lastname">
+            <label for="">Apellidos:</label>
+            <input
+              type="text"
+              placeholder="Ingrese Apellidos"
+              formControlName="lastName"
+            />
+          </div>
+          <div class="container-email">
+            <label for="">Email:</label>
+            <input
+              type="email"
+              placeholder="Ingrese Email"
+              formControlName="email"
+            />
+          </div>
+          <div class="container-password">
+            <label for="">Contraseña:</label>
+            <input
+              type="text"
+              placeholder="Ingrese contraseña"
+              formControlName="password"
+            />
+          </div>
+          <button
+            class="btn-success"
+            type="submit"
+            (click)="this.registerButton()"
+            [disabled]="!registerForm.valid"
+          >
+            Registrate
+          </button>
+        </div>
+      </form>
+    </section>
+  </section>
 </body>
