@@ -15,7 +15,7 @@ body {
 .example-form {
     width: 400px;
     height: auto;
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
 .main-text {
@@ -52,7 +52,7 @@ label {
 }
 
 .main-form{
-    margin: 40px;
+    margin: 10px 40px 40px 40px;
 }
 .main-form > div{
     width: 100px;
@@ -70,17 +70,18 @@ input {
     display: inline-block;
     background-color: #2FCC51;
     border: 0px;
-    margin: 20px 0px 50px 100px;
+    margin: 20px;
     border-radius: 4px;
     padding: 8px 25px;
     color: white;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     cursor: pointer;
-    align-items: center;
 }
+
 .btn-success:hover{
     color: black;
     background-color: white;
     transition: 300ms;
     transition-delay: 300ms;
 }
+
