@@ -1,0 +1,66 @@
+<body>
+  <mat-toolbar class="narvar">
+    <span routerLink="/">Leasing</span>
+    <nav>
+      <span href="" class="nav-link"> Calculadora Leasing</span>
+
+      <span href="" class="nav-link"> Usuario</span>
+    </nav>
+  </mat-toolbar>
+  <section class="container">
+    <div class="card">
+      <div class="items">
+        <label> Ingrese monto</label>
+        <input type="text" />
+      </div>
+      <div class="items">
+        <label> Ingrese fecha </label>
+        <input type="date" />
+      </div>
+      <div class="items">
+        <label> Ingrese fecha del primer pago</label>
+        <input type="date" />
+      </div>
+    </div>
+    <div class="card">
+      <div class="items">
+        <label> Tipo de tasa:</label>
+        <input type="radio" /><label> Efectiva</label>
+        <input type="radio" /><label> Nominal</label>
+      </div>
+      <div class="items">
+        <label> Ingrese Tasa </label>
+        <input type="number" />
+      </div>
+    </div>
+  </section>
+  <section class="container">
+    <div class="card">
+      <div class="items">
+        <label> Tipo de bien</label>
+        <select name="bienes">
+          <option value="bienes">carro</option>
+          <option value="bienes">Muebles</option>
+          <option value="bienes">Terrenos</option>
+          <option value="bienes">Viajes</option>
+        </select>
+      </div>
+
+      <div class="items">
+        <label> Tipo de moneda:</label>
+        <input type="radio" /><label> Soles</label>
+        <input type="radio" /><label> Dolares</label>
+      </div>
+      <div class="items">
+        <label> Valor del bien </label>
+        <input type="number" />
+      </div>
+    </div>
+    <div class="card">
+      <div class="items">
+        <label> Ingrese valor del bien sinIGV </label>
+        <input type="number" />
+      </div>
+    </div>
+  </section>
+</body>
