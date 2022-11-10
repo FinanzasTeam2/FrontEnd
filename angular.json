@@ -3,9 +3,19 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+<<<<<<< HEAD
     "leansing": {
       "projectType": "application",
       "schematics": {},
+=======
+    "leasing": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +23,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+<<<<<<< HEAD
             "outputPath": "dist/leansing",
+=======
+            "outputPath": "dist/leasing",
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -23,7 +37,11 @@
               "src/assets"
             ],
             "styles": [
+<<<<<<< HEAD
               "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+=======
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
               "src/styles.css"
             ],
             "scripts": []
@@ -65,10 +83,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
+<<<<<<< HEAD
               "browserTarget": "leansing:build:production"
             },
             "development": {
               "browserTarget": "leansing:build:development"
+=======
+              "browserTarget": "leasing:build:production"
+            },
+            "development": {
+              "browserTarget": "leasing:build:development"
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +101,11 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
+<<<<<<< HEAD
             "browserTarget": "leansing:build"
+=======
+            "browserTarget": "leasing:build"
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
           }
         },
         "test": {
@@ -91,7 +120,11 @@
               "src/assets"
             ],
             "styles": [
+<<<<<<< HEAD
               "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+=======
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
               "src/styles.css"
             ],
             "scripts": []
@@ -100,7 +133,11 @@
       }
     }
   },
+<<<<<<< HEAD
   "cli": {
     "analytics": "58c0cc4b-15d5-409e-9697-d4b7503c9bba"
   }
+=======
+  "defaultProject": "leasing"
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
 }

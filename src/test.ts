@@ -23,4 +23,8 @@ getTestBed().initTestEnvironment(
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
+<<<<<<< HEAD
 context.keys().forEach(context);
+=======
+context.keys().map(context);
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
