@@ -1,0 +1,19 @@
+#section_data {
+  width: 40%;
+  border: solid black;
+  display: inline-block;
+}
+#section_results {
+  width: 40%;
+  border: solid black;
+  display: inline-block;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+label {
+  width: 100px;
+}

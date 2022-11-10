@@ -1,0 +1,307 @@
+<mat-toolbar class="narvar">
+  <span routerLink="/">Calculadora Leasing</span>
+  <nav>
+    <span href="" class="nav-link"> Alemán</span>
+  </nav>
+</mat-toolbar>
+<!------------------------------------------Datos------------------------------------------>
+<section id="section_data">
+  <form [formGroup]="formGroup" (ngSubmit)="this.Submit()">
+    <span>Datos...</span>
+    <div>
+      <!------------------------------------------Prestamo------------------------------------------>
+      <div>
+        <span>... del préstamo</span>
+
+        <mat-form-field appearance="fill" color="primary">
+          <mat-label>Precio de Venta del Activo</mat-label>
+          <input
+            matInput
+            formControlName="precio_de_venta_del_activo"
+            placeholder="0.00"
+          />
+        </mat-form-field>
+
+        <div>
+          <div>
+            <label> % Cuato Inicial</label>
+            <input
+              type="text"
+              matInput
+              formControlName="porcentaje_de_cuota_inicial"
+            />
+          </div>
+        </div>
+        <div>
+          <div>
+            <label> Nº de años</label>
+            <input type="text" formControlName="num_de_años" />
+          </div>
+        </div>
+        <div>
+          <div>
+            <label> Frecuencia de pago</label>
+            <input type="text" formControlName="frecuencia_de_pago" />
+          </div>
+        </div>
+        <div>
+          <div>
+            <label> Nº de días por año</label>
+            <input type="text" formControlName="num_dias_por_año" />
+          </div>
+        </div>
+      </div>
+      <!------------------------------------------Costes/Gatos iniciales------------------------------------------>
+      <div>
+        <span>... de los costes/gastos iniciales</span>
+        <div class="card">
+          <label> Costes Notariales</label>
+          <input type="text" formControlName="costes_notariales" />
+        </div>
+
+        <div class="card">
+          <div class="items">
+            <label> Costes Registrales</label>
+            <input type="text" formControlName="costes_registrales" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="items">
+            <label> Tasación</label>
+            <input type="text" formControlName="tasacion" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="items">
+            <label> Comision de estudio</label>
+            <input type="text" formControlName="comision_de_estudio" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="items">
+            <label> Comisión de activación</label>
+            <input type="text" formControlName="comision_activación" />
+          </div>
+        </div>
+      </div>
+      <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
+      <div>
+        <span>... de los costes/gastos periodicos</span>
+        <div class="card">
+          <label> Comisión periodica</label>
+          <input type="text" formControlName="comision_periodica" />
+        </div>
+
+        <div class="card">
+          <div class="items">
+            <label> Portes</label>
+            <input type="text" formControlName="portes" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="items">
+            <label> Gastos de Administración</label>
+            <input type="text" formControlName="gastos_de_administración" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="items">
+            <label> % de Seguro de desgravamen</label>
+            <input
+              type="text"
+              formControlName="porcentaje_de_seguro_desgravamen"
+            />
+          </div>
+        </div>
+        <div class="card">
+          <div class="items">
+            <label>% de Seguro de riesgo</label>
+            <input type="text" formControlName="porcentaje_de_seguro_riesgo" />
+          </div>
+        </div>
+      </div>
+      <!------------------------------------------Costo de Oportunidad------------------------------------------>
+      <div>
+        <span>... del costo de oportunidad</span>
+        <div class="card">
+          <label> Tasa de descuento</label>
+          <input type="text" formControlName="tasa_de_descuento" />
+        </div>
+      </div>
+    </div>
+    <button mat-raised-button color="warn" type="submit">Calcular</button>
+  </form>
+</section>
+<!------------------------------------------Resultados------------------------------------------>
+<section id="section_results">
+  <span>Resultados...</span>
+  <div>
+    <!------------------------------------------Financiamiento------------------------------------------>
+    <div>
+      <span>... del financiamiento</span>
+      <div>
+        <label> Saldo a financiar</label>
+        <input type="text" />
+      </div>
+      <div>
+        <div>
+          <label> Monto del préstamos</label>
+          <input type="text" />
+        </div>
+      </div>
+      <div>
+        <div>
+          <label> Nº de Cuotas por Año</label>
+          <input type="text" />
+        </div>
+      </div>
+      <div>
+        <div>
+          <label> Nº Total de Cuotas</label>
+          <input type="text" />
+        </div>
+      </div>
+    </div>
+    <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
+    <div>
+      <span>... de los costes/gastos periodicos</span>
+      <div class="card">
+        <label>% de Seguro desgravavamen periodo</label>
+        <input type="text" />
+      </div>
+
+      <div class="card">
+        <div class="items">
+          <label> Seguro riesgo</label>
+          <input type="text" />
+        </div>
+      </div>
+    </div>
+    <!------------------------------------------Totales por...------------------------------------------>
+    <div>
+      <span>... totales por ...</span>
+      <div class="card">
+        <label> Intereses</label>
+        <input type="text" />
+      </div>
+
+      <div class="card">
+        <div class="items">
+          <label> Amortización del capital</label>
+          <input type="text" />
+        </div>
+      </div>
+      <div class="card">
+        <div class="items">
+          <label> Seguro de desgravamen</label>
+          <input type="text" />
+        </div>
+      </div>
+      <div class="card">
+        <div class="items">
+          <label> Seguro contra todo riesgo</label>
+          <input type="text" />
+        </div>
+      </div>
+      <div class="card">
+        <div class="items">
+          <label>Comisiones periodicas</label>
+          <input type="text" />
+        </div>
+      </div>
+      <div class="card">
+        <div class="items">
+          <label>Portes / Gastos de adm.</label>
+          <input type="text" />
+        </div>
+      </div>
+    </div>
+    <!------------------------------------------Indicadores de Rentabilidad------------------------------------------>
+    <div>
+      <span>... de Indicadores de Rentabilidad</span>
+      <div class="card">
+        <label> Tasa de descuento</label>
+        <input type="text" />
+      </div>
+      <div class="card">
+        <label> TIR de la operación</label>
+        <input type="text" />
+      </div>
+      <div class="card">
+        <label> TCEA de la operación</label>
+        <input type="text" />
+      </div>
+      <div class="card">
+        <label>VAN operación</label>
+        <input type="text" />
+      </div>
+    </div>
+  </div>
+</section>
+<!------------------------------------------Leasing------------------------------------------>
+<table>
+  <thead>
+    <tr>
+      <th>Nº</th>
+      <th>TEA</th>
+      <th>i'=TEP=TEM</th>
+      <th>IA</th>
+      <th>P.G.</th>
+      <th>Saldo Inicial</th>
+      <th>Saldo Inicial Indexado</th>
+      <th>Interes</th>
+      <th>Cuota (inc Seg Des)</th>
+      <th>Amortización</th>
+      <th>Prepago</th>
+      <th>Seguro desgrav</th>
+      <th>Seguro de riesgo</th>
+      <th>Comisión</th>
+      <th>Portes</th>
+      <th>Gastos Administrativos</th>
+      <th>Saldo Final</th>
+      <th>Flujo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>S</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>S</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
