@@ -6,6 +6,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
+import { Resultados } from 'src/app/model/resultados.service';
 
 @Component({
   selector: 'app-leasing',
@@ -15,7 +16,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class LeasingComponent implements OnInit {
   data: Datos = {
     PV: 125000,
-    pCI: 20000,
+    pCI: 20 / 100,
     NA: 15,
     frec: 30,
     NDxA: 360,
@@ -27,14 +28,16 @@ export class LeasingComponent implements OnInit {
     ComPer: 0,
     PortesPer: 3.5,
     GasAdmPer: 0,
-    pSegDes: 0.05,
-    pSegRie: 0.3,
-    COK: 25.0,
+    pSegDes: 0.05 / 100,
+    pSegRie: 0.3 / 100,
+    COK: 25.0 / 100,
   };
+  results: Resultados;
   leasingTable: any = [325];
   formGroup!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
+    this.results = {} as Resultados;
     this.formGroup = this.formBuilder.group({
       //...del prestamo
       precio_de_venta_del_activo: new FormControl('', [
@@ -112,6 +115,38 @@ export class LeasingComponent implements OnInit {
       console.log(this.data);
     } else {
       console.log(this.data);
+
+      this.results.Saldo = this.Saldo(this.data.PV, this.data.pCI);
+
+      var costes_gastos_iniciales = [
+        this.data.CostesNotariales,
+        this.data.CostesRegistrales,
+        this.data.Tasacion,
+        this.data.ComisionEstudio,
+        this.data.ComisionActivacion,
+      ];
+
+      this.results.Prestamo = this.Prestamo(
+        this.results.Saldo,
+        costes_gastos_iniciales
+      );
+
+      this.results.NCxA = this.NCxA(this.data.NDxA, this.data.frec);
+
+      this.results.N = this.N(this.results.NCxA, this.data.NA);
+
+      this.results.pSegDesPer = this.pSegDesPer(
+        this.data.pSegDes,
+        this.data.frec
+      );
+
+      this.results.SegRiePer = this.SegRiePer(
+        this.data.pSegRie,
+        this.data.PV,
+        this.results.NCxA
+      );
+
+      console.log(this.results);
     }
   }
 
