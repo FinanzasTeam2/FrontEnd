@@ -114,4 +114,85 @@ export class LeasingComponent implements OnInit {
       console.log(this.data);
     }
   }
+
+  //-----------------------------Resultados-----------------------------//
+  //-----------------------...del financiamiento-----------------------
+  //Saldo a financiar
+  Saldo(PV: number, pCI: number) {
+    return PV - PV * pCI;
+  }
+  //Monto del prestamo
+  Prestamo(Saldo: number, costes_gastos_iniciales: number[]) {
+    return (
+      Saldo +
+      costes_gastos_iniciales.reduce(
+        (accumulated, current) => accumulated + current
+      )
+    );
+  }
+  //Nº Cuotas por Año
+  NCxA(NDxA: number, frec: number) {
+    return NDxA / frec;
+  }
+  //Nº Total de Cuotas
+  N(NCxA: number, NA: number) {
+    return NCxA * NA;
+  }
+  //-----------------------de los costes/gastos periodicos-----------------------
+  //% de Seguro desgrav. per.
+  pSegDesPer(pSegDes: number, frec: number) {
+    return (pSegDes * frec) / 30;
+  }
+  //Seguro de riesgo
+  SegRiePer(pSegRie: number, PV: number, NCxA: number) {
+    return (pSegRie * PV) / NCxA;
+  }
+  //-----------------------...totales por...-----------------------
+  Intereses(I: number[]) {
+    return -I.reduce((accumulated, current) => accumulated + current);
+  }
+  Amortización_del_capital(A: number[], PP: number[]) {
+    return -(
+      A.reduce((accumulated, current) => accumulated + current) +
+      PP.reduce((accumulated, current) => accumulated + current)
+    );
+  }
+  Seguro_de_desgravamen(SegDes: number[]) {
+    return -SegDes.reduce((accumulated, current) => accumulated + current);
+  }
+  Seguro_contra_todo_riesgo(SegRie: number[]) {
+    return -SegRie.reduce((accumulated, current) => accumulated + current);
+  }
+  Comisiones_periodicas(Comision: number[]) {
+    return -Comision.reduce((accumulated, current) => accumulated + current);
+  }
+  Portes_o_Gastos_de_adm(Portes: number[], GasAdm: number[]) {
+    return -(
+      Portes.reduce((accumulated, current) => accumulated) +
+      GasAdm.reduce((accumulated, current) => accumulated + current)
+    );
+  }
+  //-----------------------...de indicadores de Rentabilidad-----------------------
+  //Tasa de descuento
+  COKi(COK: number, frec: number, NDxA: number) {
+    return Math.pow(1 + COK, frec / NDxA) - 1;
+  }
+  /*
+  //TIR de la operacion
+  TIR_Operacion(Flujo:number[]) {
+    return this.TIR(Flujo.reduce((accumulated,current)=>accumulated+current),1);
+  }
+  TIR(arr:number,porcentaje:number)
+  {
+    return 0;//Falta implementar
+  }
+  //TCEA de la operacion
+  TCEA(:number) {
+    return Math.pow(1+,)-1;
+  }
+  //VAN operacion
+  VAN(:number) {
+    return;
+  }
+  */
 }
