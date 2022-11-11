@@ -18,6 +18,13 @@ td {
 label {
   width: 100px;
 }
+<<<<<<< HEAD
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: grey;
+}
+=======
+>>>>>>> 2f6a7ab0fd4a635bad260e44eb74c0159e1906de
 
 #section_data .mat-form-field {
   width: 260px;
