@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./leasing.component.css'],
 })
 export class LeasingComponent implements OnInit {
+  indexTable: number;
   data: Datos = {
     PV: 125000,
     pCI: 20 / 100,
@@ -64,6 +65,7 @@ export class LeasingComponent implements OnInit {
   resultGroup!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
+    this.indexTable = 0;
     this.results = {} as Resultados;
     this.leasingData = {} as LeasingData;
 
@@ -218,35 +220,66 @@ export class LeasingComponent implements OnInit {
       this.updateValue('SegRiePer', this.results.SegRiePer);
 
       //----------------------------LeasingTable----------------------------//
-      this.leasingInitialize();
-      this.leasingTable.push(this.leasingData);
-      this.leasingTable.push(this.leasingData);
-      this.leasingTable.push(this.leasingData);
 
+      //--------------------NC - TEA --------------------
+      //5años -> 5*12 = 60
+      for (let i = 0; i < 60 + 1; i++) {
+        this.leasingTable.push(
+          CreateLeasingData({ _NC: this.indexTable++, _TEA: 10 / 100 })
+        );
+      }
+
+      //10años -> 10*10 =120
+      for (let i = 0; i < 120; i++) {
+        this.leasingTable.push(
+          CreateLeasingData({ _NC: this.indexTable++, _TEA: 12 / 100 })
+        );
+      }
+
+      //10años -> 10*10 =120
+      for (let i = 0; i < 120; i++) {
+        this.leasingTable.push(
+          CreateLeasingData({ _NC: this.indexTable++, _TEA: 0 / 100 })
+        );
+      }
+
+      //--------------------TEP --------------------
+      for (let i = 1; i < 300; i++) {
+        this.leasingTable[i].TEP = this.TEP({
+          NC: i,
+          N: this.results.N,
+          TEA: this.leasingTable[i].TEA,
+          frec: this.data.frec,
+          NDxA: this.data.NDxA,
+        });
+      }
+
+      //--------------------IA --------------------
+      //tiene 0
+
+      //--------------------IP --------------------
+      //tiene 0 -> PERO HAY Q IMPLEMENTAR LA FORMULA XD
+
+      //--------------------P.G. --------------------
+      //5años -> 5*12 = 60
+      for (let i = 1; i <= 6; i++) {
+        this.leasingTable[i].PG = 'T';
+      }
+
+      //10años -> 10*10 =120
+      for (let i = 7; i <= 12; i++) {
+        this.leasingTable[i].PG = 'P';
+      }
+
+      //10años -> 10*10 =120
+      for (let i = 13; i <= 300; i++) {
+        this.leasingTable[i].PG = 'S';
+      }
+
+      //...
       this.dataSource = new MatTableDataSource(this.leasingTable);
       console.log(this.leasingTable);
     }
-  }
-
-  leasingInitialize() {
-    this.leasingData.NC = 0.0;
-    this.leasingData.TEA = 0.0;
-    this.leasingData.TEP = 0.0;
-    this.leasingData.IA = 0.0;
-    this.leasingData.IP = 0.0;
-    this.leasingData.PG = 0.0;
-    this.leasingData.SI = 0.0;
-    this.leasingData.SII = 0.0;
-    this.leasingData.I = 0.0;
-    this.leasingData.Cuota = 0.0;
-    this.leasingData.A = 0.0;
-    this.leasingData.PP = 0.0;
-    this.leasingData.SegDes = 0.0;
-    this.leasingData.SegRie = 0.0;
-    this.leasingData.Portes = 0.0;
-    this.leasingData.GasAdm = 0.0;
-    this.leasingData.SF = 0.0;
-    this.leasingData.Flujo = 0.0;
   }
 
   //-----------------------------Resultados-----------------------------//
@@ -333,4 +366,89 @@ export class LeasingComponent implements OnInit {
   updateValue(parameter: string, data: number) {
     this.resultGroup.patchValue({ [parameter]: data.toString() });
   }
+
+  //-----------------------------LeasingTable-----------------------------//
+  TEP({
+    NC,
+    N,
+    TEA,
+    frec,
+    NDxA,
+  }: {
+    NC: number;
+    N: number;
+    TEA: number;
+    frec: number;
+    NDxA: number;
+  }) {
+    console.log('ESTO', NC, N, TEA, frec, NDxA);
+    if (NC <= N) {
+      return Math.pow(1 + TEA, frec / NDxA) - 1;
+    } else {
+      return 0;
+    }
+  }
+}
+
+function CreateLeasingData({
+  _NC = 0,
+  _TEA = 0,
+  _TEP = 0,
+  _IA = 0,
+  _IP = 0,
+  _PG = '',
+  _SI = 0,
+  _SII = 0,
+  _I = 0,
+  _Cuota = 0,
+  _A = 0,
+  _PP = 0,
+  _SegDes = 0,
+  _SegRie = 0,
+  _Portes = 0,
+  _GasAdm = 0,
+  _SF = 0,
+  _Flujo = 0,
+}: {
+  _NC?: number;
+  _TEA?: number;
+  _TEP?: number;
+  _IA?: number;
+  _IP?: number;
+  _PG?: string;
+  _SI?: number;
+  _SII?: number;
+  _I?: number;
+  _Cuota?: number;
+  _A?: number;
+  _PP?: number;
+  _SegDes?: number;
+  _SegRie?: number;
+  _Portes?: number;
+  _GasAdm?: number;
+  _SF?: number;
+  _Flujo?: number;
+}) {
+  var data: LeasingData = {
+    NC: _NC,
+    TEA: _TEA,
+    TEP: _TEP,
+    IA: _IA,
+    IP: _IP,
+    PG: _PG,
+    SI: _SI,
+    SII: _SII,
+    I: _I,
+    Cuota: _Cuota,
+    A: _A,
+    PP: _PP,
+    SegDes: _SegDes,
+    SegRie: _SegRie,
+    Portes: _Portes,
+    GasAdm: _GasAdm,
+    SF: _SF,
+    Flujo: _Flujo,
+  };
+
+  return data;
 }

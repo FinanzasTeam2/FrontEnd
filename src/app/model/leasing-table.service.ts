@@ -4,7 +4,7 @@ export interface LeasingData {
   TEP: number;
   IA: number;
   IP: number;
-  PG: number;
+  PG: string;
   SI: number;
   SII: number;
   I: number;
