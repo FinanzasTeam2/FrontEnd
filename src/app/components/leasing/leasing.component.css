@@ -1,12 +1,13 @@
 #section_data {
   width: 40%;
   border: solid black;
-  display: inline-block;
+  display: inline-flex;
+  padding-right: 5px;
 }
 #section_results {
   width: 40%;
   border: solid black;
-  display: inline-block;
+  display: inline-flex;
 }
 table,
 th,
@@ -16,4 +17,30 @@ td {
 
 label {
   width: 100px;
+}
+
+#section_data .mat-form-field {
+  width: 260px;
+  height: 50px;
+  font-size: 14px;
+  padding: 4px;
+}
+
+#section_results .mat-form-field {
+  width: 100px;
+  margin-bottom: -1.25em;
+  padding-right: 32px;
+}
+
+span {
+  display: block;
+  padding-top: 20px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+table {
+  width: 100%;
 }

@@ -5,7 +5,7 @@ export interface Resultados {
   NCxA: number; //Nº Cuotas por Año
   N: number; //Nº Total de Cuotas
   //de los costes/gastos periodicos
-  pSegDesPer: number; //% de Seguro desgrav. per.
+  pSegDesPer: number; //% de Seguro desgravamen periodo
   SegRiePer: number; //Seguro de riesgo
   //totales por
   Intereses: number;

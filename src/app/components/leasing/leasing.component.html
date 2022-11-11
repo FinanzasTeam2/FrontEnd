@@ -13,8 +13,8 @@
       <div>
         <span>... del préstamo</span>
 
-        <mat-form-field appearance="fill" color="primary">
-          <mat-label>Precio de Venta del Activo</mat-label>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Precio de Venta del Activo: 0.00</mat-label>
           <input
             matInput
             formControlName="precio_de_venta_del_activo"
@@ -22,286 +22,452 @@
           />
         </mat-form-field>
 
-        <div>
-          <div>
-            <label> % Cuato Inicial</label>
-            <input
-              type="text"
-              matInput
-              formControlName="porcentaje_de_cuota_inicial"
-            />
-          </div>
-        </div>
-        <div>
-          <div>
-            <label> Nº de años</label>
-            <input type="text" formControlName="num_de_años" />
-          </div>
-        </div>
-        <div>
-          <div>
-            <label> Frecuencia de pago</label>
-            <input type="text" formControlName="frecuencia_de_pago" />
-          </div>
-        </div>
-        <div>
-          <div>
-            <label> Nº de días por año</label>
-            <input type="text" formControlName="num_dias_por_año" />
-          </div>
-        </div>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> % Cuato Inicial: 0.00%</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="porcentaje_de_cuota_inicial"
+            placeholder="0.00%"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Nº de años: 0.00</mat-label>
+          <input type="text" matInput formControlName="num_de_años" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Frecuencia de pago: 0.00</mat-label>
+          <input type="text" matInput formControlName="frecuencia_de_pago" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Nº de días por año: 0.00</mat-label>
+          <input type="text" matInput formControlName="num_dias_por_año" />
+        </mat-form-field>
       </div>
       <!------------------------------------------Costes/Gatos iniciales------------------------------------------>
       <div>
         <span>... de los costes/gastos iniciales</span>
-        <div class="card">
-          <label> Costes Notariales</label>
-          <input type="text" formControlName="costes_notariales" />
-        </div>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Costes Notariales: 0.00</mat-label>
+          <input
+            type="text"
+            matInput
+            matInput
+            formControlName="costes_notariales"
+          />
+        </mat-form-field>
 
-        <div class="card">
-          <div class="items">
-            <label> Costes Registrales</label>
-            <input type="text" formControlName="costes_registrales" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="items">
-            <label> Tasación</label>
-            <input type="text" formControlName="tasacion" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="items">
-            <label> Comision de estudio</label>
-            <input type="text" formControlName="comision_de_estudio" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="items">
-            <label> Comisión de activación</label>
-            <input type="text" formControlName="comision_activación" />
-          </div>
-        </div>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Costes Registrales: 0.00</mat-label>
+          <input type="text" matInput formControlName="costes_registrales" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Tasación: 0.00</mat-label>
+          <input type="text" matInput formControlName="tasacion" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Comision de estudio: 0.00</mat-label>
+          <input type="text" matInput formControlName="comision_de_estudio" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Comisión de activación: 0.00</mat-label>
+          <input type="text" matInput formControlName="comision_activación" />
+        </mat-form-field>
       </div>
       <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
       <div>
         <span>... de los costes/gastos periodicos</span>
-        <div class="card">
-          <label> Comisión periodica</label>
-          <input type="text" formControlName="comision_periodica" />
-        </div>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Comisión periodica: 0.00</mat-label>
+          <input type="text" matInput formControlName="comision_periodica" />
+        </mat-form-field>
 
-        <div class="card">
-          <div class="items">
-            <label> Portes</label>
-            <input type="text" formControlName="portes" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="items">
-            <label> Gastos de Administración</label>
-            <input type="text" formControlName="gastos_de_administración" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="items">
-            <label> % de Seguro de desgravamen</label>
-            <input
-              type="text"
-              formControlName="porcentaje_de_seguro_desgravamen"
-            />
-          </div>
-        </div>
-        <div class="card">
-          <div class="items">
-            <label>% de Seguro de riesgo</label>
-            <input type="text" formControlName="porcentaje_de_seguro_riesgo" />
-          </div>
-        </div>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Portes: 0.00</mat-label>
+          <input type="text" matInput formControlName="portes" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> Gastos de Administración: 0.00</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="gastos_de_administración"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label> % de Seguro de desgravamen: 0.00%</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="porcentaje_de_seguro_desgravamen"
+            placeholder="0.0%"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>% de Seguro de riesgo: 0.00%</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="porcentaje_de_seguro_riesgo"
+            placeholder="0.0%"
+          />
+        </mat-form-field>
       </div>
       <!------------------------------------------Costo de Oportunidad------------------------------------------>
       <div>
         <span>... del costo de oportunidad</span>
-        <div class="card">
-          <label> Tasa de descuento</label>
-          <input type="text" formControlName="tasa_de_descuento" />
+        <div style="display: inline-block; padding-right: 50px">
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Tasa de descuento: 0.00%</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="tasa_de_descuento"
+              placeholder="0.0%"
+            />
+          </mat-form-field>
         </div>
+        <button mat-raised-button color="warn" type="submit">Calcular</button>
       </div>
     </div>
-    <button mat-raised-button color="warn" type="submit">Calcular</button>
   </form>
 </section>
 <!------------------------------------------Resultados------------------------------------------>
 <section id="section_results">
-  <span>Resultados...</span>
   <div>
-    <!------------------------------------------Financiamiento------------------------------------------>
-    <div>
-      <span>... del financiamiento</span>
+    <form [formGroup]="resultGroup">
+      <span>Resultados...</span>
       <div>
-        <label> Saldo a financiar</label>
-        <input type="text" />
-      </div>
-      <div>
+        <!------------------------------------------Financiamiento------------------------------------------>
         <div>
-          <label> Monto del préstamos</label>
-          <input type="text" />
-        </div>
-      </div>
-      <div>
-        <div>
-          <label> Nº de Cuotas por Año</label>
-          <input type="text" />
-        </div>
-      </div>
-      <div>
-        <div>
-          <label> Nº Total de Cuotas</label>
-          <input type="text" />
-        </div>
-      </div>
-    </div>
-    <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
-    <div>
-      <span>... de los costes/gastos periodicos</span>
-      <div class="card">
-        <label>% de Seguro desgravavamen periodo</label>
-        <input type="text" />
-      </div>
+          <div class="results_container">
+            <span>... del financiamiento</span>
 
-      <div class="card">
-        <div class="items">
-          <label> Seguro riesgo</label>
-          <input type="text" />
-        </div>
-      </div>
-    </div>
-    <!------------------------------------------Totales por...------------------------------------------>
-    <div>
-      <span>... totales por ...</span>
-      <div class="card">
-        <label> Intereses</label>
-        <input type="text" />
-      </div>
+            <div>
+              <label> Saldo a financiar:</label>
+              <mat-form-field color="primary">
+                <input
+                  class="example-right-align"
+                  matInput
+                  type="text"
+                  formControlName="Saldo"
+                />
+              </mat-form-field>
+            </div>
 
-      <div class="card">
-        <div class="items">
-          <label> Amortización del capital</label>
-          <input type="text" />
+            <div>
+              <label> Monto del préstamos:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Prestamo"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Nº de Cuotas por Año:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="NCxA"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Nº Total de Cuotas:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="N"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
+          <div class="results_container">
+            <span>... de los costes/gastos periodicos</span>
+
+            <div>
+              <label>% de Seguro desgravavamen periodo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="pSegDesPer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Seguro riesgo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <!------------------------------------------Totales por...------------------------------------------>
+          <div class="results_container">
+            <span>... totales por ...</span>
+
+            <div>
+              <label>Intereses:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Amortización del capital:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Seguro de desgravamen:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Seguro contra todo riesgo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Comisiones periodicas riesgo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Portes / Gastos de administración:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <!------------------------------------------Indicadores de Rentabilidad------------------------------------------>
+          <div>
+            <span>... de Indicadores de Rentabilidad</span>
+
+            <div>
+              <label>Tasa de descuento:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>TIR de la operación:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>TCEA de la operación:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>VAN operación:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="text"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                />
+              </mat-form-field>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <div class="items">
-          <label> Seguro de desgravamen</label>
-          <input type="text" />
-        </div>
-      </div>
-      <div class="card">
-        <div class="items">
-          <label> Seguro contra todo riesgo</label>
-          <input type="text" />
-        </div>
-      </div>
-      <div class="card">
-        <div class="items">
-          <label>Comisiones periodicas</label>
-          <input type="text" />
-        </div>
-      </div>
-      <div class="card">
-        <div class="items">
-          <label>Portes / Gastos de adm.</label>
-          <input type="text" />
-        </div>
-      </div>
-    </div>
-    <!------------------------------------------Indicadores de Rentabilidad------------------------------------------>
-    <div>
-      <span>... de Indicadores de Rentabilidad</span>
-      <div class="card">
-        <label> Tasa de descuento</label>
-        <input type="text" />
-      </div>
-      <div class="card">
-        <label> TIR de la operación</label>
-        <input type="text" />
-      </div>
-      <div class="card">
-        <label> TCEA de la operación</label>
-        <input type="text" />
-      </div>
-      <div class="card">
-        <label>VAN operación</label>
-        <input type="text" />
-      </div>
-    </div>
+    </form>
   </div>
 </section>
 <!------------------------------------------Leasing------------------------------------------>
-<table>
-  <thead>
-    <tr>
-      <th>Nº</th>
-      <th>TEA</th>
-      <th>i'=TEP=TEM</th>
-      <th>IA</th>
-      <th>P.G.</th>
-      <th>Saldo Inicial</th>
-      <th>Saldo Inicial Indexado</th>
-      <th>Interes</th>
-      <th>Cuota (inc Seg Des)</th>
-      <th>Amortización</th>
-      <th>Prepago</th>
-      <th>Seguro desgrav</th>
-      <th>Seguro de riesgo</th>
-      <th>Comisión</th>
-      <th>Portes</th>
-      <th>Gastos Administrativos</th>
-      <th>Saldo Final</th>
-      <th>Flujo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>0.00%</td>
-      <td>0.00%</td>
-      <td>0.00%</td>
-      <td>0.00%</td>
-      <td>S</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>0.00%</td>
-      <td>0.00%</td>
-      <td>0.00%</td>
-      <td>0.00%</td>
-      <td>S</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-    </tr>
-  </tbody>
-</table>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Position Column -->
+  <ng-container matColumnDef="NC">
+    <th mat-header-cell *matHeaderCellDef>Nº</th>
+    <td mat-cell *matCellDef="let element">{{ element.NC }}</td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="TEA">
+    <th mat-header-cell *matHeaderCellDef>TEA</th>
+    <td mat-cell *matCellDef="let element">{{ element.TEA }}</td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="i">
+    <th mat-header-cell *matHeaderCellDef>i'=TEP=TEM</th>
+    <td mat-cell *matCellDef="let element">{{ element.TEP }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="IA">
+    <th mat-header-cell *matHeaderCellDef>IA</th>
+    <td mat-cell *matCellDef="let element">{{ element.IA }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="IP">
+    <th mat-header-cell *matHeaderCellDef>IP</th>
+    <td mat-cell *matCellDef="let element">{{ element.IP }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+
+  <ng-container matColumnDef="PG">
+    <th mat-header-cell *matHeaderCellDef>P.G.</th>
+    <td mat-cell *matCellDef="let element">{{ element.PG }}</td>
+  </ng-container>
+  <!-- Symbol Column -->
+
+  <ng-container matColumnDef="SI">
+    <th mat-header-cell *matHeaderCellDef>Saldo Inicial</th>
+    <td mat-cell *matCellDef="let element">{{ element.SI }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="SII">
+    <th mat-header-cell *matHeaderCellDef>Saldo Inicial Indexado</th>
+    <td mat-cell *matCellDef="let element">{{ element.SII }}</td>
+  </ng-container>
+  <!-- Symbol Column -->
+
+  <ng-container matColumnDef="I">
+    <th mat-header-cell *matHeaderCellDef>Interes</th>
+    <td mat-cell *matCellDef="let element">{{ element.I }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Cuota">
+    <th mat-header-cell *matHeaderCellDef>Cuota (inc Seg Des)</th>
+    <td mat-cell *matCellDef="let element">{{ element.Cuota }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="A">
+    <th mat-header-cell *matHeaderCellDef>Amortización</th>
+    <td mat-cell *matCellDef="let element">{{ element.A }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="PP">
+    <th mat-header-cell *matHeaderCellDef>Prepago</th>
+    <td mat-cell *matCellDef="let element">{{ element.PP }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="SegDes">
+    <th mat-header-cell *matHeaderCellDef>Seguro desgrav</th>
+    <td mat-cell *matCellDef="let element">{{ element.SegDes }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="SegRie">
+    <th mat-header-cell *matHeaderCellDef>Comisión</th>
+    <td mat-cell *matCellDef="let element">{{ element.SegRie }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Portes">
+    <th mat-header-cell *matHeaderCellDef>Portes</th>
+    <td mat-cell *matCellDef="let element">{{ element.Portes }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="GasAdm">
+    <th mat-header-cell *matHeaderCellDef>Gastos Administrativos</th>
+    <td mat-cell *matCellDef="let element">{{ element.GasAdm }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="SF">
+    <th mat-header-cell *matHeaderCellDef>Saldo Final</th>
+    <td mat-cell *matCellDef="let element">{{ element.SF }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Flujo">
+    <th mat-header-cell *matHeaderCellDef>Flujo</th>
+    <td mat-cell *matCellDef="let element">{{ element.Flujo }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</mat-table>

@@ -1,4 +1,4 @@
-export interface LeasingTable {
+export interface LeasingData {
   NC: number;
   TEA: number;
   TEP: number;
