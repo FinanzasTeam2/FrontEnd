@@ -9,6 +9,8 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { Resultados } from 'src/app/model/resultados.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { irr } from 'node-irr';
+import { IPolynomial } from 'node-irr/dist/polynomial';
 
 @Component({
   selector: 'app-leasing',
@@ -40,6 +42,8 @@ export class LeasingComponent implements OnInit {
 
   dataSource = new MatTableDataSource<LeasingData>();
   leasingTable: LeasingData[];
+  leasingTableArr: any[];
+
   displayedColumns: string[] = [
     'NC',
     'TEA',
@@ -55,6 +59,7 @@ export class LeasingComponent implements OnInit {
     'PP',
     'SegDes',
     'SegRie',
+    'Comision',
     'Portes',
     'GasAdm',
     'SF',
@@ -70,6 +75,7 @@ export class LeasingComponent implements OnInit {
     this.leasingData = {} as LeasingData;
 
     this.leasingTable = [] as LeasingData[];
+    this.leasingTableArr = [] as any[];
 
     this.formGroup = this.formBuilder.group({
       //...del prestamo
@@ -276,20 +282,219 @@ export class LeasingComponent implements OnInit {
         this.leasingTable[i].PG = 'S';
       }
 
+      //Flujo valor inicial
+      this.leasingTable[0].Flujo = this.results.Prestamo;
+
       //--------------------Saldo Inicial --------------------
-      //--------------------Saldo Inicial Indexado --------------------
-      //--------------------Interes --------------------
-      //--------------------Cuota (inc Seg Des) --------------------
-      //--------------------Amortizacion--------------------
-      //--------------------Prepago --------------------
-      //No tiene formula
-      //--------------------Seguro Desgravamen --------------------
-      //--------------------Seguro riesgo--------------------
-      //--------------------Comision --------------------
-      //--------------------Portes --------------------
-      //--------------------Gastos Adm. --------------------
-      //--------------------Saldo Final --------------------
-      //--------------------Flujo --------------------
+      for (let i = 1; i <= 300; i++) {
+        this.leasingTable[i].SI = this.SI({
+          NC: this.leasingTable[i].NC,
+          Prestamo: this.results.Prestamo,
+          N: this.results.N,
+          SaldoFinal: this.leasingTable[i - 1].SF,
+        });
+
+        //--------------------Saldo Inicial Indexado --------------------
+        this.leasingTable[i].SII = this.SII({
+          SI: this.leasingTable[i].SI,
+          IP: this.leasingTable[i].IP,
+        });
+
+        //--------------------Interes --------------------
+        this.leasingTable[i].I = this.I({
+          SII: this.leasingTable[i].SII,
+          TEP: this.leasingTable[i].TEP,
+        });
+
+        //--------------------Amortizacion--------------------
+        this.leasingTable[i].A = this.A({
+          NC: this.leasingTable[i].NC,
+          N: this.results.N,
+          PG: this.leasingTable[i].PG,
+          SII: this.leasingTable[i].SII,
+        });
+
+        //--------------------Seguro Desgravamen --------------------
+        this.leasingTable[i].SegDes = this.SegDes({
+          SII: this.leasingTable[i].SII,
+          pSegDesPer: this.results.pSegDesPer,
+        });
+
+        //--------------------Cuota (inc Seg Des) --------------------
+        this.leasingTable[i].Cuota = this.Cuota({
+          NC: this.leasingTable[i].NC,
+          N: this.results.N,
+          PG: this.leasingTable[i].PG,
+          I: this.leasingTable[i].I,
+          A: this.leasingTable[i].A,
+          SegDes: this.leasingTable[i].SegDes,
+        });
+
+        //Prepago no hay
+
+        //--------------------Seguro riesgo--------------------
+        this.leasingTable[i].SegRie = this.SegRie({
+          NC: this.leasingTable[i].NC,
+          N: this.results.N,
+          SegRiePer: this.results.SegRiePer,
+        });
+
+        //--------------------Comision --------------------
+        this.leasingTable[i].Comision = this.Comision({
+          NC: this.leasingTable[i].NC,
+          N: this.results.N,
+          ComPer: this.data.ComPer,
+        });
+
+        //--------------------Portes --------------------
+        this.leasingTable[i].Portes = this.Portes({
+          NC: this.leasingTable[i].NC,
+          N: this.results.N,
+          PortesPer: this.data.PortesPer,
+        });
+
+        //--------------------Gastos Adm. --------------------
+        this.leasingTable[i].GasAdm = this.GasAdm({
+          NC: this.leasingTable[i].NC,
+          N: this.results.N,
+          GasAdmPer: this.data.GasAdmPer,
+        });
+
+        //--------------------Saldo Final --------------------
+        this.leasingTable[i].SF = this.SF({
+          PG: this.leasingTable[i].PG,
+          SII: this.leasingTable[i].SII,
+          I: this.leasingTable[i].I,
+          A: this.leasingTable[i].A,
+          PP: this.leasingTable[i].PP,
+        });
+
+        //--------------------Flujo --------------------
+        this.leasingTable[i].Flujo = this.Flujo({
+          Cuota: this.leasingTable[i].Cuota,
+          PP: this.leasingTable[i].PP,
+          SegRie: this.leasingTable[i].SegRie,
+          Comision: this.leasingTable[i].Comision,
+          Portes: this.leasingTable[i].Portes,
+          GasAdm: this.leasingTable[i].GasAdm,
+          PG: this.leasingTable[i].PG,
+          SegDes: this.leasingTable[i].SegDes,
+        });
+      }
+
+      //Resultados
+      this.leasingTableArr = this.leasingTable.map((value) => ({
+        NC: value.NC,
+        TEA: value.TEA,
+        TEP: value.TEP,
+        IA: value.IA,
+        IP: value.IP,
+        PG: value.PG,
+        SI: value.SI,
+        SII: value.SII,
+        I: value.I,
+        Cuota: value.Cuota,
+        A: value.A,
+        PP: value.PP,
+        SegDes: value.SegDes,
+        SegRie: value.SegRie,
+        Comision: value.Comision,
+        Portes: value.Portes,
+        GasAdm: value.GasAdm,
+        SF: value.SF,
+        Flujo: value.Flujo,
+      }));
+      console.log(this.leasingTableArr);
+
+      //Resultados Intereses
+      this.results.Intereses = this.Intereses({
+        I: this.leasingTableArr.map((obj) => obj.I),
+      });
+      console.log(this.results.Intereses);
+      this.updateValue('Intereses', this.results.Intereses);
+
+      //Resultados Amortización_del_capital
+      this.results.Amortización_del_capital = this.Amortización_del_capital({
+        A: this.leasingTableArr.map((obj) => obj.A),
+        PP: this.leasingTableArr.map((obj) => obj.PP),
+      });
+      console.log(this.results.Amortización_del_capital);
+      this.updateValue(
+        'Amortización_del_capital',
+        this.results.Amortización_del_capital
+      );
+
+      //Resultados Seguro_de_desgravamen
+      this.results.Seguro_de_desgravamen = this.Seguro_de_desgravamen({
+        SegDes: this.leasingTableArr.map((obj) => obj.SegDes),
+      });
+      console.log(this.results.Seguro_de_desgravamen);
+      this.updateValue(
+        'Seguro_de_desgravamen',
+        this.results.Seguro_de_desgravamen
+      );
+
+      //Resultados Seguro_contra_todo_riesgo
+      this.results.Seguro_contra_todo_riesgo = this.Seguro_contra_todo_riesgo({
+        SegRie: this.leasingTableArr.map((obj) => obj.SegRie),
+      });
+      console.log(this.results.Seguro_contra_todo_riesgo);
+      this.updateValue(
+        'Seguro_contra_todo_riesgo',
+        this.results.Seguro_contra_todo_riesgo
+      );
+
+      //Resultados Comisiones_periodicas
+      this.results.Comisiones_periodicas = this.Comisiones_periodicas({
+        Comision: this.leasingTableArr.map((obj) => obj.Comision),
+      });
+      console.log(this.results.Comisiones_periodicas);
+      this.updateValue(
+        'Comisiones_periodicas',
+        this.results.Comisiones_periodicas
+      );
+
+      //Resultados Portes_o_Gastos_de_adm
+      this.results.Portes_o_Gastos_de_adm = this.Portes_o_Gastos_de_adm({
+        Portes: this.leasingTableArr.map((obj) => obj.Portes),
+        GasAdm: this.leasingTableArr.map((obj) => obj.GasAdm),
+      });
+      console.log(this.results.Portes_o_Gastos_de_adm);
+      this.updateValue(
+        'Portes_o_Gastos_de_adm',
+        this.results.Portes_o_Gastos_de_adm
+      );
+
+      //Indicadores de rentabilidad
+      //Tasa de decuento
+      this.results.COKi = this.COKi({
+        COK: this.data.COK,
+        frec: this.data.frec,
+        NDxA: this.data.NDxA,
+      });
+      console.log(this.results.Portes_o_Gastos_de_adm);
+      this.updateValue('COKi', this.results.COKi);
+
+      //TIR de la operacion
+      this.results.TIR = this.TIR_Operacion(
+        this.leasingTableArr.map((obj) => obj.Flujo)
+      );
+      console.log(this.results.TIR);
+
+      var TIR_Resultados = this.TIR_Resultados(
+        this.leasingTableArr.map((obj) => obj.Flujo)
+      );
+      this.updateValue('TIR', TIR_Resultados);
+
+      //TCEA de la operacion
+      this.results.TCEA = this.TCEA(TIR_Resultados, this.results.NCxA);
+      console.log(this.results.TCEA);
+      this.updateValue('TCEA', this.results.TCEA);
+
+      //VAN operacion
+      // this.results.VAN = this.VAN();
+      console.log(this.results.VAN);
+      this.updateValue('VAN', this.results.VAN);
 
       //...
       this.dataSource = new MatTableDataSource(this.leasingTable);
@@ -330,53 +535,72 @@ export class LeasingComponent implements OnInit {
     return (pSegRie * PV) / NCxA;
   }
   //-----------------------...totales por...-----------------------
-  Intereses(I: number[]) {
+  Intereses({ I }: { I: number[] }) {
     return -I.reduce((accumulated, current) => accumulated + current);
   }
-  Amortización_del_capital(A: number[], PP: number[]) {
+  Amortización_del_capital({ A, PP }: { A: number[]; PP: number[] }) {
     return -(
       A.reduce((accumulated, current) => accumulated + current) +
       PP.reduce((accumulated, current) => accumulated + current)
     );
   }
-  Seguro_de_desgravamen(SegDes: number[]) {
+  Seguro_de_desgravamen({ SegDes }: { SegDes: number[] }) {
     return -SegDes.reduce((accumulated, current) => accumulated + current);
   }
-  Seguro_contra_todo_riesgo(SegRie: number[]) {
+  Seguro_contra_todo_riesgo({ SegRie }: { SegRie: number[] }) {
     return -SegRie.reduce((accumulated, current) => accumulated + current);
   }
-  Comisiones_periodicas(Comision: number[]) {
+  Comisiones_periodicas({ Comision }: { Comision: number[] }) {
     return -Comision.reduce((accumulated, current) => accumulated + current);
   }
-  Portes_o_Gastos_de_adm(Portes: number[], GasAdm: number[]) {
+  Portes_o_Gastos_de_adm({
+    Portes,
+    GasAdm,
+  }: {
+    Portes: number[];
+    GasAdm: number[];
+  }) {
     return -(
-      Portes.reduce((accumulated, current) => accumulated) +
+      Portes.reduce((accumulated, current) => accumulated + current) +
       GasAdm.reduce((accumulated, current) => accumulated + current)
     );
   }
   //-----------------------...de indicadores de Rentabilidad-----------------------
   //Tasa de descuento
-  COKi(COK: number, frec: number, NDxA: number) {
+  COKi({ COK, frec, NDxA }: { COK: number; frec: number; NDxA: number }) {
     return Math.pow(1 + COK, frec / NDxA) - 1;
   }
-  /*
+
   //TIR de la operacion
-  TIR_Operacion(Flujo:number[]) {
-    return this.TIR(Flujo.reduce((accumulated,current)=>accumulated+current),1);
+  TIR_Operacion(Flujo: number[]) {
+    return Math.abs(irr(Flujo)); //0.1 -> usamos 10 por problemas de performance
   }
-  TIR(arr:number,porcentaje:number)
-  {
-    return 0;//Falta implementar
+
+  //TIR_RESULTADOS
+  TIR_Resultados(Flujo: number[]) {
+    var flujoOperation: number[] = [];
+    flujoOperation.push(-Flujo[0]);
+    //Para la formula el primer elemento se opera en negativo y el resto positivo
+    for (let i = 1; i < Flujo.length; i++) {
+      flujoOperation.push(-Flujo[i]); //use i instead of 0
+    }
+    return Math.abs(irr(flujoOperation));
   }
+
   //TCEA de la operacion
-  TCEA(:number) {
-    return Math.pow(1+,)-1;
+  TCEA(TIR_de_la_operacion: number, Numero_de_cuotas_por_año: number) {
+    return Math.pow(1 + TIR_de_la_operacion, Numero_de_cuotas_por_año) - 1;
   }
   //VAN operacion
-  VAN(:number) {
-    return;
+  VAN(
+    FlujoInicial: number,
+    Tasa_de_descuento: number,
+    Resto_del_Flujo: number
+  ) {
+    var NPV = 0;
+
+    return 0;
   }
-  */
 
   updateValue(parameter: string, data: number) {
     this.resultGroup.patchValue({ [parameter]: data.toString() });
@@ -455,7 +679,7 @@ export class LeasingComponent implements OnInit {
       if (PG == 'T') {
         return 0;
       } else {
-        if ((PG = 'P')) {
+        if (PG == 'P') {
           return I;
         } else {
           return I + A + SegDes;
@@ -584,6 +808,7 @@ function CreateLeasingData({
   _PP = 0,
   _SegDes = 0,
   _SegRie = 0,
+  _Comision = 0,
   _Portes = 0,
   _GasAdm = 0,
   _SF = 0,
@@ -603,6 +828,7 @@ function CreateLeasingData({
   _PP?: number;
   _SegDes?: number;
   _SegRie?: number;
+  _Comision?: number;
   _Portes?: number;
   _GasAdm?: number;
   _SF?: number;
@@ -623,6 +849,7 @@ function CreateLeasingData({
     PP: _PP,
     SegDes: _SegDes,
     SegRie: _SegRie,
+    Comision: _Comision,
     Portes: _Portes,
     GasAdm: _GasAdm,
     SF: _SF,

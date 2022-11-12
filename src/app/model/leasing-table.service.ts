@@ -13,6 +13,7 @@ export interface LeasingData {
   PP: number;
   SegDes: number;
   SegRie: number;
+  Comision: number;
   Portes: number;
   GasAdm: number;
   SF: number;
