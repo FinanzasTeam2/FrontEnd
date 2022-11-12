@@ -492,7 +492,10 @@ export class LeasingComponent implements OnInit {
       this.updateValue('TCEA', this.results.TCEA);
 
       //VAN operacion
-      // this.results.VAN = this.VAN();
+      this.results.VAN = this.VAN(
+        this.results.COKi,
+        this.leasingTableArr.map((obj) => obj.Flujo)
+      );
       console.log(this.results.VAN);
       this.updateValue('VAN', this.results.VAN);
 
@@ -592,14 +595,15 @@ export class LeasingComponent implements OnInit {
     return Math.pow(1 + TIR_de_la_operacion, Numero_de_cuotas_por_año) - 1;
   }
   //VAN operacion
-  VAN(
-    FlujoInicial: number,
-    Tasa_de_descuento: number,
-    Resto_del_Flujo: number
-  ) {
-    var NPV = 0;
+  VAN(Tasa_de_descuento: number, Flujo: number[]) {
+    var NPV: number = 0;
+    NPV += Flujo[0];
 
-    return 0;
+    for (let i = 1; i < Flujo.length; i++) {
+      NPV += Flujo[i] / Math.pow(1 + Tasa_de_descuento, i);
+    }
+
+    return NPV;
   }
 
   updateValue(parameter: string, data: number) {
