@@ -8,16 +8,16 @@
 <div id="page">
   <!------------------------------------------Datos------------------------------------------>
   <section id="section_data">
-    <form [formGroup]="formGroup" (ngSubmit)="this.Submit()">
+    <form [formGroup]="dataGroup" (ngSubmit)="this.Submit()">
       <h2>Datos</h2>
       <div>
         <!------------------------------------------Prestamo------------------------------------------>
-        <div class="grid-container">
+        <div>
           <h3>Préstamo</h3>
 
-          <div>
-            <label>Precio de Venta del Activo: </label>
+          <div class="container-values">
             <mat-form-field appearance="outline" color="primary">
+              <mat-label>Precio de Venta del Activo: </mat-label>
               <input
                 class="example-right-align"
                 matInput
@@ -25,11 +25,9 @@
                 placeholder="0.00"
               />
             </mat-form-field>
-          </div>
 
-          <div>
-            <label>% Cuato Inicial:</label>
             <mat-form-field appearance="outline" color="primary">
+              <mat-label>% Cuato Inicial:</mat-label>
               <input
                 class="example-right-align"
                 type="text"
@@ -38,11 +36,9 @@
                 placeholder="0.00%"
               />
             </mat-form-field>
-          </div>
 
-          <div>
-            <label>Nº de años:</label>
             <mat-form-field appearance="outline" color="primary">
+              <mat-label>Nº de años:</mat-label>
               <input
                 class="example-right-align"
                 type="text"
@@ -51,11 +47,9 @@
                 placeholder="0.00"
               />
             </mat-form-field>
-          </div>
 
-          <div>
-            <label>Frecuencia de pago:</label>
             <mat-form-field appearance="outline" color="primary">
+              <mat-label>Frecuencia de pago:</mat-label>
               <input
                 class="example-right-align"
                 type="text"
@@ -64,11 +58,9 @@
                 placeholder="0.00"
               />
             </mat-form-field>
-          </div>
 
-          <div>
-            <label>Nº de días por año:</label>
             <mat-form-field appearance="outline" color="primary">
+              <mat-label>Nº de días por año:</mat-label>
               <input
                 class="example-right-align"
                 type="text"
@@ -77,76 +69,123 @@
                 placeholder="0.00"
               />
             </mat-form-field>
-          </div>
 
-          <p>Plazos de gracia:</p>
-          <p>6 meses de plazo de gracia total (cuotas Nº 1 a 6)</p>
-          <p>6 meses de plazo de gracia parcial (cuotas Nº 7 a 12)</p>
+            <p>Plazos de gracia:</p>
+            <p>6 meses de plazo de gracia total (cuotas Nº 1 a 6)</p>
+            <p>6 meses de plazo de gracia parcial (cuotas Nº 7 a 12)</p>
+          </div>
         </div>
         <!------------------------------------------Costes/Gatos iniciales------------------------------------------>
         <div>
           <h3>Costes / Gastos iniciales</h3>
+
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> Costes Notariales: 0.00</mat-label>
+            <mat-label> Costes Notariales:</mat-label>
             <input
+              class="example-right-align"
               type="text"
               matInput
-              matInput
               formControlName="costes_notariales"
+              placeholder="0.00"
             />
           </mat-form-field>
 
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> Costes Registrales: 0.00</mat-label>
-            <input type="text" matInput formControlName="costes_registrales" />
+            <mat-label> Costes Registrales: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="costes_registrales"
+              placeholder="0.00"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> Tasación: 0.00</mat-label>
-            <input type="text" matInput formControlName="tasacion" />
+            <mat-label> Tasación: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="tasacion"
+              placeholder="0.00"
+            />
           </mat-form-field>
+
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> Comision de estudio: 0.00</mat-label>
-            <input type="text" matInput formControlName="comision_de_estudio" />
+            <mat-label> Comision de estudio: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="comision_de_estudio"
+              placeholder="0.00"
+            />
           </mat-form-field>
+
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> Comisión de activación: 0.00</mat-label>
-            <input type="text" matInput formControlName="comision_activación" />
+            <mat-label> Comisión de activación: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="comision_activación"
+              placeholder="0.00"
+            />
           </mat-form-field>
         </div>
         <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
         <div>
           <h3>Costes / Gastos periodicos</h3>
-          <mat-form-field appearance="outline" color="primary">
-            <mat-label> Comisión periodica: 0.00</mat-label>
-            <input type="text" matInput formControlName="comision_periodica" />
-          </mat-form-field>
 
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> Portes: 0.00</mat-label>
-            <input type="text" matInput formControlName="portes" />
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" color="primary">
-            <mat-label> Gastos de Administración: 0.00</mat-label>
+            <mat-label> Comisión periodica:</mat-label>
             <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="comision_periodica"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Portes: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="portes"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Gastos de Administración:</mat-label>
+            <input
+              class="example-right-align"
               type="text"
               matInput
               formControlName="gastos_de_administración"
+              placeholder="0.00"
             />
           </mat-form-field>
+
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> % de Seguro de desgravamen: 0.00%</mat-label>
+            <mat-label> % de Seguro de desgravamen: </mat-label>
             <input
+              class="example-right-align"
               type="text"
               matInput
               formControlName="porcentaje_de_seguro_desgravamen"
               placeholder="0.0%"
             />
           </mat-form-field>
+
           <mat-form-field appearance="outline" color="primary">
-            <mat-label>% de Seguro de riesgo: 0.00%</mat-label>
+            <mat-label>% de Seguro de riesgo: </mat-label>
             <input
+              class="example-right-align"
               type="text"
               matInput
               formControlName="porcentaje_de_seguro_riesgo"
@@ -157,18 +196,44 @@
         <!------------------------------------------Costo de Oportunidad------------------------------------------>
         <div>
           <h3>Costo de oportunidad</h3>
-          <div style="display: inline-block; padding-right: 50px">
-            <mat-form-field appearance="outline" color="primary">
-              <mat-label> Tasa de descuento: 0.00%</mat-label>
-              <input
-                type="text"
-                matInput
-                formControlName="tasa_de_descuento"
-                placeholder="0.0%"
-              />
-            </mat-form-field>
-          </div>
-          <button mat-raised-button color="warn" type="submit">Calcular</button>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Tasa de descuento: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="tasa_de_descuento"
+              placeholder="0.0%"
+            />
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="warn"
+            type="submit"
+            (click)="Calcular()"
+          >
+            Calcular
+          </button>
+          <button
+            mat-raised-button
+            style="margin-left: 20px"
+            color="primary"
+            type="submit"
+            (click)="Llenar_y_Calcular()"
+          >
+            Llenar y Calcular valores por defecto
+          </button>
+          <button
+            mat-raised-button
+            style="margin-left: 20px"
+            color="accent"
+            type="reset"
+            (click)="Reset()"
+          >
+            Limpiar Datos
+          </button>
         </div>
       </div>
     </form>
@@ -396,7 +461,7 @@
     </div>
   </section>
   <!------------------------------------------Leasing------------------------------------------>
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Position Column -->
     <ng-container matColumnDef="NC">
       <th mat-header-cell *matHeaderCellDef>Nº</th>
@@ -514,5 +579,5 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </mat-table>
+  </table>
 </div>

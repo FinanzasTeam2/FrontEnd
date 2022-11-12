@@ -2,21 +2,21 @@
   box-sizing: border-box;
 }
 #page {
-  margin-left: 10%;
-  margin-right: 10%;
-  width: 80%;
+  margin-left: 4%;
+  margin-right: 4%;
+  width: 92%;
 }
 #section_data {
   border: solid black;
   display: inline-flex;
   padding-right: 5px;
-  width: 45%;
+  width: 48%;
 }
 #section_results {
   border: solid black;
   display: inline-flex;
-  width: 45%;
-  margin-left: 8%;
+  width: 48%;
+  margin-left: 4%;
 }
 
 table,
@@ -33,18 +33,20 @@ h3 {
 h2 {
   text-align: center;
 }
+form {
+  width: 100%;
+}
 
 #section_data .mat-form-field {
+  display: inline-block;
   width: 32%;
   font-size: 14px;
+  margin: 0 5px;
+  min-width: 222px;
 }
 
 #section_data ::ng-deep .mat-form-field-wrapper {
   margin-bottom: -1.25em;
-}
-
-#section_data ::ng-deep .mat-form-field-infix {
-  border: 0;
 }
 
 #section_results .mat-form-field {
