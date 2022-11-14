@@ -10,13 +10,17 @@ import { Component, OnInit } from '@angular/core';
 import { Resultados } from 'src/app/model/resultados.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { irr } from 'node-irr';
-import { IPolynomial } from 'node-irr/dist/polynomial';
-import { Statement } from '@angular/compiler';
 
 export enum ButtonState {
   left,
   right,
   reset,
+}
+
+export enum LeasingState {
+  Aleman,
+  Frances,
+  Americano,
 }
 
 @Component({
@@ -26,6 +30,8 @@ export enum ButtonState {
 })
 export class LeasingComponent implements OnInit {
   buttonState = ButtonState.left;
+  leasingState = LeasingState.Americano;
+
   indexTable: number;
   data: Datos = {
     PV: 125000,
@@ -387,29 +393,70 @@ export class LeasingComponent implements OnInit {
             TEP: this.leasingTable[i].TEP,
           });
 
-          //--------------------Amortizacion--------------------
-          this.leasingTable[i].A = this.A({
-            NC: this.leasingTable[i].NC,
-            N: this.results.N,
-            PG: this.leasingTable[i].PG,
-            SII: this.leasingTable[i].SII,
-          });
-
           //--------------------Seguro Desgravamen --------------------
           this.leasingTable[i].SegDes = this.SegDes({
             SII: this.leasingTable[i].SII,
             pSegDesPer: this.results.pSegDesPer,
           });
 
-          //--------------------Cuota (inc Seg Des) --------------------
-          this.leasingTable[i].Cuota = this.Cuota({
-            NC: this.leasingTable[i].NC,
-            N: this.results.N,
-            PG: this.leasingTable[i].PG,
-            I: this.leasingTable[i].I,
-            A: this.leasingTable[i].A,
-            SegDes: this.leasingTable[i].SegDes,
-          });
+          if (this.leasingState == LeasingState.Aleman) {
+            //--------------------Amortizacion--------------------
+            this.leasingTable[i].A = this.AAleman({
+              NC: this.leasingTable[i].NC,
+              N: this.results.N,
+              PG: this.leasingTable[i].PG,
+              SII: this.leasingTable[i].SII,
+            });
+
+            //--------------------Cuota (inc Seg Des) --------------------
+            this.leasingTable[i].Cuota = this.CuotaAleman({
+              NC: this.leasingTable[i].NC,
+              N: this.results.N,
+              PG: this.leasingTable[i].PG,
+              I: this.leasingTable[i].I,
+              A: this.leasingTable[i].A,
+              SegDes: this.leasingTable[i].SegDes,
+            });
+          } else if (this.leasingState == LeasingState.Frances) {
+            //--------------------Amortizacion--------------------
+            this.leasingTable[i].Cuota = this.CuotaFrances({
+              NC: this.leasingTable[i].NC,
+              N: this.results.N,
+              PG: this.leasingTable[i].PG,
+              I: this.leasingTable[i].I,
+              TEP: this.leasingTable[i].TEP,
+              pSegDesPer: this.results.pSegDesPer,
+              SII: this.leasingTable[i].SII,
+            });
+
+            //--------------------Cuota (inc Seg Des) --------------------
+            this.leasingTable[i].A = this.AFrances({
+              NC: this.leasingTable[i].NC,
+              N: this.results.N,
+              PG: this.leasingTable[i].PG,
+              Cuota: this.leasingTable[i].Cuota,
+              I: this.leasingTable[i].I,
+              SegDes: this.leasingTable[i].SegDes,
+            });
+          } else if (this.leasingState == LeasingState.Americano) {
+            //--------------------Amortizacion--------------------
+            this.leasingTable[i].A = this.AAmericano({
+              NC: this.leasingTable[i].NC,
+              N: this.results.N,
+              PG: this.leasingTable[i].PG,
+              SII: this.leasingTable[i].SII,
+            });
+
+            //--------------------Cuota (inc Seg Des) --------------------
+            this.leasingTable[i].Cuota = this.CuotaAleman({
+              NC: this.leasingTable[i].NC,
+              N: this.results.N,
+              PG: this.leasingTable[i].PG,
+              I: this.leasingTable[i].I,
+              A: this.leasingTable[i].A,
+              SegDes: this.leasingTable[i].SegDes,
+            });
+          }
 
           //Prepago no hay
 
@@ -754,8 +801,88 @@ export class LeasingComponent implements OnInit {
     return -SII * TEP;
   }
 
+  //---------------------------------------Frances---------------------------------------//
   //--------------------Cuota (inc Seg Des) --------------------
-  Cuota({
+  CuotaFrances({
+    NC,
+    N,
+    PG,
+    I,
+    TEP,
+    pSegDesPer,
+    SII,
+  }: {
+    NC: number;
+    N: number;
+    PG: string;
+    I: number;
+    TEP: number;
+    pSegDesPer: number;
+    SII: number;
+  }) {
+    if (NC <= N) {
+      if (PG == 'T') {
+        return 0;
+      } else {
+        if (PG == 'P') {
+          return I;
+        } else {
+          return this.PMT(TEP + pSegDesPer, N - NC + 1, SII, 0, 0);
+        }
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  PMT(rate: number, nper: number, pv: number, fv: number, type: number) {
+    if (!fv) fv = 0;
+    if (!type) type = 0;
+
+    if (rate == 0) return -(pv + fv) / nper;
+
+    var pvif = Math.pow(1 + rate, nper);
+    var pmt = (rate / (pvif - 1)) * -(pv * pvif + fv);
+
+    if (type == 1) {
+      pmt /= 1 + rate;
+    }
+
+    return pmt;
+  }
+
+  //--------------------Amortizacion--------------------
+  AFrances({
+    NC,
+    N,
+    PG,
+    Cuota,
+    I,
+    SegDes,
+  }: {
+    NC: number;
+    N: number;
+    PG: string;
+    Cuota: number;
+    I: number;
+    SegDes: number;
+  }) {
+    if (NC <= N) {
+      if (PG == 'T' || PG == 'P') {
+        return 0;
+      } else {
+        return Cuota - I - SegDes;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  //------------------------------------------------------------------------------//
+
+  //---------------------------------------Aleman---------------------------------------//
+  //--------------------Cuota (inc Seg Des) --------------------
+  CuotaAleman({
     NC,
     N,
     PG,
@@ -786,7 +913,17 @@ export class LeasingComponent implements OnInit {
   }
 
   //--------------------Amortizacion--------------------
-  A({ NC, N, PG, SII }: { NC: number; N: number; PG: string; SII: number }) {
+  AAleman({
+    NC,
+    N,
+    PG,
+    SII,
+  }: {
+    NC: number;
+    N: number;
+    PG: string;
+    SII: number;
+  }) {
     if (NC <= N) {
       if (PG == 'T' || PG == 'P') {
         return 0;
@@ -797,6 +934,30 @@ export class LeasingComponent implements OnInit {
       return 0;
     }
   }
+  //---------------------------------------Americano---------------------------------------//
+  AAmericano({
+    NC,
+    N,
+    PG,
+    SII,
+  }: {
+    NC: number;
+    N: number;
+    PG: string;
+    SII: number;
+  }) {
+    if (NC == N) {
+      if (PG == 'T' || PG == 'P') {
+        return 0;
+      } else {
+        return -SII;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  //------------------------------------------------------------------------------//
 
   //--------------------Prepago --------------------
   //PP({}: {}) {}
