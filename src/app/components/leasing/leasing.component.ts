@@ -1,3 +1,6 @@
+import { ResultsEquationsService } from './results/results-equations.service';
+import { ResultsService } from './results/results.service';
+
 import { LeasingData } from './../../model/leasing-table.service';
 import { Datos } from './../../model/datos.service';
 import {
@@ -9,7 +12,9 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { Resultados } from 'src/app/model/resultados.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { irr } from 'node-irr';
+
+import { LeasingTableService } from './leasing-table/leasing-table.serivce';
+import { UtilsService } from './utils/utils.service';
 
 export enum ButtonState {
   left,
@@ -29,8 +34,9 @@ export enum LeasingState {
   styleUrls: ['./leasing.component.css'],
 })
 export class LeasingComponent implements OnInit {
+  leasingState = {} as LeasingState;
+
   buttonState = ButtonState.left;
-  leasingState = LeasingState.Americano;
 
   indexTable: number;
   data: Datos = {
@@ -54,9 +60,17 @@ export class LeasingComponent implements OnInit {
   results: Resultados;
   leasingData: LeasingData;
 
-  dataSource = new MatTableDataSource<LeasingData>();
-  leasingTable: LeasingData[];
+  dataSourceAleman = new MatTableDataSource<LeasingData>();
+  dataSourceFrances = new MatTableDataSource<LeasingData>();
+  dataSourceAmericano = new MatTableDataSource<LeasingData>();
+
+  leasingTableAleman: LeasingData[];
+  leasingTableFrances: LeasingData[];
+  leasingTableAmericano: LeasingData[];
+
   leasingTableArr: any[];
+  leasingTableArrFrances: any[];
+  leasingTableArrAmericano: any[];
 
   displayedColumns: string[] = [
     'NC',
@@ -83,13 +97,30 @@ export class LeasingComponent implements OnInit {
   dataGroup!: FormGroup;
   resultGroup!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private leasingTableService: LeasingTableService,
+    private resultsService: ResultsService,
+    private resultsEquationsService: ResultsEquationsService,
+    private utils: UtilsService
+  ) {
+    utils = {} as UtilsService;
+
+    leasingTableService = {} as LeasingTableService;
+    resultsService = {} as ResultsService;
+    resultsEquationsService = {} as ResultsEquationsService;
+
     this.indexTable = 0;
     this.results = {} as Resultados;
     this.leasingData = {} as LeasingData;
 
-    this.leasingTable = [] as LeasingData[];
+    this.leasingTableAleman = [] as LeasingData[];
+    this.leasingTableFrances = [] as LeasingData[];
+    this.leasingTableAmericano = [] as LeasingData[];
+
     this.leasingTableArr = [] as any[];
+    this.leasingTableArrFrances = [] as any[];
+    this.leasingTableArrAmericano = [] as any[];
 
     this.dataGroup = this.formBuilder.group({
       //...del prestamo
@@ -171,6 +202,8 @@ export class LeasingComponent implements OnInit {
       //de los costes/gastos periodicos
       pSegDesPer: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //% de Seguro desgrav. per.
       SegRiePer: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Seguro de riesgo
+
+      //-----------------------------Aleman-----------------------------//
       //totales por
       Intereses: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]),
       Amortización_del_capital: new FormControl('0.00', [
@@ -189,10 +222,66 @@ export class LeasingComponent implements OnInit {
         Validators.pattern('^[0-9]*$'),
       ]),
       //de indicadores de Rentabilidad
-      COKi: new FormControl('', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
-      TIR: new FormControl('', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
-      TCEA: new FormControl('', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
-      VAN: new FormControl('', [Validators.pattern('^[0-9]*$')]), //VAN operacion
+      COKi: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
+      TIR: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
+      TCEA: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
+      VAN: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
+
+      //-----------------------------Frances-----------------------------//
+      //totales por
+      InteresesFrances: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Amortización_del_capital_Frances: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Seguro_de_desgravamen_Frances: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Seguro_contra_todo_riesgo_Frances: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Comisiones_periodicas_Frances: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Portes_o_Gastos_de_adm_Frances: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      //de indicadores de Rentabilidad
+      COKi_Frances: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
+      TIR_Frances: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
+      TCEA_Frances: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
+      VAN_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
+
+      //-----------------------------Americano-----------------------------//
+      //totales por
+      Intereses_Americano: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Amortización_del_capital_Americano: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Seguro_de_desgravamenAmericano: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Seguro_contra_todo_riesgo_Americano: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Comisiones_periodicas_Americano: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      Portes_o_Gastos_de_adm_Americano: new FormControl('0.00', [
+        Validators.pattern('^[0-9]*$'),
+      ]),
+      //de indicadores de Rentabilidad
+      COKi_Americano: new FormControl('0.00%', [
+        Validators.pattern('^[0-9]*$'),
+      ]), //Tasa de descuento
+      TIR_Americano: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
+      TCEA_Americano: new FormControl('0.00%', [
+        Validators.pattern('^[0-9]*$'),
+      ]), //TCEA de la operacion
+      VAN_Americano: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
     });
   }
 
@@ -208,310 +297,216 @@ export class LeasingComponent implements OnInit {
     this.dataGroup.reset();
   }
   Submit() {
-    if (this.buttonState == ButtonState.right) {
+    if (this.buttonState == ButtonState.left) {
       if (this.dataGroup.valid) {
         this.data = this.dataGroup.value;
         console.log(this.data);
-      } else {
-        this.updateValue(
-          this.dataGroup,
-          'precio_de_venta_del_activo',
-          this.data.PV
-        );
-        this.updateValue(
-          this.dataGroup,
-          'porcentaje_de_cuota_inicial',
-          this.data.pCI
-        );
-        this.updateValue(this.dataGroup, 'num_de_años', this.data.NA);
-        this.updateValue(this.dataGroup, 'frecuencia_de_pago', this.data.frec);
-        this.updateValue(this.dataGroup, 'num_dias_por_año', this.data.NDxA);
-        this.updateValue(
-          this.dataGroup,
-          'costes_notariales',
-          this.data.CostesNotariales
-        );
-        this.updateValue(
-          this.dataGroup,
-          'costes_registrales',
-          this.data.CostesRegistrales
-        );
-        this.updateValue(this.dataGroup, 'tasacion', this.data.Tasacion);
-        this.updateValue(
-          this.dataGroup,
-          'comision_de_estudio',
-          this.data.ComisionEstudio
-        );
-        this.updateValue(
-          this.dataGroup,
-          'comision_activación',
-          this.data.ComisionActivacion
-        );
-        this.updateValue(
-          this.dataGroup,
-          'comision_periodica',
-          this.data.ComPer
-        );
-        this.updateValue(this.dataGroup, 'portes', this.data.PortesPer);
-        this.updateValue(
-          this.dataGroup,
-          'gastos_de_administración',
-          this.data.GasAdmPer
-        );
-        this.updateValue(
-          this.dataGroup,
-          'porcentaje_de_seguro_desgravamen',
-          this.data.pSegDes
-        );
-        this.updateValue(
-          this.dataGroup,
-          'porcentaje_de_seguro_riesgo',
-          this.data.pSegRie
-        );
-        this.updateValue(this.dataGroup, 'tasa_de_descuento', this.data.COK);
-        console.log(this.data);
-        //----------------------------Resultados----------------------------//
-        //-----------------------del financiemiento-----------------------
-        this.results.Saldo = this.Saldo(this.data.PV, this.data.pCI);
-        this.updateValue(this.resultGroup, 'Saldo', this.results.Saldo);
-        var costes_gastos_iniciales = [
-          this.data.CostesNotariales,
-          this.data.CostesRegistrales,
-          this.data.Tasacion,
-          this.data.ComisionEstudio,
-          this.data.ComisionActivacion,
-        ];
+      }
+    }
 
-        this.results.Prestamo = this.Prestamo(
-          this.results.Saldo,
-          costes_gastos_iniciales
-        );
-        this.updateValue(this.resultGroup, 'Prestamo', this.results.Prestamo);
+    if (this.buttonState == ButtonState.right) {
+      this.utils.updateValue(
+        this.dataGroup,
+        'precio_de_venta_del_activo',
+        this.data.PV
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'porcentaje_de_cuota_inicial',
+        this.data.pCI
+      );
+      this.utils.updateValue(this.dataGroup, 'num_de_años', this.data.NA);
+      this.utils.updateValue(
+        this.dataGroup,
+        'frecuencia_de_pago',
+        this.data.frec
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'num_dias_por_año',
+        this.data.NDxA
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'costes_notariales',
+        this.data.CostesNotariales
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'costes_registrales',
+        this.data.CostesRegistrales
+      );
+      this.utils.updateValue(this.dataGroup, 'tasacion', this.data.Tasacion);
+      this.utils.updateValue(
+        this.dataGroup,
+        'comision_de_estudio',
+        this.data.ComisionEstudio
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'comision_activación',
+        this.data.ComisionActivacion
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'comision_periodica',
+        this.data.ComPer
+      );
+      this.utils.updateValue(this.dataGroup, 'portes', this.data.PortesPer);
+      this.utils.updateValue(
+        this.dataGroup,
+        'gastos_de_administración',
+        this.data.GasAdmPer
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'porcentaje_de_seguro_desgravamen',
+        this.data.pSegDes
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'porcentaje_de_seguro_riesgo',
+        this.data.pSegRie
+      );
+      this.utils.updateValue(
+        this.dataGroup,
+        'tasa_de_descuento',
+        this.data.COK
+      );
+      console.log(this.data);
+      //----------------------------Resultados----------------------------//
+      //-----------------------del financiemiento-----------------------
+      this.results.Saldo = this.resultsEquationsService.Saldo(
+        this.data.PV,
+        this.data.pCI
+      );
+      this.utils.updateValue(this.resultGroup, 'Saldo', this.results.Saldo);
+      var costes_gastos_iniciales = [
+        this.data.CostesNotariales,
+        this.data.CostesRegistrales,
+        this.data.Tasacion,
+        this.data.ComisionEstudio,
+        this.data.ComisionActivacion,
+      ];
 
-        this.results.NCxA = this.NCxA(this.data.NDxA, this.data.frec);
-        this.updateValue(this.resultGroup, 'NCxA', this.results.NCxA);
+      this.results.Prestamo = this.resultsEquationsService.Prestamo(
+        this.results.Saldo,
+        costes_gastos_iniciales
+      );
+      this.utils.updateValue(
+        this.resultGroup,
+        'Prestamo',
+        this.results.Prestamo
+      );
 
-        this.results.N = this.N(this.results.NCxA, this.data.NA);
-        this.updateValue(this.resultGroup, 'N', this.results.N);
+      this.results.NCxA = this.resultsEquationsService.NCxA(
+        this.data.NDxA,
+        this.data.frec
+      );
+      this.utils.updateValue(this.resultGroup, 'NCxA', this.results.NCxA);
 
-        //-----------------------Costes / Gastos periodicos-----------------------
-        this.results.pSegDesPer = this.pSegDesPer(
-          this.data.pSegDes,
-          this.data.frec
-        );
-        this.updateValue(
-          this.resultGroup,
-          'pSegDesPer',
-          this.results.pSegDesPer
-        );
+      this.results.N = this.resultsEquationsService.N(
+        this.results.NCxA,
+        this.data.NA
+      );
+      this.utils.updateValue(this.resultGroup, 'N', this.results.N);
 
-        this.results.SegRiePer = this.SegRiePer(
-          this.data.pSegRie,
-          this.data.PV,
-          this.results.NCxA
-        );
-        this.updateValue(this.resultGroup, 'SegRiePer', this.results.SegRiePer);
+      //-----------------------Costes / Gastos periodicos-----------------------
+      this.results.pSegDesPer = this.resultsEquationsService.pSegDesPer(
+        this.data.pSegDes,
+        this.data.frec
+      );
+      this.utils.updateValue(
+        this.resultGroup,
+        'pSegDesPer',
+        this.results.pSegDesPer
+      );
 
-        //----------------------------LeasingTable----------------------------//
+      this.results.SegRiePer = this.resultsEquationsService.SegRiePer(
+        this.data.pSegRie,
+        this.data.PV,
+        this.results.NCxA
+      );
+      this.utils.updateValue(
+        this.resultGroup,
+        'SegRiePer',
+        this.results.SegRiePer
+      );
 
-        //--------------------NC - TEA --------------------
-        //5años -> 5*12 = 60
-        for (let i = 0; i < 60 + 1; i++) {
-          this.leasingTable.push(
-            CreateLeasingData({ _NC: this.indexTable++, _TEA: 10 / 100 })
-          );
-        }
+      //----------------------------LeasingTable----------------------------//
+      this.leasingTableService.leasingTableGenerateData(
+        this.leasingTableAleman,
+        this.indexTable,
+        this.data,
+        this.results,
+        LeasingState.Aleman
+      );
 
-        //10años -> 10*10 =120
-        for (let i = 0; i < 120; i++) {
-          this.leasingTable.push(
-            CreateLeasingData({ _NC: this.indexTable++, _TEA: 12 / 100 })
-          );
-        }
+      this.leasingTableService.leasingTableGenerateData(
+        this.leasingTableFrances,
+        this.indexTable,
+        this.data,
+        this.results,
+        LeasingState.Frances
+      );
 
-        //10años -> 10*10 =120
-        for (let i = 0; i < 120; i++) {
-          this.leasingTable.push(
-            CreateLeasingData({ _NC: this.indexTable++, _TEA: 0 / 100 })
-          );
-        }
+      this.leasingTableService.leasingTableGenerateData(
+        this.leasingTableAmericano,
+        this.indexTable,
+        this.data,
+        this.results,
+        LeasingState.Americano
+      );
 
-        //--------------------TEP --------------------
-        for (let i = 1; i < 300; i++) {
-          this.leasingTable[i].TEP = this.TEP({
-            NC: i,
-            N: this.results.N,
-            TEA: this.leasingTable[i].TEA,
-            frec: this.data.frec,
-            NDxA: this.data.NDxA,
-          });
-        }
+      //Resultados
+      this.leasingTableArr = this.leasingTableAleman.map((value) => ({
+        NC: value.NC,
+        TEA: value.TEA,
+        TEP: value.TEP,
+        IA: value.IA,
+        IP: value.IP,
+        PG: value.PG,
+        SI: value.SI,
+        SII: value.SII,
+        I: value.I,
+        Cuota: value.Cuota,
+        A: value.A,
+        PP: value.PP,
+        SegDes: value.SegDes,
+        SegRie: value.SegRie,
+        Comision: value.Comision,
+        Portes: value.Portes,
+        GasAdm: value.GasAdm,
+        SF: value.SF,
+        Flujo: value.Flujo,
+      }));
 
-        //--------------------IA --------------------
-        //tiene 0
+      //Resultados
+      this.leasingTableArrFrances = this.leasingTableFrances.map((value) => ({
+        NC: value.NC,
+        TEA: value.TEA,
+        TEP: value.TEP,
+        IA: value.IA,
+        IP: value.IP,
+        PG: value.PG,
+        SI: value.SI,
+        SII: value.SII,
+        I: value.I,
+        Cuota: value.Cuota,
+        A: value.A,
+        PP: value.PP,
+        SegDes: value.SegDes,
+        SegRie: value.SegRie,
+        Comision: value.Comision,
+        Portes: value.Portes,
+        GasAdm: value.GasAdm,
+        SF: value.SF,
+        Flujo: value.Flujo,
+      }));
 
-        //--------------------IP --------------------
-        //tiene 0 -> PERO HAY Q IMPLEMENTAR LA FORMULA XD
-
-        //--------------------P.G. --------------------
-        //5años -> 5*12 = 60
-        for (let i = 1; i <= 6; i++) {
-          this.leasingTable[i].PG = 'T';
-        }
-
-        //10años -> 10*10 =120
-        for (let i = 7; i <= 12; i++) {
-          this.leasingTable[i].PG = 'P';
-        }
-
-        //10años -> 10*10 =120
-        for (let i = 13; i <= 300; i++) {
-          this.leasingTable[i].PG = 'S';
-        }
-
-        //Flujo valor inicial
-        this.leasingTable[0].Flujo = this.results.Prestamo;
-
-        //--------------------Saldo Inicial --------------------
-        for (let i = 1; i <= 300; i++) {
-          this.leasingTable[i].SI = this.SI({
-            NC: this.leasingTable[i].NC,
-            Prestamo: this.results.Prestamo,
-            N: this.results.N,
-            SaldoFinal: this.leasingTable[i - 1].SF,
-          });
-
-          //--------------------Saldo Inicial Indexado --------------------
-          this.leasingTable[i].SII = this.SII({
-            SI: this.leasingTable[i].SI,
-            IP: this.leasingTable[i].IP,
-          });
-
-          //--------------------Interes --------------------
-          this.leasingTable[i].I = this.I({
-            SII: this.leasingTable[i].SII,
-            TEP: this.leasingTable[i].TEP,
-          });
-
-          //--------------------Seguro Desgravamen --------------------
-          this.leasingTable[i].SegDes = this.SegDes({
-            SII: this.leasingTable[i].SII,
-            pSegDesPer: this.results.pSegDesPer,
-          });
-
-          if (this.leasingState == LeasingState.Aleman) {
-            //--------------------Amortizacion--------------------
-            this.leasingTable[i].A = this.AAleman({
-              NC: this.leasingTable[i].NC,
-              N: this.results.N,
-              PG: this.leasingTable[i].PG,
-              SII: this.leasingTable[i].SII,
-            });
-
-            //--------------------Cuota (inc Seg Des) --------------------
-            this.leasingTable[i].Cuota = this.CuotaAleman({
-              NC: this.leasingTable[i].NC,
-              N: this.results.N,
-              PG: this.leasingTable[i].PG,
-              I: this.leasingTable[i].I,
-              A: this.leasingTable[i].A,
-              SegDes: this.leasingTable[i].SegDes,
-            });
-          } else if (this.leasingState == LeasingState.Frances) {
-            //--------------------Amortizacion--------------------
-            this.leasingTable[i].Cuota = this.CuotaFrances({
-              NC: this.leasingTable[i].NC,
-              N: this.results.N,
-              PG: this.leasingTable[i].PG,
-              I: this.leasingTable[i].I,
-              TEP: this.leasingTable[i].TEP,
-              pSegDesPer: this.results.pSegDesPer,
-              SII: this.leasingTable[i].SII,
-            });
-
-            //--------------------Cuota (inc Seg Des) --------------------
-            this.leasingTable[i].A = this.AFrances({
-              NC: this.leasingTable[i].NC,
-              N: this.results.N,
-              PG: this.leasingTable[i].PG,
-              Cuota: this.leasingTable[i].Cuota,
-              I: this.leasingTable[i].I,
-              SegDes: this.leasingTable[i].SegDes,
-            });
-          } else if (this.leasingState == LeasingState.Americano) {
-            //--------------------Amortizacion--------------------
-            this.leasingTable[i].A = this.AAmericano({
-              NC: this.leasingTable[i].NC,
-              N: this.results.N,
-              PG: this.leasingTable[i].PG,
-              SII: this.leasingTable[i].SII,
-            });
-
-            //--------------------Cuota (inc Seg Des) --------------------
-            this.leasingTable[i].Cuota = this.CuotaAleman({
-              NC: this.leasingTable[i].NC,
-              N: this.results.N,
-              PG: this.leasingTable[i].PG,
-              I: this.leasingTable[i].I,
-              A: this.leasingTable[i].A,
-              SegDes: this.leasingTable[i].SegDes,
-            });
-          }
-
-          //Prepago no hay
-
-          //--------------------Seguro riesgo--------------------
-          this.leasingTable[i].SegRie = this.SegRie({
-            NC: this.leasingTable[i].NC,
-            N: this.results.N,
-            SegRiePer: this.results.SegRiePer,
-          });
-
-          //--------------------Comision --------------------
-          this.leasingTable[i].Comision = this.Comision({
-            NC: this.leasingTable[i].NC,
-            N: this.results.N,
-            ComPer: this.data.ComPer,
-          });
-
-          //--------------------Portes --------------------
-          this.leasingTable[i].Portes = this.Portes({
-            NC: this.leasingTable[i].NC,
-            N: this.results.N,
-            PortesPer: this.data.PortesPer,
-          });
-
-          //--------------------Gastos Adm. --------------------
-          this.leasingTable[i].GasAdm = this.GasAdm({
-            NC: this.leasingTable[i].NC,
-            N: this.results.N,
-            GasAdmPer: this.data.GasAdmPer,
-          });
-
-          //--------------------Saldo Final --------------------
-          this.leasingTable[i].SF = this.SF({
-            PG: this.leasingTable[i].PG,
-            SII: this.leasingTable[i].SII,
-            I: this.leasingTable[i].I,
-            A: this.leasingTable[i].A,
-            PP: this.leasingTable[i].PP,
-          });
-
-          //--------------------Flujo --------------------
-          this.leasingTable[i].Flujo = this.Flujo({
-            Cuota: this.leasingTable[i].Cuota,
-            PP: this.leasingTable[i].PP,
-            SegRie: this.leasingTable[i].SegRie,
-            Comision: this.leasingTable[i].Comision,
-            Portes: this.leasingTable[i].Portes,
-            GasAdm: this.leasingTable[i].GasAdm,
-            PG: this.leasingTable[i].PG,
-            SegDes: this.leasingTable[i].SegDes,
-          });
-        }
-
-        //Resultados
-        this.leasingTableArr = this.leasingTable.map((value) => ({
+      //Resultados
+      this.leasingTableArrAmericano = this.leasingTableAmericano.map(
+        (value) => ({
           NC: value.NC,
           TEA: value.TEA,
           TEP: value.TEP,
@@ -531,586 +526,42 @@ export class LeasingComponent implements OnInit {
           GasAdm: value.GasAdm,
           SF: value.SF,
           Flujo: value.Flujo,
-        }));
-        console.log(this.leasingTableArr);
+        })
+      );
 
-        //Resultados Intereses
-        this.results.Intereses = this.Intereses({
-          I: this.leasingTableArr.map((obj) => obj.I),
-        });
-        console.log(this.results.Intereses);
-        this.updateValue(this.resultGroup, 'Intereses', this.results.Intereses);
+      //-----------------------------Results-----------------------------
+      this.resultsService.resultsGenerateData(
+        this.results,
+        this.data,
+        this.leasingTableArr,
+        this.resultGroup,
+        LeasingState.Aleman
+      );
+      this.resultsService.resultsGenerateData(
+        this.results,
+        this.data,
+        this.leasingTableArrFrances,
+        this.resultGroup,
+        LeasingState.Frances
+      );
+      this.resultsService.resultsGenerateData(
+        this.results,
+        this.data,
+        this.leasingTableArrAmericano,
+        this.resultGroup,
+        LeasingState.Americano
+      );
 
-        //Resultados Amortización_del_capital
-        this.results.Amortización_del_capital = this.Amortización_del_capital({
-          A: this.leasingTableArr.map((obj) => obj.A),
-          PP: this.leasingTableArr.map((obj) => obj.PP),
-        });
-        console.log(this.results.Amortización_del_capital);
-        this.updateValue(
-          this.resultGroup,
-          'Amortización_del_capital',
-          this.results.Amortización_del_capital
-        );
-
-        //Resultados Seguro_de_desgravamen
-        this.results.Seguro_de_desgravamen = this.Seguro_de_desgravamen({
-          SegDes: this.leasingTableArr.map((obj) => obj.SegDes),
-        });
-        console.log(this.results.Seguro_de_desgravamen);
-        this.updateValue(
-          this.resultGroup,
-          'Seguro_de_desgravamen',
-          this.results.Seguro_de_desgravamen
-        );
-
-        //Resultados Seguro_contra_todo_riesgo
-        this.results.Seguro_contra_todo_riesgo = this.Seguro_contra_todo_riesgo(
-          {
-            SegRie: this.leasingTableArr.map((obj) => obj.SegRie),
-          }
-        );
-        console.log(this.results.Seguro_contra_todo_riesgo);
-        this.updateValue(
-          this.resultGroup,
-          'Seguro_contra_todo_riesgo',
-          this.results.Seguro_contra_todo_riesgo
-        );
-
-        //Resultados Comisiones_periodicas
-        this.results.Comisiones_periodicas = this.Comisiones_periodicas({
-          Comision: this.leasingTableArr.map((obj) => obj.Comision),
-        });
-        console.log(this.results.Comisiones_periodicas);
-        this.updateValue(
-          this.resultGroup,
-          'Comisiones_periodicas',
-          this.results.Comisiones_periodicas
-        );
-
-        //Resultados Portes_o_Gastos_de_adm
-        this.results.Portes_o_Gastos_de_adm = this.Portes_o_Gastos_de_adm({
-          Portes: this.leasingTableArr.map((obj) => obj.Portes),
-          GasAdm: this.leasingTableArr.map((obj) => obj.GasAdm),
-        });
-        console.log(this.results.Portes_o_Gastos_de_adm);
-        this.updateValue(
-          this.resultGroup,
-          'Portes_o_Gastos_de_adm',
-          this.results.Portes_o_Gastos_de_adm
-        );
-
-        //Indicadores de rentabilidad
-        //Tasa de decuento
-        this.results.COKi = this.COKi({
-          COK: this.data.COK,
-          frec: this.data.frec,
-          NDxA: this.data.NDxA,
-        });
-        console.log(this.results.Portes_o_Gastos_de_adm);
-        this.updateValue(this.resultGroup, 'COKi', this.results.COKi);
-
-        //TIR de la operacion
-        this.results.TIR = this.TIR_Operacion(
-          this.leasingTableArr.map((obj) => obj.Flujo)
-        );
-        console.log(this.results.TIR);
-
-        var TIR_Resultados = this.TIR_Resultados(
-          this.leasingTableArr.map((obj) => obj.Flujo)
-        );
-        this.updateValue(this.resultGroup, 'TIR', TIR_Resultados);
-
-        //TCEA de la operacion
-        this.results.TCEA = this.TCEA(TIR_Resultados, this.results.NCxA);
-        console.log(this.results.TCEA);
-        this.updateValue(this.resultGroup, 'TCEA', this.results.TCEA);
-
-        //VAN operacion
-        this.results.VAN = this.VAN(
-          this.results.COKi,
-          this.leasingTableArr.map((obj) => obj.Flujo)
-        );
-        console.log(this.results.VAN);
-        this.updateValue(this.resultGroup, 'VAN', this.results.VAN);
-
-        //...
-        this.dataSource = new MatTableDataSource(this.leasingTable);
-        console.log(this.leasingTable);
-      }
+      //...
+      this.dataSourceAleman = new MatTableDataSource(this.leasingTableArr);
+      //...
+      this.dataSourceFrances = new MatTableDataSource(
+        this.leasingTableArrFrances
+      );
+      //...
+      this.dataSourceAmericano = new MatTableDataSource(
+        this.leasingTableArrAmericano
+      );
     }
   }
-
-  CalculateDefaultValues() {}
-
-  //-----------------------------Resultados-----------------------------//
-  //-----------------------...del financiamiento-----------------------
-  //Saldo a financiar
-  Saldo(PV: number, pCI: number) {
-    return PV - PV * pCI;
-  }
-  //Monto del prestamo
-  Prestamo(Saldo: number, costes_gastos_iniciales: number[]) {
-    return (
-      Saldo +
-      costes_gastos_iniciales.reduce(
-        (accumulated, current) => accumulated + current
-      )
-    );
-  }
-  //Nº Cuotas por Año
-  NCxA(NDxA: number, frec: number) {
-    return NDxA / frec;
-  }
-  //Nº Total de Cuotas
-  N(NCxA: number, NA: number) {
-    return NCxA * NA;
-  }
-  //-----------------------de los costes/gastos periodicos-----------------------
-  //% de Seguro desgrav. per.
-  pSegDesPer(pSegDes: number, frec: number) {
-    return (pSegDes * frec) / 30;
-  }
-  //Seguro de riesgo
-  SegRiePer(pSegRie: number, PV: number, NCxA: number) {
-    return (pSegRie * PV) / NCxA;
-  }
-  //-----------------------...totales por...-----------------------
-  Intereses({ I }: { I: number[] }) {
-    return -I.reduce((accumulated, current) => accumulated + current);
-  }
-  Amortización_del_capital({ A, PP }: { A: number[]; PP: number[] }) {
-    return -(
-      A.reduce((accumulated, current) => accumulated + current) +
-      PP.reduce((accumulated, current) => accumulated + current)
-    );
-  }
-  Seguro_de_desgravamen({ SegDes }: { SegDes: number[] }) {
-    return -SegDes.reduce((accumulated, current) => accumulated + current);
-  }
-  Seguro_contra_todo_riesgo({ SegRie }: { SegRie: number[] }) {
-    return -SegRie.reduce((accumulated, current) => accumulated + current);
-  }
-  Comisiones_periodicas({ Comision }: { Comision: number[] }) {
-    return -Comision.reduce((accumulated, current) => accumulated + current);
-  }
-  Portes_o_Gastos_de_adm({
-    Portes,
-    GasAdm,
-  }: {
-    Portes: number[];
-    GasAdm: number[];
-  }) {
-    return -(
-      Portes.reduce((accumulated, current) => accumulated + current) +
-      GasAdm.reduce((accumulated, current) => accumulated + current)
-    );
-  }
-  //-----------------------...de indicadores de Rentabilidad-----------------------
-  //Tasa de descuento
-  COKi({ COK, frec, NDxA }: { COK: number; frec: number; NDxA: number }) {
-    return Math.pow(1 + COK, frec / NDxA) - 1;
-  }
-
-  //TIR de la operacion
-  TIR_Operacion(Flujo: number[]) {
-    return Math.abs(irr(Flujo)); //0.1 -> usamos 10 por problemas de performance
-  }
-
-  //TIR_RESULTADOS
-  TIR_Resultados(Flujo: number[]) {
-    var flujoOperation: number[] = [];
-    flujoOperation.push(-Flujo[0]);
-    //Para la formula el primer elemento se opera en negativo y el resto positivo
-    for (let i = 1; i < Flujo.length; i++) {
-      flujoOperation.push(-Flujo[i]); //use i instead of 0
-    }
-    return Math.abs(irr(flujoOperation));
-  }
-
-  //TCEA de la operacion
-  TCEA(TIR_de_la_operacion: number, Numero_de_cuotas_por_año: number) {
-    return Math.pow(1 + TIR_de_la_operacion, Numero_de_cuotas_por_año) - 1;
-  }
-  //VAN operacion
-  VAN(Tasa_de_descuento: number, Flujo: number[]) {
-    var NPV: number = 0;
-    NPV += Flujo[0];
-
-    for (let i = 1; i < Flujo.length; i++) {
-      NPV += Flujo[i] / Math.pow(1 + Tasa_de_descuento, i);
-    }
-
-    return NPV;
-  }
-
-  updateValue(formGroup: FormGroup, parameter: string, data: number) {
-    formGroup.patchValue({ [parameter]: data.toString() });
-  }
-
-  //-----------------------------LeasingTable-----------------------------//
-  TEP({
-    NC,
-    N,
-    TEA,
-    frec,
-    NDxA,
-  }: {
-    NC: number;
-    N: number;
-    TEA: number;
-    frec: number;
-    NDxA: number;
-  }) {
-    console.log('ESTO', NC, N, TEA, frec, NDxA);
-    if (NC <= N) {
-      return Math.pow(1 + TEA, frec / NDxA) - 1;
-    } else {
-      return 0;
-    }
-  }
-
-  //--------------------Saldo Inicial --------------------
-  SI({
-    NC,
-    Prestamo,
-    N,
-    SaldoFinal,
-  }: {
-    NC: number;
-    Prestamo: number;
-    N: number;
-    SaldoFinal: number;
-  }) {
-    if (NC == 1) {
-      return Prestamo;
-    } else if (NC <= N) {
-      return SaldoFinal;
-    } else {
-      return 0;
-    }
-  }
-
-  //--------------------Saldo Inicial Indexado --------------------
-  SII({ SI, IP }: { SI: number; IP: number }) {
-    return SI + SI * IP;
-  }
-
-  //--------------------Interes --------------------
-  I({ SII, TEP }: { SII: number; TEP: number }) {
-    return -SII * TEP;
-  }
-
-  //---------------------------------------Frances---------------------------------------//
-  //--------------------Cuota (inc Seg Des) --------------------
-  CuotaFrances({
-    NC,
-    N,
-    PG,
-    I,
-    TEP,
-    pSegDesPer,
-    SII,
-  }: {
-    NC: number;
-    N: number;
-    PG: string;
-    I: number;
-    TEP: number;
-    pSegDesPer: number;
-    SII: number;
-  }) {
-    if (NC <= N) {
-      if (PG == 'T') {
-        return 0;
-      } else {
-        if (PG == 'P') {
-          return I;
-        } else {
-          return this.PMT(TEP + pSegDesPer, N - NC + 1, SII, 0, 0);
-        }
-      }
-    } else {
-      return 0;
-    }
-  }
-
-  PMT(rate: number, nper: number, pv: number, fv: number, type: number) {
-    if (!fv) fv = 0;
-    if (!type) type = 0;
-
-    if (rate == 0) return -(pv + fv) / nper;
-
-    var pvif = Math.pow(1 + rate, nper);
-    var pmt = (rate / (pvif - 1)) * -(pv * pvif + fv);
-
-    if (type == 1) {
-      pmt /= 1 + rate;
-    }
-
-    return pmt;
-  }
-
-  //--------------------Amortizacion--------------------
-  AFrances({
-    NC,
-    N,
-    PG,
-    Cuota,
-    I,
-    SegDes,
-  }: {
-    NC: number;
-    N: number;
-    PG: string;
-    Cuota: number;
-    I: number;
-    SegDes: number;
-  }) {
-    if (NC <= N) {
-      if (PG == 'T' || PG == 'P') {
-        return 0;
-      } else {
-        return Cuota - I - SegDes;
-      }
-    } else {
-      return 0;
-    }
-  }
-
-  //------------------------------------------------------------------------------//
-
-  //---------------------------------------Aleman---------------------------------------//
-  //--------------------Cuota (inc Seg Des) --------------------
-  CuotaAleman({
-    NC,
-    N,
-    PG,
-    I,
-    A,
-    SegDes,
-  }: {
-    NC: number;
-    N: number;
-    PG: string;
-    I: number;
-    A: number;
-    SegDes: number;
-  }) {
-    if (NC <= N) {
-      if (PG == 'T') {
-        return 0;
-      } else {
-        if (PG == 'P') {
-          return I;
-        } else {
-          return I + A + SegDes;
-        }
-      }
-    } else {
-      return 0;
-    }
-  }
-
-  //--------------------Amortizacion--------------------
-  AAleman({
-    NC,
-    N,
-    PG,
-    SII,
-  }: {
-    NC: number;
-    N: number;
-    PG: string;
-    SII: number;
-  }) {
-    if (NC <= N) {
-      if (PG == 'T' || PG == 'P') {
-        return 0;
-      } else {
-        return -SII / (N - NC + 1);
-      }
-    } else {
-      return 0;
-    }
-  }
-  //---------------------------------------Americano---------------------------------------//
-  AAmericano({
-    NC,
-    N,
-    PG,
-    SII,
-  }: {
-    NC: number;
-    N: number;
-    PG: string;
-    SII: number;
-  }) {
-    if (NC == N) {
-      if (PG == 'T' || PG == 'P') {
-        return 0;
-      } else {
-        return -SII;
-      }
-    } else {
-      return 0;
-    }
-  }
-
-  //------------------------------------------------------------------------------//
-
-  //--------------------Prepago --------------------
-  //PP({}: {}) {}
-  //--------------------Seguro Desgravamen --------------------
-  SegDes({ SII, pSegDesPer }: { SII: number; pSegDesPer: number }) {
-    return -SII * pSegDesPer;
-  }
-
-  //--------------------Seguro riesgo--------------------
-  SegRie({ NC, N, SegRiePer }: { NC: number; N: number; SegRiePer: number }) {
-    if (NC <= N) {
-      return -SegRiePer;
-    } else {
-      return 0;
-    }
-  }
-
-  //--------------------Comision --------------------
-  Comision({ NC, N, ComPer }: { NC: number; N: number; ComPer: number }) {
-    if (NC <= N) {
-      return -ComPer;
-    } else {
-      return 0;
-    }
-  }
-
-  //--------------------Portes --------------------
-  Portes({ NC, N, PortesPer }: { NC: number; N: number; PortesPer: number }) {
-    if (NC <= N) {
-      return -PortesPer;
-    } else {
-      return 0;
-    }
-  }
-
-  //--------------------Gastos Adm. --------------------
-  GasAdm({ NC, N, GasAdmPer }: { NC: number; N: number; GasAdmPer: number }) {
-    if (NC <= N) {
-      return -GasAdmPer;
-    } else {
-      return 0;
-    }
-  }
-  //--------------------Saldo Final --------------------
-  SF({
-    PG,
-    SII,
-    I,
-    A,
-    PP,
-  }: {
-    PG: string;
-    SII: number;
-    I: number;
-    A: number;
-    PP: number;
-  }) {
-    if (PG == 'T') {
-      return SII - I;
-    } else {
-      return SII + A + PP;
-    }
-  }
-  //--------------------Flujo --------------------
-  Flujo({
-    Cuota,
-    PP,
-    SegRie,
-    Comision,
-    Portes,
-    GasAdm,
-    PG,
-    SegDes,
-  }: {
-    Cuota: number;
-    PP: number;
-    SegRie: number;
-    Comision: number;
-    Portes: number;
-    GasAdm: number;
-    PG: string;
-    SegDes: number;
-  }) {
-    if (PG == 'T' || PG == 'P') {
-      return Cuota + PP + SegRie + Comision + Portes + GasAdm + SegDes;
-    } else {
-      return Cuota + PP + SegRie + Comision + Portes + GasAdm;
-    }
-  }
-}
-
-function CreateLeasingData({
-  _NC = 0,
-  _TEA = 0,
-  _TEP = 0,
-  _IA = 0,
-  _IP = 0,
-  _PG = '',
-  _SI = 0,
-  _SII = 0,
-  _I = 0,
-  _Cuota = 0,
-  _A = 0,
-  _PP = 0,
-  _SegDes = 0,
-  _SegRie = 0,
-  _Comision = 0,
-  _Portes = 0,
-  _GasAdm = 0,
-  _SF = 0,
-  _Flujo = 0,
-}: {
-  _NC?: number;
-  _TEA?: number;
-  _TEP?: number;
-  _IA?: number;
-  _IP?: number;
-  _PG?: string;
-  _SI?: number;
-  _SII?: number;
-  _I?: number;
-  _Cuota?: number;
-  _A?: number;
-  _PP?: number;
-  _SegDes?: number;
-  _SegRie?: number;
-  _Comision?: number;
-  _Portes?: number;
-  _GasAdm?: number;
-  _SF?: number;
-  _Flujo?: number;
-}) {
-  var data: LeasingData = {
-    NC: _NC,
-    TEA: _TEA,
-    TEP: _TEP,
-    IA: _IA,
-    IP: _IP,
-    PG: _PG,
-    SI: _SI,
-    SII: _SII,
-    I: _I,
-    Cuota: _Cuota,
-    A: _A,
-    PP: _PP,
-    SegDes: _SegDes,
-    SegRie: _SegRie,
-    Comision: _Comision,
-    Portes: _Portes,
-    GasAdm: _GasAdm,
-    SF: _SF,
-    Flujo: _Flujo,
-  };
-
-  return data;
 }
