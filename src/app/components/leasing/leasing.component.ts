@@ -1,3 +1,4 @@
+import { SolutionService } from './solution/solution.service';
 import { ResultsEquationsService } from './results/results-equations.service';
 import { ResultsService } from './results/results.service';
 
@@ -39,6 +40,10 @@ export class LeasingComponent implements OnInit {
   buttonState = ButtonState.left;
 
   indexTable: number;
+
+  emptyData: Datos;
+  emptyResults: Resultados;
+
   data: Datos = {
     PV: 125000,
     pCI: 20 / 100,
@@ -101,14 +106,17 @@ export class LeasingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private leasingTableService: LeasingTableService,
     private resultsService: ResultsService,
-    private resultsEquationsService: ResultsEquationsService,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private solutionService: SolutionService
   ) {
     utils = {} as UtilsService;
+    solutionService = {} as SolutionService;
+
+    this.emptyData = {} as Datos;
+    this.emptyResults = {} as Resultados;
 
     leasingTableService = {} as LeasingTableService;
     resultsService = {} as ResultsService;
-    resultsEquationsService = {} as ResultsEquationsService;
 
     this.indexTable = 0;
     this.results = {} as Resultados;
@@ -124,7 +132,7 @@ export class LeasingComponent implements OnInit {
 
     this.dataGroup = this.formBuilder.group({
       //...del prestamo
-      precio_de_venta_del_activo: new FormControl('', [
+      precio_de_venta_del_activo: new FormControl([
         Validators.required,
         Validators.pattern('[0-9]+(?:.[0-9]{0,2})?'),
       ]),
@@ -296,272 +304,387 @@ export class LeasingComponent implements OnInit {
   public Reset() {
     this.dataGroup.reset();
   }
+
   Submit() {
     if (this.buttonState == ButtonState.left) {
       if (this.dataGroup.valid) {
-        this.data = this.dataGroup.value;
-        console.log(this.data);
+        this.emptyData.PV = this.dataGroup.value.precio_de_venta_del_activo * 1;
+        this.emptyData.pCI =
+          this.dataGroup.value.porcentaje_de_cuota_inicial * 1;
+        this.emptyData.NA = this.dataGroup.value.num_de_años * 1;
+        this.emptyData.frec = this.dataGroup.value.frecuencia_de_pago * 1;
+        this.emptyData.NDxA = this.dataGroup.value.num_dias_por_año * 1;
+        this.emptyData.CostesNotariales =
+          this.dataGroup.value.costes_notariales * 1;
+        this.emptyData.CostesRegistrales =
+          this.dataGroup.value.costes_registrales * 1;
+        this.emptyData.Tasacion = this.dataGroup.value.tasacion * 1;
+        this.emptyData.ComisionEstudio =
+          this.dataGroup.value.comision_de_estudio * 1;
+        this.emptyData.ComisionActivacion =
+          this.dataGroup.value.comision_activación * 1;
+        this.emptyData.ComPer = this.dataGroup.value.comision_periodica * 1;
+        this.emptyData.PortesPer = this.dataGroup.value.portes * 1;
+        this.emptyData.GasAdmPer =
+          this.dataGroup.value.gastos_de_administración * 1;
+        this.emptyData.pSegDes =
+          this.dataGroup.value.porcentaje_de_seguro_desgravamen * 1;
+        this.emptyData.pSegRie =
+          this.dataGroup.value.porcentaje_de_seguro_riesgo * 1;
+        this.emptyData.COK = this.dataGroup.value.tasa_de_descuento * 1;
+
+        console.log(this.emptyData);
+        this.btnCalcularDatos(this.emptyData);
       }
     }
 
     if (this.buttonState == ButtonState.right) {
-      this.utils.updateValue(
-        this.dataGroup,
-        'precio_de_venta_del_activo',
-        this.data.PV
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'porcentaje_de_cuota_inicial',
-        this.data.pCI
-      );
-      this.utils.updateValue(this.dataGroup, 'num_de_años', this.data.NA);
-      this.utils.updateValue(
-        this.dataGroup,
-        'frecuencia_de_pago',
-        this.data.frec
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'num_dias_por_año',
-        this.data.NDxA
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'costes_notariales',
-        this.data.CostesNotariales
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'costes_registrales',
-        this.data.CostesRegistrales
-      );
-      this.utils.updateValue(this.dataGroup, 'tasacion', this.data.Tasacion);
-      this.utils.updateValue(
-        this.dataGroup,
-        'comision_de_estudio',
-        this.data.ComisionEstudio
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'comision_activación',
-        this.data.ComisionActivacion
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'comision_periodica',
-        this.data.ComPer
-      );
-      this.utils.updateValue(this.dataGroup, 'portes', this.data.PortesPer);
-      this.utils.updateValue(
-        this.dataGroup,
-        'gastos_de_administración',
-        this.data.GasAdmPer
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'porcentaje_de_seguro_desgravamen',
-        this.data.pSegDes
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'porcentaje_de_seguro_riesgo',
-        this.data.pSegRie
-      );
-      this.utils.updateValue(
-        this.dataGroup,
-        'tasa_de_descuento',
-        this.data.COK
-      );
-      console.log(this.data);
-      //----------------------------Resultados----------------------------//
-      //-----------------------del financiemiento-----------------------
-      this.results.Saldo = this.resultsEquationsService.Saldo(
-        this.data.PV,
-        this.data.pCI
-      );
-      this.utils.updateValue(this.resultGroup, 'Saldo', this.results.Saldo);
-      var costes_gastos_iniciales = [
-        this.data.CostesNotariales,
-        this.data.CostesRegistrales,
-        this.data.Tasacion,
-        this.data.ComisionEstudio,
-        this.data.ComisionActivacion,
-      ];
-
-      this.results.Prestamo = this.resultsEquationsService.Prestamo(
-        this.results.Saldo,
-        costes_gastos_iniciales
-      );
-      this.utils.updateValue(
-        this.resultGroup,
-        'Prestamo',
-        this.results.Prestamo
-      );
-
-      this.results.NCxA = this.resultsEquationsService.NCxA(
-        this.data.NDxA,
-        this.data.frec
-      );
-      this.utils.updateValue(this.resultGroup, 'NCxA', this.results.NCxA);
-
-      this.results.N = this.resultsEquationsService.N(
-        this.results.NCxA,
-        this.data.NA
-      );
-      this.utils.updateValue(this.resultGroup, 'N', this.results.N);
-
-      //-----------------------Costes / Gastos periodicos-----------------------
-      this.results.pSegDesPer = this.resultsEquationsService.pSegDesPer(
-        this.data.pSegDes,
-        this.data.frec
-      );
-      this.utils.updateValue(
-        this.resultGroup,
-        'pSegDesPer',
-        this.results.pSegDesPer
-      );
-
-      this.results.SegRiePer = this.resultsEquationsService.SegRiePer(
-        this.data.pSegRie,
-        this.data.PV,
-        this.results.NCxA
-      );
-      this.utils.updateValue(
-        this.resultGroup,
-        'SegRiePer',
-        this.results.SegRiePer
-      );
-
-      //----------------------------LeasingTable----------------------------//
-      this.leasingTableService.leasingTableGenerateData(
-        this.leasingTableAleman,
-        this.indexTable,
-        this.data,
-        this.results,
-        LeasingState.Aleman
-      );
-
-      this.leasingTableService.leasingTableGenerateData(
-        this.leasingTableFrances,
-        this.indexTable,
-        this.data,
-        this.results,
-        LeasingState.Frances
-      );
-
-      this.leasingTableService.leasingTableGenerateData(
-        this.leasingTableAmericano,
-        this.indexTable,
-        this.data,
-        this.results,
-        LeasingState.Americano
-      );
-
-      //Resultados
-      this.leasingTableArr = this.leasingTableAleman.map((value) => ({
-        NC: value.NC,
-        TEA: value.TEA,
-        TEP: value.TEP,
-        IA: value.IA,
-        IP: value.IP,
-        PG: value.PG,
-        SI: value.SI,
-        SII: value.SII,
-        I: value.I,
-        Cuota: value.Cuota,
-        A: value.A,
-        PP: value.PP,
-        SegDes: value.SegDes,
-        SegRie: value.SegRie,
-        Comision: value.Comision,
-        Portes: value.Portes,
-        GasAdm: value.GasAdm,
-        SF: value.SF,
-        Flujo: value.Flujo,
-      }));
-
-      //Resultados
-      this.leasingTableArrFrances = this.leasingTableFrances.map((value) => ({
-        NC: value.NC,
-        TEA: value.TEA,
-        TEP: value.TEP,
-        IA: value.IA,
-        IP: value.IP,
-        PG: value.PG,
-        SI: value.SI,
-        SII: value.SII,
-        I: value.I,
-        Cuota: value.Cuota,
-        A: value.A,
-        PP: value.PP,
-        SegDes: value.SegDes,
-        SegRie: value.SegRie,
-        Comision: value.Comision,
-        Portes: value.Portes,
-        GasAdm: value.GasAdm,
-        SF: value.SF,
-        Flujo: value.Flujo,
-      }));
-
-      //Resultados
-      this.leasingTableArrAmericano = this.leasingTableAmericano.map(
-        (value) => ({
-          NC: value.NC,
-          TEA: value.TEA,
-          TEP: value.TEP,
-          IA: value.IA,
-          IP: value.IP,
-          PG: value.PG,
-          SI: value.SI,
-          SII: value.SII,
-          I: value.I,
-          Cuota: value.Cuota,
-          A: value.A,
-          PP: value.PP,
-          SegDes: value.SegDes,
-          SegRie: value.SegRie,
-          Comision: value.Comision,
-          Portes: value.Portes,
-          GasAdm: value.GasAdm,
-          SF: value.SF,
-          Flujo: value.Flujo,
-        })
-      );
-
-      //-----------------------------Results-----------------------------
-      this.resultsService.resultsGenerateData(
-        this.results,
-        this.data,
-        this.leasingTableArr,
-        this.resultGroup,
-        LeasingState.Aleman
-      );
-      this.resultsService.resultsGenerateData(
-        this.results,
-        this.data,
-        this.leasingTableArrFrances,
-        this.resultGroup,
-        LeasingState.Frances
-      );
-      this.resultsService.resultsGenerateData(
-        this.results,
-        this.data,
-        this.leasingTableArrAmericano,
-        this.resultGroup,
-        LeasingState.Americano
-      );
-
-      //...
-      this.dataSourceAleman = new MatTableDataSource(this.leasingTableArr);
-      //...
-      this.dataSourceFrances = new MatTableDataSource(
-        this.leasingTableArrFrances
-      );
-      //...
-      this.dataSourceAmericano = new MatTableDataSource(
-        this.leasingTableArrAmericano
-      );
+      this.btnLLenar_y_Calcular();
     }
+  }
+
+  RefreshArrays() {
+    this.leasingTableAleman = [];
+    this.leasingTableFrances = [];
+    this.leasingTableAmericano = [];
+
+    this.leasingTableArr = [];
+    this.leasingTableArrFrances = [];
+    this.leasingTableArrAmericano = [];
+  }
+
+  btnCalcularDatos(emptyData: Datos) {
+    this.RefreshArrays();
+
+    this.solutionService.Solucion(
+      emptyData,
+      this.emptyResults,
+      this.resultGroup
+    );
+    //----------------------------LeasingTable----------------------------//
+    this.leasingTableService.leasingTableGenerateData(
+      this.leasingTableAleman,
+      this.indexTable,
+      emptyData,
+      this.emptyResults,
+      LeasingState.Aleman
+    );
+
+    this.leasingTableService.leasingTableGenerateData(
+      this.leasingTableFrances,
+      this.indexTable,
+      emptyData,
+      this.emptyResults,
+      LeasingState.Frances
+    );
+
+    this.leasingTableService.leasingTableGenerateData(
+      this.leasingTableAmericano,
+      this.indexTable,
+      emptyData,
+      this.emptyResults,
+      LeasingState.Americano
+    );
+
+    //Resultados
+    this.leasingTableArr = this.leasingTableAleman.map((value) => ({
+      NC: value.NC,
+      TEA: value.TEA,
+      TEP: value.TEP,
+      IA: value.IA,
+      IP: value.IP,
+      PG: value.PG,
+      SI: value.SI,
+      SII: value.SII,
+      I: value.I,
+      Cuota: value.Cuota,
+      A: value.A,
+      PP: value.PP,
+      SegDes: value.SegDes,
+      SegRie: value.SegRie,
+      Comision: value.Comision,
+      Portes: value.Portes,
+      GasAdm: value.GasAdm,
+      SF: value.SF,
+      Flujo: value.Flujo,
+    }));
+
+    //Resultados
+    this.leasingTableArrFrances = this.leasingTableFrances.map((value) => ({
+      NC: value.NC,
+      TEA: value.TEA,
+      TEP: value.TEP,
+      IA: value.IA,
+      IP: value.IP,
+      PG: value.PG,
+      SI: value.SI,
+      SII: value.SII,
+      I: value.I,
+      Cuota: value.Cuota,
+      A: value.A,
+      PP: value.PP,
+      SegDes: value.SegDes,
+      SegRie: value.SegRie,
+      Comision: value.Comision,
+      Portes: value.Portes,
+      GasAdm: value.GasAdm,
+      SF: value.SF,
+      Flujo: value.Flujo,
+    }));
+
+    //Resultados
+    this.leasingTableArrAmericano = this.leasingTableAmericano.map((value) => ({
+      NC: value.NC,
+      TEA: value.TEA,
+      TEP: value.TEP,
+      IA: value.IA,
+      IP: value.IP,
+      PG: value.PG,
+      SI: value.SI,
+      SII: value.SII,
+      I: value.I,
+      Cuota: value.Cuota,
+      A: value.A,
+      PP: value.PP,
+      SegDes: value.SegDes,
+      SegRie: value.SegRie,
+      Comision: value.Comision,
+      Portes: value.Portes,
+      GasAdm: value.GasAdm,
+      SF: value.SF,
+      Flujo: value.Flujo,
+    }));
+
+    //-----------------------------Results-----------------------------
+    this.resultsService.resultsGenerateData(
+      this.emptyResults,
+      emptyData,
+      this.leasingTableArr,
+      this.resultGroup,
+      LeasingState.Aleman
+    );
+    this.resultsService.resultsGenerateData(
+      this.emptyResults,
+      emptyData,
+      this.leasingTableArrFrances,
+      this.resultGroup,
+      LeasingState.Frances
+    );
+    this.resultsService.resultsGenerateData(
+      this.emptyResults,
+      emptyData,
+      this.leasingTableArrAmericano,
+      this.resultGroup,
+      LeasingState.Americano
+    );
+
+    //...
+    this.dataSourceAleman = new MatTableDataSource(this.leasingTableArr);
+    //...
+    this.dataSourceFrances = new MatTableDataSource(
+      this.leasingTableArrFrances
+    );
+    //...
+    this.dataSourceAmericano = new MatTableDataSource(
+      this.leasingTableArrAmericano
+    );
+  }
+
+  btnLLenar_y_Calcular() {
+    this.RefreshArrays();
+
+    this.utils.updateValue(
+      this.dataGroup,
+      'precio_de_venta_del_activo',
+      this.data.PV
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'porcentaje_de_cuota_inicial',
+      this.data.pCI
+    );
+    this.utils.updateValue(this.dataGroup, 'num_de_años', this.data.NA);
+    this.utils.updateValue(
+      this.dataGroup,
+      'frecuencia_de_pago',
+      this.data.frec
+    );
+    this.utils.updateValue(this.dataGroup, 'num_dias_por_año', this.data.NDxA);
+    this.utils.updateValue(
+      this.dataGroup,
+      'costes_notariales',
+      this.data.CostesNotariales
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'costes_registrales',
+      this.data.CostesRegistrales
+    );
+    this.utils.updateValue(this.dataGroup, 'tasacion', this.data.Tasacion);
+    this.utils.updateValue(
+      this.dataGroup,
+      'comision_de_estudio',
+      this.data.ComisionEstudio
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'comision_activación',
+      this.data.ComisionActivacion
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'comision_periodica',
+      this.data.ComPer
+    );
+    this.utils.updateValue(this.dataGroup, 'portes', this.data.PortesPer);
+    this.utils.updateValue(
+      this.dataGroup,
+      'gastos_de_administración',
+      this.data.GasAdmPer
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'porcentaje_de_seguro_desgravamen',
+      this.data.pSegDes
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'porcentaje_de_seguro_riesgo',
+      this.data.pSegRie
+    );
+    this.utils.updateValue(this.dataGroup, 'tasa_de_descuento', this.data.COK);
+    console.log(this.data);
+
+    //----------------------------Solution----------------------------//
+
+    this.solutionService.Solucion(this.data, this.results, this.resultGroup);
+
+    //----------------------------LeasingTable----------------------------//
+    this.leasingTableService.leasingTableGenerateData(
+      this.leasingTableAleman,
+      this.indexTable,
+      this.data,
+      this.results,
+      LeasingState.Aleman
+    );
+
+    this.leasingTableService.leasingTableGenerateData(
+      this.leasingTableFrances,
+      this.indexTable,
+      this.data,
+      this.results,
+      LeasingState.Frances
+    );
+
+    this.leasingTableService.leasingTableGenerateData(
+      this.leasingTableAmericano,
+      this.indexTable,
+      this.data,
+      this.results,
+      LeasingState.Americano
+    );
+
+    //Resultados
+    this.leasingTableArr = this.leasingTableAleman.map((value) => ({
+      NC: value.NC,
+      TEA: value.TEA,
+      TEP: value.TEP,
+      IA: value.IA,
+      IP: value.IP,
+      PG: value.PG,
+      SI: value.SI,
+      SII: value.SII,
+      I: value.I,
+      Cuota: value.Cuota,
+      A: value.A,
+      PP: value.PP,
+      SegDes: value.SegDes,
+      SegRie: value.SegRie,
+      Comision: value.Comision,
+      Portes: value.Portes,
+      GasAdm: value.GasAdm,
+      SF: value.SF,
+      Flujo: value.Flujo,
+    }));
+
+    //Resultados
+    this.leasingTableArrFrances = this.leasingTableFrances.map((value) => ({
+      NC: value.NC,
+      TEA: value.TEA,
+      TEP: value.TEP,
+      IA: value.IA,
+      IP: value.IP,
+      PG: value.PG,
+      SI: value.SI,
+      SII: value.SII,
+      I: value.I,
+      Cuota: value.Cuota,
+      A: value.A,
+      PP: value.PP,
+      SegDes: value.SegDes,
+      SegRie: value.SegRie,
+      Comision: value.Comision,
+      Portes: value.Portes,
+      GasAdm: value.GasAdm,
+      SF: value.SF,
+      Flujo: value.Flujo,
+    }));
+
+    //Resultados
+    this.leasingTableArrAmericano = this.leasingTableAmericano.map((value) => ({
+      NC: value.NC,
+      TEA: value.TEA,
+      TEP: value.TEP,
+      IA: value.IA,
+      IP: value.IP,
+      PG: value.PG,
+      SI: value.SI,
+      SII: value.SII,
+      I: value.I,
+      Cuota: value.Cuota,
+      A: value.A,
+      PP: value.PP,
+      SegDes: value.SegDes,
+      SegRie: value.SegRie,
+      Comision: value.Comision,
+      Portes: value.Portes,
+      GasAdm: value.GasAdm,
+      SF: value.SF,
+      Flujo: value.Flujo,
+    }));
+
+    //-----------------------------Results-----------------------------
+    this.resultsService.resultsGenerateData(
+      this.results,
+      this.data,
+      this.leasingTableArr,
+      this.resultGroup,
+      LeasingState.Aleman
+    );
+    this.resultsService.resultsGenerateData(
+      this.results,
+      this.data,
+      this.leasingTableArrFrances,
+      this.resultGroup,
+      LeasingState.Frances
+    );
+    this.resultsService.resultsGenerateData(
+      this.results,
+      this.data,
+      this.leasingTableArrAmericano,
+      this.resultGroup,
+      LeasingState.Americano
+    );
+
+    //...
+    this.dataSourceAleman = new MatTableDataSource(this.leasingTableArr);
+    //...
+    this.dataSourceFrances = new MatTableDataSource(
+      this.leasingTableArrFrances
+    );
+    //...
+    this.dataSourceAmericano = new MatTableDataSource(
+      this.leasingTableArrAmericano
+    );
   }
 }

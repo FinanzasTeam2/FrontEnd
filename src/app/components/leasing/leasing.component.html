@@ -1,8 +1,5 @@
-<mat-toolbar class="narvar">
-  <span routerLink="/">Calculadora Leasing</span>
-  <nav>
-    <span href="" class="nav-link"> Alemán</span>
-  </nav>
+<mat-toolbar class="narvar" color="primary">
+  <span routerLink="/">Calculadora Leasing Alemán, Francés y Americano</span>
 </mat-toolbar>
 
 <div id="page">
@@ -19,6 +16,7 @@
             <mat-form-field appearance="outline" color="primary">
               <mat-label>Precio de Venta del Activo: </mat-label>
               <input
+                type="number"
                 class="example-right-align"
                 matInput
                 formControlName="precio_de_venta_del_activo"
@@ -30,7 +28,7 @@
               <mat-label>% Cuato Inicial:</mat-label>
               <input
                 class="example-right-align"
-                type="text"
+                type="number"
                 matInput
                 formControlName="porcentaje_de_cuota_inicial"
                 placeholder="0.00%"
@@ -41,7 +39,7 @@
               <mat-label>Nº de años:</mat-label>
               <input
                 class="example-right-align"
-                type="text"
+                type="number"
                 matInput
                 formControlName="num_de_años"
                 placeholder="0.00"
@@ -52,7 +50,7 @@
               <mat-label>Frecuencia de pago:</mat-label>
               <input
                 class="example-right-align"
-                type="text"
+                type="number"
                 matInput
                 formControlName="frecuencia_de_pago"
                 placeholder="0.00"
@@ -63,7 +61,7 @@
               <mat-label>Nº de días por año:</mat-label>
               <input
                 class="example-right-align"
-                type="text"
+                type="number"
                 matInput
                 formControlName="num_dias_por_año"
                 placeholder="0.00"
@@ -83,7 +81,7 @@
             <mat-label> Costes Notariales:</mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="costes_notariales"
               placeholder="0.00"
@@ -94,7 +92,7 @@
             <mat-label> Costes Registrales: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="costes_registrales"
               placeholder="0.00"
@@ -105,7 +103,7 @@
             <mat-label> Tasación: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="tasacion"
               placeholder="0.00"
@@ -116,7 +114,7 @@
             <mat-label> Comision de estudio: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="comision_de_estudio"
               placeholder="0.00"
@@ -127,7 +125,7 @@
             <mat-label> Comisión de activación: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="comision_activación"
               placeholder="0.00"
@@ -142,7 +140,7 @@
             <mat-label> Comisión periodica:</mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="comision_periodica"
               placeholder="0.00"
@@ -153,7 +151,7 @@
             <mat-label> Portes: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="portes"
               placeholder="0.00"
@@ -164,7 +162,7 @@
             <mat-label> Gastos de Administración:</mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="gastos_de_administración"
               placeholder="0.00"
@@ -175,7 +173,7 @@
             <mat-label> % de Seguro de desgravamen: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="porcentaje_de_seguro_desgravamen"
               placeholder="0.0%"
@@ -186,7 +184,7 @@
             <mat-label>% de Seguro de riesgo: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="porcentaje_de_seguro_riesgo"
               placeholder="0.0%"
@@ -201,7 +199,7 @@
             <mat-label> Tasa de descuento: </mat-label>
             <input
               class="example-right-align"
-              type="text"
+              type="number"
               matInput
               formControlName="tasa_de_descuento"
               placeholder="0.0%"
@@ -261,7 +259,7 @@
                 <input
                   class="example-right-align"
                   matInput
-                  type="text"
+                  type="number"
                   formControlName="Saldo"
                   readonly
                 />
@@ -270,7 +268,7 @@
                 <input
                   class="example-right-align"
                   matInput
-                  type="text"
+                  type="number"
                   formControlName="Saldo"
                   readonly
                 />
@@ -279,7 +277,7 @@
                 <input
                   class="example-right-align"
                   matInput
-                  type="text"
+                  type="number"
                   formControlName="Saldo"
                   readonly
                 />
@@ -290,7 +288,7 @@
               <label> Monto del préstamos:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Prestamo"
@@ -298,7 +296,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Prestamo"
@@ -306,7 +304,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Prestamo"
@@ -318,7 +316,7 @@
               <label>Nº de Cuotas por Año:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="NCxA"
@@ -330,7 +328,7 @@
               <label>Nº Total de Cuotas:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="N"
@@ -338,7 +336,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="N"
@@ -346,7 +344,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="N"
@@ -362,21 +360,21 @@
               <label>% de Seguro desgravavamen periodo:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="pSegDesPer"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="pSegDesPer"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="pSegDesPer"
@@ -388,7 +386,7 @@
               <label>Seguro riesgo:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="SegRiePer"
@@ -396,7 +394,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="SegRiePer"
@@ -404,7 +402,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="SegRiePer"
@@ -420,7 +418,7 @@
               <label>Intereses:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Intereses"
@@ -428,7 +426,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="InteresesFrances"
@@ -436,7 +434,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Intereses_Americano"
@@ -448,21 +446,21 @@
               <label>Amortización del capital:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Amortización_del_capital"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Amortización_del_capital_Frances"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Amortización_del_capital_Americano"
@@ -474,21 +472,21 @@
               <label>Seguro de desgravamen:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_de_desgravamen"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_de_desgravamen_Frances"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_de_desgravamenAmericano"
@@ -500,7 +498,7 @@
               <label>Seguro contra todo riesgo:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_contra_todo_riesgo"
@@ -508,7 +506,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_contra_todo_riesgo_Frances"
@@ -516,7 +514,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_contra_todo_riesgo_Americano"
@@ -528,7 +526,7 @@
               <label>Comisiones periodicas riesgo:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Comisiones_periodicas"
@@ -536,7 +534,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Comisiones_periodicas_Frances"
@@ -544,7 +542,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Comisiones_periodicas_Americano"
@@ -556,14 +554,14 @@
               <label>Portes / Gastos de administración:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Portes_o_Gastos_de_adm"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Portes_o_Gastos_de_adm_Frances"
@@ -571,7 +569,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="Portes_o_Gastos_de_adm_Americano"
@@ -587,21 +585,21 @@
               <label>Tasa de descuento:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="COKi"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="COKi_Frances"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="COKi_Americano"
@@ -613,21 +611,21 @@
               <label>TIR de la operación:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="TIR"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="TIR_Frances"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="TIR_Americano"
@@ -639,7 +637,7 @@
               <label>TCEA de la operación:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="TCEA"
@@ -647,7 +645,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="TCEA_Frances"
@@ -655,7 +653,7 @@
               </mat-form-field>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="TCEA_Americano"
@@ -667,21 +665,21 @@
               <label>VAN operación:</label>
               <mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="VAN"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="VAN_Frances"
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
-                  type="text"
+                  type="number"
                   class="example-right-align"
                   matInput
                   formControlName="VAN_Americano"
