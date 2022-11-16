@@ -694,12 +694,41 @@
     </div>
   </section>
   <!------------------------------------------Leasing------------------------------------------>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="exporterAleman.exportTable('xlsx', { fileName: 'Leasing Aleman' })"
+    style="margin-right: 8px"
+  >
+    Exportar Excel Aleman
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="
+      exporterFrances.exportTable('xlsx', { fileName: 'Leasing Frances' })
+    "
+    style="margin-right: 8px"
+  >
+    Exportar Excel Frances
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="
+      exporterAmericano.exportTable('xlsx', { fileName: 'Leasing Americano' })
+    "
+  >
+    Exportar Excel Americano
+  </button>
   <mat-tab-group style="height: 900px" id="leasing_table">
     <mat-tab label="Aleman">
       <table
         mat-table
         [dataSource]="dataSourceAleman"
         class="leasing_table mat-elevation-z8"
+        matTableExporter
+        #exporterAleman="matTableExporter"
       >
         <!-- Position Column -->
         <ng-container matColumnDef="NC">
@@ -825,6 +854,8 @@
         mat-table
         [dataSource]="dataSourceFrances"
         class="leasing_table mat-elevation-z8"
+        matTableExporter
+        #exporterFrances="matTableExporter"
       >
         <!-- Position Column -->
         <ng-container matColumnDef="NC">
@@ -950,6 +981,8 @@
         mat-table
         [dataSource]="dataSourceAmericano"
         class="leasing_table mat-elevation-z8"
+        matTableExporter
+        #exporterAmericano="matTableExporter"
       >
         <!-- Position Column -->
         <ng-container matColumnDef="NC">
