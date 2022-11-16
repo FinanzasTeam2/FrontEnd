@@ -211,12 +211,13 @@
             color="warn"
             type="submit"
             (click)="Calcular()"
+            style="margin-left: 20px; margin-top: 20px"
           >
             Calcular
           </button>
           <button
             mat-raised-button
-            style="margin-left: 20px"
+            style="margin-left: 20px; margin-top: 20px; margin-bottom: 20px"
             color="primary"
             type="submit"
             (click)="Llenar_y_Calcular()"
@@ -225,7 +226,7 @@
           </button>
           <button
             mat-raised-button
-            style="margin-left: 20px"
+            style="margin-left: 20px; margin-bottom: 20px"
             color="accent"
             type="reset"
             (click)="Reset()"
@@ -294,6 +295,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Prestamo"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -302,6 +304,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Prestamo"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -310,6 +313,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Prestamo"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -322,6 +326,25 @@
                   class="example-right-align"
                   matInput
                   formControlName="NCxA"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="NCxA"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="NCxA"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -334,6 +357,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="N"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -342,6 +366,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="N"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -350,6 +375,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="N"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -366,6 +392,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="pSegDesPer"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -373,6 +400,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="pSegDesPer"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -380,6 +408,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="pSegDesPer"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -392,6 +421,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="SegRiePer"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -400,6 +430,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="SegRiePer"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -408,6 +439,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="SegRiePer"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -424,6 +456,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Intereses"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -432,6 +465,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="InteresesFrances"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -440,6 +474,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Intereses_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -452,6 +487,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Amortización_del_capital"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -459,6 +495,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Amortización_del_capital_Frances"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -466,6 +503,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Amortización_del_capital_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -478,6 +516,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_de_desgravamen"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -485,6 +524,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_de_desgravamen_Frances"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -492,6 +532,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_de_desgravamenAmericano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -504,6 +545,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_contra_todo_riesgo"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -512,6 +554,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_contra_todo_riesgo_Frances"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -520,6 +563,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Seguro_contra_todo_riesgo_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -532,6 +576,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Comisiones_periodicas"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -540,6 +585,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Comisiones_periodicas_Frances"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -548,6 +594,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Comisiones_periodicas_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -560,6 +607,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Portes_o_Gastos_de_adm"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -567,6 +615,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Portes_o_Gastos_de_adm_Frances"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -575,6 +624,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="Portes_o_Gastos_de_adm_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -591,6 +641,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="COKi"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -598,6 +649,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="COKi_Frances"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -605,6 +657,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="COKi_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -617,6 +670,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="TIR"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -624,6 +678,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="TIR_Frances"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -631,6 +686,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="TIR_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -643,6 +699,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="TCEA"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -651,6 +708,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="TCEA_Frances"
+                  readonly
                 />
               </mat-form-field>
               <mat-form-field color="primary">
@@ -659,6 +717,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="TCEA_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -671,6 +730,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="VAN"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -678,6 +738,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="VAN_Frances"
+                  readonly
                 /> </mat-form-field
               ><mat-form-field color="primary">
                 <input
@@ -685,6 +746,7 @@
                   class="example-right-align"
                   matInput
                   formControlName="VAN_Americano"
+                  readonly
                 />
               </mat-form-field>
             </div>
@@ -694,33 +756,39 @@
     </div>
   </section>
   <!------------------------------------------Leasing------------------------------------------>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="exporterAleman.exportTable('xlsx', { fileName: 'Leasing Aleman' })"
-    style="margin-right: 8px"
-  >
-    Exportar Excel Aleman
-  </button>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="
-      exporterFrances.exportTable('xlsx', { fileName: 'Leasing Frances' })
-    "
-    style="margin-right: 8px"
-  >
-    Exportar Excel Frances
-  </button>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="
-      exporterAmericano.exportTable('xlsx', { fileName: 'Leasing Americano' })
-    "
-  >
-    Exportar Excel Americano
-  </button>
+  <h1>Leasing</h1>
+  <div id="excel_buttons">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        exporterAleman.exportTable('xlsx', { fileName: 'Leasing Aleman' })
+      "
+      style="margin-right: 20px; margin-bottom: 20px"
+    >
+      Exportar Excel Aleman
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        exporterFrances.exportTable('xlsx', { fileName: 'Leasing Frances' })
+      "
+      style="margin-right: 20px; margin-bottom: 20px"
+    >
+      Exportar Excel Frances
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        exporterAmericano.exportTable('xlsx', { fileName: 'Leasing Americano' })
+      "
+      style="margin-bottom: 20px"
+    >
+      Exportar Excel Americano
+    </button>
+  </div>
   <mat-tab-group style="height: 900px" id="leasing_table">
     <mat-tab label="Aleman">
       <table
