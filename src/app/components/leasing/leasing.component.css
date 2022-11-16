@@ -5,18 +5,25 @@
   margin-left: 4%;
   margin-right: 4%;
   width: 92%;
+  padding-top: 32px;
 }
 #section_data {
   border: solid black;
+  padding: 10px;
   display: inline-flex;
   padding-right: 5px;
   width: 48%;
+  background-color: #f0f0f0;
+  border-radius: 25px;
 }
 #section_results {
+  padding: 10px;
   border: solid black;
   display: inline-flex;
   width: 48%;
   margin-left: 4%;
+  background-color: #f0f0f0;
+  border-radius: 25px;
 }
 
 table,
@@ -29,9 +36,11 @@ h2,
 h3 {
   margin-bottom: 0;
   text-decoration: underline;
+  font-size: 20px;
 }
 h2 {
   text-align: center;
+  font-size: 30px;
 }
 form {
   width: 100%;
@@ -61,6 +70,10 @@ label {
   display: inline-block;
   width: 32%;
 }
+#Financiemiento {
+  font-size: 20px;
+  text-decoration: underline;
+}
 #section_results div {
   width: 100%;
 }
@@ -75,6 +88,17 @@ label {
 
 div {
   display: block;
+}
+
+.leasing_table {
+  background-color: #f0f0f0;
+}
+
+td,
+th {
+  text-align: center !important;
+  padding: 0px !important;
+  min-width: 20px;
 }
 
 /*-------------------------Disable arrow input number-------------------------*/
