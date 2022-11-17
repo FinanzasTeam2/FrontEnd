@@ -1,3 +1,4 @@
+import { UtilsService } from './../utils/utils.service';
 import { LeasingState } from './../leasing.component';
 import { LeasingTableEquationsService } from './leasing-table-equations.service';
 import { Injectable } from '@angular/core';
@@ -9,7 +10,9 @@ import { Datos } from 'src/app/model/datos.service';
   providedIn: 'root',
 })
 export class LeasingTableService {
-  constructor(private eq: LeasingTableEquationsService) {}
+  constructor(private eq: LeasingTableEquationsService,private u:UtilsService) {
+    u={}as UtilsService;
+  }
 
   leasingTableGenerateData(
     leasingTable: LeasingData[],
@@ -22,28 +25,29 @@ export class LeasingTableService {
 
     //--------------------NC - TEA --------------------
     //5años -> 5*12 = 60
-    for (let i = 0; i < 60 + 1; i++) {
+    for (let i = 0; i <= data.Duracion_Tasa_Efectiva1*12 ; i++) {
       leasingTable.push(
-        CreateLeasingData({ _NC: indexTable++, _TEA: 10 / 100 })
+        CreateLeasingData({ _NC: indexTable++, _TEA: data.Porcentaje_tasa_efectiva1/100})
       );
     }
 
     //10años -> 10*10 =120
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < data.NA *12 - data.Duracion_Tasa_Efectiva1*12; i++) {
       leasingTable.push(
-        CreateLeasingData({ _NC: indexTable++, _TEA: 12 / 100 })
+        CreateLeasingData({ _NC: indexTable++, _TEA: data.Porcentaje_tasa_efectiva2 / 100 })
       );
     }
 
     //10años -> 10*10 =120
+    /*
     for (let i = 0; i < 120; i++) {
       leasingTable.push(
         CreateLeasingData({ _NC: indexTable++, _TEA: 0 / 100 })
       );
     }
-
+*/
     //--------------------TEP --------------------
-    for (let i = 1; i < 300; i++) {
+    for (let i = 1; i <= data.NA * 12; i++) {
       leasingTable[i].TEP = this.eq.TEP({
         NC: i,
         N: results.N,
@@ -62,12 +66,12 @@ export class LeasingTableService {
     //--------------------P.G. --------------------
     //5años -> 5*12 = 60
     for (let i = 1; i <= data.PlazoDeGracia1; i++) {
-      leasingTable[i].PG = 'T';
+      leasingTable[i].PG = data.TipoDeGracia1;
     }
 
     //10años -> 10*10 =120
     for (let i = data.PlazoDeGracia1 + 1; i <= data.PlazoDeGracia1 + data.PlazoDeGracia2; i++) {
-      leasingTable[i].PG = 'P';
+      leasingTable[i].PG = data.TipoDeGracia2;
     }
 
     //10años -> 10*10 =120
@@ -79,7 +83,7 @@ export class LeasingTableService {
     leasingTable[0].Flujo = results.Prestamo;
 
     //--------------------Saldo Inicial --------------------
-    for (let i = 1; i <= 180; i++) {
+    for (let i = 1; i <= data.NA * 12; i++) {
       leasingTable[i].SI = this.eq.SI({
         NC: leasingTable[i].NC,
         Prestamo: results.Prestamo,

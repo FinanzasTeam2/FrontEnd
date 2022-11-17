@@ -32,7 +32,7 @@
         <mat-form-field appearance="outline" color="primary">
           <mat-label>Porcentaje de la tasa: </mat-label>
           <input
-            type="number"
+            type="text"
             class="example-right-align"
             matInput
             formControlName="porcentaje_tasa_efectiva1"
@@ -42,13 +42,13 @@
         </mat-form-field>
 
         <div style="padding-top: 10px">
-          <span style="font-size: 18px">Duración</span>
+          <span style="font-size: 18px">Duración (Anual)</span>
         </div>
 
         <mat-form-field appearance="outline" color="primary">
           <mat-label>Duración de la tasa efectiva </mat-label>
           <input
-            type="number"
+            type="text"
             class="example-right-align"
             matInput
             formControlName="duracion_tasa_efectiva1"
@@ -56,17 +56,7 @@
           />
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Unidad de tiempo de la tasa efectiva</mat-label>
-          <select matNativeControl required formControlName="unidad_de_tiempo_de_la_tasa_efectiva">
-            <option value="A">Años</option>
-            <option value="M">Meses</option>
-            <option value="D">Días</option>
-          </select>
-          <mat-error *ngIf="dataGroup.hasError('required')">
-            This field is required
-          </mat-error>
-        </mat-form-field>
+
 
 
         <div style="padding-top: 20px">
@@ -76,7 +66,7 @@
         <mat-form-field appearance="outline" color="primary">
           <mat-label>Porcentaje de la tasa: </mat-label>
           <input
-            type="number"
+            type="text"
             class="example-right-align"
             matInput
             formControlName="porcentaje_tasa_efectiva2"
@@ -94,7 +84,7 @@
             <mat-form-field appearance="outline" color="primary">
               <mat-label>Precio de Venta del Activo: </mat-label>
               <input
-                type="number"
+                type="text"
                 class="example-right-align"
                 matInput
                 formControlName="precio_de_venta_del_activo"
@@ -106,7 +96,7 @@
               <mat-label>Porcentaje Cuato Inicial:</mat-label>
               <input
                 class="example-right-align"
-                type="number"
+                type="text"
                 matInput
                 formControlName="porcentaje_de_cuota_inicial"
                 placeholder="0.00"
@@ -118,7 +108,7 @@
               <mat-label>Número de años a pagar:</mat-label>
               <input
                 class="example-right-align"
-                type="number"
+                type="text"
                 matInput
                 formControlName="num_de_años"
                 placeholder="0.00"
@@ -129,7 +119,7 @@
               <mat-label>Frecuencia de pago (días):</mat-label>
               <input
                 class="example-right-align"
-                type="number"
+                type="text"
                 matInput
                 formControlName="frecuencia_de_pago"
                 placeholder="0.00"
@@ -140,7 +130,7 @@
               <mat-label>Número de días por año:</mat-label>
               <input
                 class="example-right-align"
-                type="number"
+                type="text"
                 matInput
                 formControlName="num_dias_por_año"
                 placeholder="0.00"
@@ -149,34 +139,19 @@
 
             <h3>Plazos de gracia:</h3>
             <div style="padding-top: 20px">
-              <span style="font-size: 18px">* Primer Plazo de Gracia</span>
+              <span style="font-size: 18px">* Primer Plazo de Gracia (Meses)</span>
             </div>
             <p>
               <mat-form-field appearance="outline" color="primary">
                 <mat-label>Plazo de Gracia:</mat-label>
                 <input
                   class="example-right-align"
-                  type="number"
+                  type="text"
                   matInput
                   formControlName="plazo_de_Gracia1"
-                  placeholder="0.00"
+                  placeholder="0"
                 />
-              </mat-form-field>
-
-              <mat-form-field appearance="fill">
-                <mat-label>Unidad de tiempo</mat-label>
-                <select
-                  matNativeControl
-                  required
-                  formControlName="unidad_de_tiempo_plazo_de_gracia1"
-                >
-                  <option value="D">Días</option>
-                  <option value="M">Meses</option>
-                  <option value="A">Años</option>
-                </select>
-                <mat-error *ngIf="dataGroup.hasError('required')">
-                  This field is required
-                </mat-error>
+                
               </mat-form-field>
 
               <mat-form-field appearance="fill">
@@ -194,40 +169,23 @@
                   This field is required
                 </mat-error>
               </mat-form-field>
-
-              de plazo de gracia total (cuotas Nº 1 a 6)
             </p>
 
             <div style="padding-top: 20px">
-              <span style="font-size: 18px">* Segundo Plazo de Gracia</span>
+              <span style="font-size: 18px">* Segundo Plazo de Gracia (Meses)</span>
             </div>
             <p>
               <mat-form-field appearance="outline" color="primary">
                 <mat-label>Plazo de Gracia:</mat-label>
                 <input
                   class="example-right-align"
-                  type="number"
+                  type="text"
                   matInput
                   formControlName="plazo_de_Gracia2"
-                  placeholder="0.00"
+                  placeholder="0"
                 />
               </mat-form-field>
 
-              <mat-form-field appearance="fill">
-                <mat-label>Unidad de tiempo</mat-label>
-                <select
-                  matNativeControl
-                  required
-                  formControlName="unidad_de_tiempo_plazo_de_gracia2"
-                >
-                  <option value="D">Días</option>
-                  <option value="M">Meses</option>
-                  <option value="A">Años</option>
-                </select>
-                <mat-error *ngIf="dataGroup.hasError('required')">
-                  This field is required
-                </mat-error>
-              </mat-form-field>
 
               <mat-form-field appearance="fill">
                 <mat-label>Seleccciona tipo de gracia</mat-label>
@@ -244,7 +202,6 @@
                   This field is required
                 </mat-error>
               </mat-form-field>
-              de plazo de gracia parcial (cuotas Nº 7 a 12)
             </p>
           </div>
         </div>
@@ -256,7 +213,7 @@
             <mat-label> Costes Notariales:</mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="costes_notariales"
               placeholder="0.00"
@@ -267,7 +224,7 @@
             <mat-label> Costes Registrales: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="costes_registrales"
               placeholder="0.00"
@@ -278,7 +235,7 @@
             <mat-label> Tasación: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="tasacion"
               placeholder="0.00"
@@ -289,7 +246,7 @@
             <mat-label> Comision de estudio: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="comision_de_estudio"
               placeholder="0.00"
@@ -300,7 +257,7 @@
             <mat-label> Comisión de activación: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="comision_activación"
               placeholder="0.00"
@@ -315,7 +272,7 @@
             <mat-label> Comisión periodica:</mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="comision_periodica"
               placeholder="0.00"
@@ -326,7 +283,7 @@
             <mat-label> Portes: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="portes"
               placeholder="0.00"
@@ -337,7 +294,7 @@
             <mat-label> Gastos de Administración:</mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="gastos_de_administración"
               placeholder="0.00"
@@ -348,7 +305,7 @@
             <mat-label> Porcentaje de Seguro de desgravamen: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="porcentaje_de_seguro_desgravamen"
               placeholder="0.00"
@@ -360,7 +317,7 @@
             <mat-label>Porcentaje de Seguro de riesgo: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="porcentaje_de_seguro_riesgo"
               placeholder="0.00"
@@ -376,7 +333,7 @@
             <mat-label> Tasa de descuento: </mat-label>
             <input
               class="example-right-align"
-              type="number"
+              type="text"
               matInput
               formControlName="tasa_de_descuento"
               placeholder="0.00"
@@ -960,7 +917,7 @@
     </div>
   </section>
   <!------------------------------------------Leasing------------------------------------------>
-  <h1>Leasing</h1>
+  <h1>Leasing Mensual</h1>
   <div id="excel_buttons">
     <button
       mat-raised-button
@@ -1010,26 +967,26 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="TEA">
-          <th mat-header-cell *matHeaderCellDef>TEA</th>
+          <th mat-header-cell *matHeaderCellDef>TEA (%)</th>
           <td mat-cell *matCellDef="let element">{{ element.TEA }}</td>
         </ng-container>
 
         <!-- Weight Column -->
         <ng-container matColumnDef="i">
-          <th mat-header-cell *matHeaderCellDef>i'=TEP=TEM</th>
+          <th mat-header-cell *matHeaderCellDef>i'=TEP=TEM (%)</th>
           <td mat-cell *matCellDef="let element">{{ element.TEP }}</td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="IA">
           <th mat-header-cell *matHeaderCellDef>IA</th>
-          <td mat-cell *matCellDef="let element">{{ element.IA }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.IA }} %</td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="IP">
           <th mat-header-cell *matHeaderCellDef>IP</th>
-          <td mat-cell *matCellDef="let element">{{ element.IP }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.IP }} %</td>
         </ng-container>
 
         <!-- Symbol Column -->

@@ -17,6 +17,7 @@ export class SolutionService {
 
   //--------------------Solucion------------------------//
   Solucion(data: Datos, results: Resultados, resultGroup: FormGroup) {
+
     //----------------------------Resultados----------------------------//
     //-----------------------del financiemiento-----------------------
     results.Saldo = this.resultsEquationsService.Saldo(data.PV, data.pCI/100);

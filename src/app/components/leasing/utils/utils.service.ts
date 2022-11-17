@@ -12,6 +12,7 @@ export class UtilsService {
   }
 
   roundValueWithNumDecimals(value:number, numDecimals:number) {
-    return Number(Math.round(( value+Number.EPSILON)*100000)/100000).toFixed(numDecimals);  
+    return Number(Math.round(( value+Number.EPSILON)*10000000)/10000000).toFixed(numDecimals);  
   }
+
 }

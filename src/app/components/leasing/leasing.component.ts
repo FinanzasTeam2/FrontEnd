@@ -40,6 +40,11 @@ interface Gracia {
   styleUrls: ['./leasing.component.css'],
 })
 export class LeasingComponent implements OnInit {
+
+  validatorPatternNumber='^[0-9]*$';
+  validatorPatternPercentage:string="";
+  validatorPatternDecimal:string="";
+
   leasingState = {} as LeasingState;
 
   buttonState = ButtonState.left;
@@ -52,7 +57,6 @@ export class LeasingComponent implements OnInit {
   data: Datos = {
     Porcentaje_tasa_efectiva1:10,
     Duracion_Tasa_Efectiva1:5,
-    UnidadDeTiempoDeLaTasaEfectiva1:'A',
     Porcentaje_tasa_efectiva2:12,
     TipoMoneda: 1, // Sol:1,Dollar:3.83,Euro:3.93
     PlazoDeGracia1: 6,
@@ -124,6 +128,8 @@ export class LeasingComponent implements OnInit {
     { name: 'Total', value: 'T' },
   ];
 
+  
+
   constructor(
     private formBuilder: FormBuilder,
     private leasingTableService: LeasingTableService,
@@ -157,192 +163,99 @@ export class LeasingComponent implements OnInit {
       /*----------FALTA HACER QUE MIS VARIABLES SEAN RECIBIDAS EN LA FORMULA
       --------------DE LA TABLA, CREO Q SOLO ES LA PRIMERA PARTE-----*/
 
-      //-----------------Ultimo Sprint-----------------//
+      tipo_de_moneda: new FormControl('', Validators.required),
+
+      //Tasa efectiva anual
       porcentaje_tasa_efectiva1:new FormControl('', Validators.required),
       duracion_tasa_efectiva1: new FormControl('', Validators.required),
-      unidad_de_tiempo_de_la_tasa_efectiva:new FormControl(null, Validators.required),
-
       porcentaje_tasa_efectiva2:new FormControl('', Validators.required),
-      //------------------------------------------------//
 
-      tipo_de_moneda: new FormControl('', Validators.required),
 
       //Tipo de gracia
       plazo_de_Gracia1: new FormControl('', Validators.required),
       plazo_de_Gracia2: new FormControl('', Validators.required),
 
-      //Tipo de gracia
-      unidad_de_tiempo_plazo_de_gracia1: new FormControl(
-        '',
-        Validators.required
-      ),
-      unidad_de_tiempo_plazo_de_gracia2: new FormControl(
-        null,
-        Validators.required
-      ),
+      unidad_de_tiempo_plazo_de_gracia1: new FormControl('', Validators.required),
+      unidad_de_tiempo_plazo_de_gracia2: new FormControl(null,Validators.required),
 
-      //Tipo de gracia
       tipo_de_Gracia1: new FormControl(null, Validators.required),
       tipo_de_Gracia2: new FormControl(null, Validators.required),
       //-------------------------------------------------//
 
       //...del prestamo
-      precio_de_venta_del_activo: new FormControl([
-        Validators.required,
-        Validators.pattern('[0-9]+(?:.[0-9]{0,2})?'),
-      ]),
-      porcentaje_de_cuota_inicial: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^-?[0-9]\\d*(\\.\\d*)?$'),
-      ]),
-      num_de_años: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      frecuencia_de_pago: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      num_dias_por_año: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
+      precio_de_venta_del_activo: new FormControl('',Validators.required),
+      porcentaje_de_cuota_inicial: new FormControl('', Validators.required),
+      num_de_años: new FormControl('', Validators.required),
+      frecuencia_de_pago: new FormControl('', Validators.required),
+      num_dias_por_año: new FormControl('', Validators.required),
       //...de los costes/gatos iniciales
-      costes_notariales: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      costes_registrales: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      tasacion: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      comision_de_estudio: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      comision_activación: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
+      costes_notariales: new FormControl('', Validators.required),
+      costes_registrales: new FormControl('', Validators.required),
+      tasacion: new FormControl('', Validators.required),
+      comision_de_estudio: new FormControl('', Validators.required),
+      comision_activación: new FormControl('', Validators.required),
       //...de los costes/gastos periodicos
-      comision_periodica: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      portes: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^-?[0-9]\\d*(\\.\\d*)?$'),
-      ]),
-      gastos_de_administración: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      porcentaje_de_seguro_desgravamen: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^-?[0-9]\\d*(\\.\\d*)?$'),
-      ]),
-      porcentaje_de_seguro_riesgo: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^-?[0-9]\\d*(\\.\\d*)?$'),
-      ]),
+      comision_periodica: new FormControl('', Validators.required),
+      portes: new FormControl('', Validators.required),
+      gastos_de_administración: new FormControl('', Validators.required),
+      porcentaje_de_seguro_desgravamen: new FormControl('', Validators.required),
+      porcentaje_de_seguro_riesgo: new FormControl('', Validators.required),
       //...del costo de oportunidad
-      tasa_de_descuento: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^-?[0-9]\\d*(\\.\\d*)?$'),
-      ]),
+      tasa_de_descuento: new FormControl('', Validators.required),
+
     });
 
     this.resultGroup = this.formBuilder.group({
       //Del financiamiento
-      Saldo: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Saldo a financiar
-      Prestamo: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Monto del prestamo
-      NCxA: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Nº Cuotas por Año
-      N: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Nº Total de Cuotas
+      Saldo: new FormControl('0.00'), //Saldo a financiar
+      Prestamo: new FormControl('0.00'), //Monto del prestamo
+      NCxA: new FormControl('0.00'), //Nº Cuotas por Año
+      N: new FormControl('0.00'), //Nº Total de Cuotas
       //de los costes/gastos periodicos
-      pSegDesPer: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //% de Seguro desgrav. per.
-      SegRiePer: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Seguro de riesgo
+      pSegDesPer: new FormControl('0.00'), //% de Seguro desgrav. per.
+      SegRiePer: new FormControl('0.00'), //Seguro de riesgo
 
       //-----------------------------Aleman-----------------------------//
       //totales por
-      Intereses: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]),
-      Amortización_del_capital: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Seguro_de_desgravamen: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Seguro_contra_todo_riesgo: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Comisiones_periodicas: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Portes_o_Gastos_de_adm: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
+      Intereses: new FormControl('0.00'),
+      Amortización_del_capital: new FormControl('0.00'),
+      Seguro_de_desgravamen: new FormControl('0.00'),
+      Seguro_contra_todo_riesgo: new FormControl('0.00'),
+      Comisiones_periodicas: new FormControl('0.00'),
+      Portes_o_Gastos_de_adm: new FormControl('0.00'),
       //de indicadores de Rentabilidad
-      COKi: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
-      TIR: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
-      TCEA: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
-      VAN: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
+      COKi: new FormControl('0.00'), //Tasa de descuento
+      TIR: new FormControl('0.00'), //TIR de la operacion
+      TCEA: new FormControl('0.00'), //TCEA de la operacion
+      VAN: new FormControl('0.00'), //VAN operacion
 
       //-----------------------------Frances-----------------------------//
       //totales por
-      InteresesFrances: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Amortización_del_capital_Frances: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Seguro_de_desgravamen_Frances: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Seguro_contra_todo_riesgo_Frances: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Comisiones_periodicas_Frances: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Portes_o_Gastos_de_adm_Frances: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
+      InteresesFrances: new FormControl('0.00'),
+      Amortización_del_capital_Frances: new FormControl('0.00'),
+      Seguro_de_desgravamen_Frances: new FormControl('0.00'),
+      Seguro_contra_todo_riesgo_Frances: new FormControl('0.00'),
+      Comisiones_periodicas_Frances: new FormControl('0.00'),
+      Portes_o_Gastos_de_adm_Frances: new FormControl('0.00'),
       //de indicadores de Rentabilidad
-      COKi_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
-      TIR_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
-      TCEA_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
-      VAN_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
+      COKi_Frances: new FormControl('0.00'), //Tasa de descuento
+      TIR_Frances: new FormControl('0.00'), //TIR de la operacion
+      TCEA_Frances: new FormControl('0.00'), //TCEA de la operacion
+      VAN_Frances: new FormControl('0.00'), //VAN operacion
 
       //-----------------------------Americano-----------------------------//
       //totales por
-      Intereses_Americano: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Amortización_del_capital_Americano: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Seguro_de_desgravamenAmericano: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Seguro_contra_todo_riesgo_Americano: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Comisiones_periodicas_Americano: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
-      Portes_o_Gastos_de_adm_Americano: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]),
+      Intereses_Americano: new FormControl('0.00'),
+      Amortización_del_capital_Americano: new FormControl('0.00'),
+      Seguro_de_desgravamenAmericano: new FormControl('0.00'),
+      Seguro_contra_todo_riesgo_Americano: new FormControl('0.00'),
+      Comisiones_periodicas_Americano: new FormControl('0.00'),
+      Portes_o_Gastos_de_adm_Americano: new FormControl('0.00',),
       //de indicadores de Rentabilidad
-      COKi_Americano: new FormControl('0.00', [
-        Validators.pattern('^[0-9]*$'),
-      ]), //Tasa de descuento
-      TIR_Americano: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
-      TCEA_Americano: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
-      VAN_Americano: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
+      COKi_Americano: new FormControl('0.00'), //Tasa de descuento
+      TIR_Americano: new FormControl('0.00'), //TIR de la operacion
+      TCEA_Americano: new FormControl('0.00'), //TCEA de la operacion
+      VAN_Americano: new FormControl('0.00'), //VAN operacion
     });
   }
 
@@ -360,13 +273,16 @@ export class LeasingComponent implements OnInit {
 
   Submit() {
     if (this.buttonState == ButtonState.left) {
+      console.log(this.dataGroup.valid);
       if (this.dataGroup.valid) {
+        console.log(this.dataGroup.value.precio_de_venta_del_activo * 1);
+        console.log(this.dataGroup.value.precio_de_venta_del_activo );
+
+        this.emptyData.TipoMoneda = this.dataGroup.value.tipo_de_moneda;
 
         this.emptyData.Porcentaje_tasa_efectiva1= this.dataGroup.value.porcentaje_tasa_efectiva1 * 1;
 
         this.emptyData.Duracion_Tasa_Efectiva1= this.dataGroup.value.duracion_tasa_efectiva1 * 1;
-
-        this.emptyData.UnidadDeTiempoDeLaTasaEfectiva1= this.dataGroup.value.unidad_de_tiempo_de_la_tasa_efectiva;
 
         this.emptyData.Porcentaje_tasa_efectiva2= this.dataGroup.value.porcentaje_tasa_efectiva2;
 
@@ -586,11 +502,6 @@ export class LeasingComponent implements OnInit {
       this.data.Duracion_Tasa_Efectiva1
     );
 
-    this.utils.updateValue(
-      this.dataGroup,
-      'unidad_de_tiempo_de_la_tasa_efectiva',
-      this.data.UnidadDeTiempoDeLaTasaEfectiva1
-    );
 
     this.utils.updateValue(
       this.dataGroup,
@@ -737,8 +648,8 @@ export class LeasingComponent implements OnInit {
     //Resultados
     this.leasingTableArr = this.leasingTableAleman.map((value) => ({
       NC: value.NC,
-      TEA: value.TEA,
-      TEP: value.TEP,
+      TEA:  value.TEA,
+      TEP:  value.TEP,
       IA: value.IA,
       IP: value.IP,
       PG: value.PG,
