@@ -29,6 +29,11 @@ export enum LeasingState {
   Americano,
 }
 
+interface Gracia {
+  name: string;
+  value: string;
+}
+
 @Component({
   selector: 'app-leasing',
   templateUrl: './leasing.component.html',
@@ -45,6 +50,13 @@ export class LeasingComponent implements OnInit {
   emptyResults: Resultados;
 
   data: Datos = {
+    TipoMoneda: 1, // Sol:1,Dollar:3.83,Euro:3.93
+    PlazoDeGracia1: 6,
+    PlazoDeGracia2: 6,
+    UnidadDeTiempoPlazoDeGracia1: 'M',
+    UnidadDeTiempoPlazoDeGracia2: 'M',
+    TipoDeGracia1: 'T',
+    TipoDeGracia2: 'P',
     PV: 125000,
     pCI: 20 / 100,
     NA: 15,
@@ -102,6 +114,12 @@ export class LeasingComponent implements OnInit {
   dataGroup!: FormGroup;
   resultGroup!: FormGroup;
 
+  tipoGracia: Gracia[] = [
+    { name: 'Sin Gracia', value: 'S' },
+    { name: 'Parcial', value: 'P' },
+    { name: 'Total', value: 'T' },
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private leasingTableService: LeasingTableService,
@@ -131,6 +149,40 @@ export class LeasingComponent implements OnInit {
     this.leasingTableArrAmericano = [] as any[];
 
     this.dataGroup = this.formBuilder.group({
+      //------------------Implementado------------------------//
+      /*----------FALTA HACER QUE MIS VARIABLES SEAN RECIBIDAS EN LA FORMULA
+      --------------DE LA TABLA, CREO Q SOLO ES LA PRIMERA PARTE-----*/
+
+      //-----------------Ultimo Sprint-----------------//
+      porcentaje_tasa_efectiva1:new FormControl('', Validators.required),
+      porcentaje_tasa_efectiva2:new FormControl('', Validators.required),
+
+      plazo_tasa_efectiva1:new FormControl(null, Validators.required),
+      plazo_tasa_efectiva2:new FormControl(null, Validators.required),
+
+
+
+      tipo_de_moneda: new FormControl('', Validators.required),
+
+      //Tipo de gracia
+      plazo_de_Gracia1: new FormControl('', Validators.required),
+      plazo_de_Gracia2: new FormControl('', Validators.required),
+
+      //Tipo de gracia
+      unidad_de_tiempo_plazo_de_gracia1: new FormControl(
+        '',
+        Validators.required
+      ),
+      unidad_de_tiempo_plazo_de_gracia2: new FormControl(
+        null,
+        Validators.required
+      ),
+
+      //Tipo de gracia
+      tipo_de_Gracia1: new FormControl(null, Validators.required),
+      tipo_de_Gracia2: new FormControl(null, Validators.required),
+      //-------------------------------------------------//
+
       //...del prestamo
       precio_de_venta_del_activo: new FormControl([
         Validators.required,
@@ -230,9 +282,9 @@ export class LeasingComponent implements OnInit {
         Validators.pattern('^[0-9]*$'),
       ]),
       //de indicadores de Rentabilidad
-      COKi: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
-      TIR: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
-      TCEA: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
+      COKi: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
+      TIR: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
+      TCEA: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
       VAN: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
 
       //-----------------------------Frances-----------------------------//
@@ -256,9 +308,9 @@ export class LeasingComponent implements OnInit {
         Validators.pattern('^[0-9]*$'),
       ]),
       //de indicadores de Rentabilidad
-      COKi_Frances: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
-      TIR_Frances: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
-      TCEA_Frances: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
+      COKi_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //Tasa de descuento
+      TIR_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
+      TCEA_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
       VAN_Frances: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
 
       //-----------------------------Americano-----------------------------//
@@ -282,13 +334,11 @@ export class LeasingComponent implements OnInit {
         Validators.pattern('^[0-9]*$'),
       ]),
       //de indicadores de Rentabilidad
-      COKi_Americano: new FormControl('0.00%', [
+      COKi_Americano: new FormControl('0.00', [
         Validators.pattern('^[0-9]*$'),
       ]), //Tasa de descuento
-      TIR_Americano: new FormControl('0.00%', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
-      TCEA_Americano: new FormControl('0.00%', [
-        Validators.pattern('^[0-9]*$'),
-      ]), //TCEA de la operacion
+      TIR_Americano: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TIR de la operacion
+      TCEA_Americano: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //TCEA de la operacion
       VAN_Americano: new FormControl('0.00', [Validators.pattern('^[0-9]*$')]), //VAN operacion
     });
   }
@@ -308,29 +358,51 @@ export class LeasingComponent implements OnInit {
   Submit() {
     if (this.buttonState == ButtonState.left) {
       if (this.dataGroup.valid) {
-        this.emptyData.PV = this.dataGroup.value.precio_de_venta_del_activo * 1;
-        this.emptyData.pCI =
-          this.dataGroup.value.porcentaje_de_cuota_inicial * 1;
+
+        this.emptyData.TipoMoneda= this.dataGroup.value.tipo_de_moneda * 1;
+
+        this.emptyData.PlazoDeGracia1 = this.dataGroup.value.plazo_de_Gracia1 * 1;
+
+        this.emptyData.PlazoDeGracia2 = this.dataGroup.value.plazo_de_Gracia2 * 1;
+        
+        this.emptyData.UnidadDeTiempoPlazoDeGracia1 = this.dataGroup.value.unidad_de_tiempo_plazo_de_gracia1 ;
+        
+        this.emptyData.UnidadDeTiempoPlazoDeGracia2 = this.dataGroup.value.unidad_de_tiempo_plazo_de_gracia2 ;
+        
+        this.emptyData.TipoDeGracia1 = this.dataGroup.value.tipo_de_Gracia1 ;
+        
+        this.emptyData.TipoDeGracia2 = this.dataGroup.value.tipo_de_Gracia2 ;
+
+        this.emptyData.PV = this.dataGroup.value.precio_de_venta_del_activo * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.pCI = this.dataGroup.value.porcentaje_de_cuota_inicial * 1;
+
         this.emptyData.NA = this.dataGroup.value.num_de_años * 1;
+
         this.emptyData.frec = this.dataGroup.value.frecuencia_de_pago * 1;
+
         this.emptyData.NDxA = this.dataGroup.value.num_dias_por_año * 1;
-        this.emptyData.CostesNotariales =
-          this.dataGroup.value.costes_notariales * 1;
-        this.emptyData.CostesRegistrales =
-          this.dataGroup.value.costes_registrales * 1;
-        this.emptyData.Tasacion = this.dataGroup.value.tasacion * 1;
-        this.emptyData.ComisionEstudio =
-          this.dataGroup.value.comision_de_estudio * 1;
-        this.emptyData.ComisionActivacion =
-          this.dataGroup.value.comision_activación * 1;
-        this.emptyData.ComPer = this.dataGroup.value.comision_periodica * 1;
-        this.emptyData.PortesPer = this.dataGroup.value.portes * 1;
-        this.emptyData.GasAdmPer =
-          this.dataGroup.value.gastos_de_administración * 1;
-        this.emptyData.pSegDes =
-          this.dataGroup.value.porcentaje_de_seguro_desgravamen * 1;
-        this.emptyData.pSegRie =
-          this.dataGroup.value.porcentaje_de_seguro_riesgo * 1;
+
+        this.emptyData.CostesNotariales = this.dataGroup.value.costes_notariales * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.CostesRegistrales = this.dataGroup.value.costes_registrales * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.Tasacion = this.dataGroup.value.tasacion * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.ComisionEstudio = this.dataGroup.value.comision_de_estudio * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.ComisionActivacion = this.dataGroup.value.comision_activación * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.ComPer = this.dataGroup.value.comision_periodica * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.PortesPer = this.dataGroup.value.portes * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.GasAdmPer = this.dataGroup.value.gastos_de_administración * 1 * this.emptyData.TipoMoneda;
+
+        this.emptyData.pSegDes = this.dataGroup.value.porcentaje_de_seguro_desgravamen * 1;
+
+        this.emptyData.pSegRie = this.dataGroup.value.porcentaje_de_seguro_riesgo * 1;
+
         this.emptyData.COK = this.dataGroup.value.tasa_de_descuento * 1;
 
         console.log(this.emptyData);
@@ -492,7 +564,47 @@ export class LeasingComponent implements OnInit {
 
   btnLLenar_y_Calcular() {
     this.RefreshArrays();
+    //-----------------------------Implementando-----------------------------//
+    this.utils.updateValue(
+      this.dataGroup,
+      'tipo_de_moneda',
+      this.data.TipoMoneda
+    );
 
+    this.utils.updateValue(
+      this.dataGroup,
+      'plazo_de_Gracia1',
+      this.data.PlazoDeGracia1
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'plazo_de_Gracia2',
+      this.data.PlazoDeGracia2
+    );
+
+    this.utils.updateValue(
+      this.dataGroup,
+      'unidad_de_tiempo_plazo_de_gracia1',
+      this.data.UnidadDeTiempoPlazoDeGracia1
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'unidad_de_tiempo_plazo_de_gracia2',
+      this.data.UnidadDeTiempoPlazoDeGracia2
+    );
+
+    this.utils.updateValue(
+      this.dataGroup,
+      'tipo_de_Gracia1',
+      this.data.TipoDeGracia1
+    );
+    this.utils.updateValue(
+      this.dataGroup,
+      'tipo_de_Gracia2',
+      this.data.TipoDeGracia2
+    );
+
+    //----------------------------------------------------------//
     this.utils.updateValue(
       this.dataGroup,
       'precio_de_venta_del_activo',
@@ -545,7 +657,7 @@ export class LeasingComponent implements OnInit {
     this.utils.updateValue(
       this.dataGroup,
       'porcentaje_de_seguro_desgravamen',
-      this.data.pSegDes
+      this.data.pSegDes 
     );
     this.utils.updateValue(
       this.dataGroup,

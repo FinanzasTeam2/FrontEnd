@@ -1,4 +1,12 @@
 export interface Datos {
+  //------Extras-------/
+  TipoMoneda: number;
+  PlazoDeGracia1: number;
+  PlazoDeGracia2: number;
+  UnidadDeTiempoPlazoDeGracia1: string;
+  UnidadDeTiempoPlazoDeGracia2: string;
+  TipoDeGracia1: string;
+  TipoDeGracia2: string;
   //Prestamo
   PV: number;
   pCI: number;

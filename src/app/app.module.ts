@@ -17,6 +17,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatGridListModule,
     MatTableModule,
     MatTabsModule,
-    MatTableExporterModule,
+    MatTableExporterModule,MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],

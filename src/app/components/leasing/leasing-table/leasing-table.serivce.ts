@@ -61,17 +61,17 @@ export class LeasingTableService {
 
     //--------------------P.G. --------------------
     //5años -> 5*12 = 60
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= data.PlazoDeGracia1; i++) {
       leasingTable[i].PG = 'T';
     }
 
     //10años -> 10*10 =120
-    for (let i = 7; i <= 12; i++) {
+    for (let i = data.PlazoDeGracia1 + 1; i <= data.PlazoDeGracia1 + data.PlazoDeGracia2; i++) {
       leasingTable[i].PG = 'P';
     }
 
     //10años -> 10*10 =120
-    for (let i = 13; i <= 300; i++) {
+    for (let i = data.PlazoDeGracia1 + data.PlazoDeGracia2 + 1; i <= 180; i++) {
       leasingTable[i].PG = 'S';
     }
 
@@ -79,7 +79,7 @@ export class LeasingTableService {
     leasingTable[0].Flujo = results.Prestamo;
 
     //--------------------Saldo Inicial --------------------
-    for (let i = 1; i <= 300; i++) {
+    for (let i = 1; i <= 180; i++) {
       leasingTable[i].SI = this.eq.SI({
         NC: leasingTable[i].NC,
         Prestamo: results.Prestamo,

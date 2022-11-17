@@ -7,7 +7,85 @@
   <section id="section_data">
     <form [formGroup]="dataGroup" (ngSubmit)="this.Submit()">
       <h2>Datos</h2>
+
       <div>
+        <h3>Tipo de moneda</h3>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccciona tipo de moneda</mat-label>
+          <select matNativeControl required formControlName="tipo_de_moneda">
+            <option value="1">Soles (S/.)</option>
+            <option value="3.83">Dollar ($)</option>
+            <option value="3.98">Euro (€)</option>
+          </select>
+          <mat-error *ngIf="dataGroup.hasError('required')">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+
+        <h3>Tasa Efectiva Anual</h3>
+
+        <div style="padding-top: 20px">
+          <span style="font-size: 18px">* Primera tasa efectiva</span>
+        </div>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Porcentaje de la tasa: </mat-label>
+          <input
+            type="number"
+            class="example-right-align"
+            matInput
+            formControlName="porcentaje_tasa_efectiva1"
+            placeholder="0.00"
+          />
+          <mat-icon matSuffix>percentage</mat-icon>
+        </mat-form-field>
+
+        <div style="padding-top: 10px">
+          <span style="font-size: 18px">Duración</span>
+        </div>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Duración de la tasa efectiva </mat-label>
+          <input
+            type="number"
+            class="example-right-align"
+            matInput
+            formControlName="porcentaje_tasa_efectiva1"
+            placeholder="0"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Tiempo de la tasa efectiva</mat-label>
+          <select matNativeControl required formControlName="plazo_tasa_efectiva1">
+            <option value="A">Años</option>
+            <option value="M">Meses</option>
+            <option value="D">Días</option>
+          </select>
+          <mat-error *ngIf="dataGroup.hasError('required')">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+
+
+        <div style="padding-top: 20px">
+          <span style="font-size: 18px">* Segunda tasa efectiva: (Resto del tiempo)</span>
+        </div>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Porcentaje de la tasa: </mat-label>
+          <input
+            type="number"
+            class="example-right-align"
+            matInput
+            formControlName="porcentaje_tasa_efectiva1"
+            placeholder="0.00"
+          />
+          <mat-icon matSuffix>percentage</mat-icon>
+        </mat-form-field>
+
+
         <!------------------------------------------Prestamo------------------------------------------>
         <div>
           <h3>Préstamo</h3>
@@ -25,18 +103,19 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" color="primary">
-              <mat-label>% Cuato Inicial:</mat-label>
+              <mat-label>Porcentaje Cuato Inicial:</mat-label>
               <input
                 class="example-right-align"
                 type="number"
                 matInput
                 formControlName="porcentaje_de_cuota_inicial"
-                placeholder="0.00%"
+                placeholder="0.00"
               />
+              <mat-icon matSuffix>percentage</mat-icon>
             </mat-form-field>
 
             <mat-form-field appearance="outline" color="primary">
-              <mat-label>Nº de años:</mat-label>
+              <mat-label>Número de años a pagar:</mat-label>
               <input
                 class="example-right-align"
                 type="number"
@@ -47,7 +126,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" color="primary">
-              <mat-label>Frecuencia de pago:</mat-label>
+              <mat-label>Frecuencia de pago (días):</mat-label>
               <input
                 class="example-right-align"
                 type="number"
@@ -58,7 +137,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" color="primary">
-              <mat-label>Nº de días por año:</mat-label>
+              <mat-label>Número de días por año:</mat-label>
               <input
                 class="example-right-align"
                 type="number"
@@ -68,9 +147,105 @@
               />
             </mat-form-field>
 
-            <p>Plazos de gracia:</p>
-            <p>6 meses de plazo de gracia total (cuotas Nº 1 a 6)</p>
-            <p>6 meses de plazo de gracia parcial (cuotas Nº 7 a 12)</p>
+            <h3>Plazos de gracia:</h3>
+            <div style="padding-top: 20px">
+              <span style="font-size: 18px">* Primer Plazo de Gracia</span>
+            </div>
+            <p>
+              <mat-form-field appearance="outline" color="primary">
+                <mat-label>Plazo de Gracia:</mat-label>
+                <input
+                  class="example-right-align"
+                  type="number"
+                  matInput
+                  formControlName="plazo_de_Gracia1"
+                  placeholder="0.00"
+                />
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Unidad de tiempo</mat-label>
+                <select
+                  matNativeControl
+                  required
+                  formControlName="unidad_de_tiempo_plazo_de_gracia1"
+                >
+                  <option value="D">Días</option>
+                  <option value="M">Meses</option>
+                  <option value="A">Años</option>
+                </select>
+                <mat-error *ngIf="dataGroup.hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Seleccciona tipo de gracia</mat-label>
+                <select
+                  matNativeControl
+                  required
+                  formControlName="tipo_de_Gracia1"
+                >
+                  <option value="S">Sin Gracia</option>
+                  <option value="P">Parcial</option>
+                  <option value="T">Total</option>
+                </select>
+                <mat-error *ngIf="dataGroup.hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
+
+              de plazo de gracia total (cuotas Nº 1 a 6)
+            </p>
+
+            <div style="padding-top: 20px">
+              <span style="font-size: 18px">* Segundo Plazo de Gracia</span>
+            </div>
+            <p>
+              <mat-form-field appearance="outline" color="primary">
+                <mat-label>Plazo de Gracia:</mat-label>
+                <input
+                  class="example-right-align"
+                  type="number"
+                  matInput
+                  formControlName="plazo_de_Gracia2"
+                  placeholder="0.00"
+                />
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Unidad de tiempo</mat-label>
+                <select
+                  matNativeControl
+                  required
+                  formControlName="unidad_de_tiempo_plazo_de_gracia2"
+                >
+                  <option value="D">Días</option>
+                  <option value="M">Meses</option>
+                  <option value="A">Años</option>
+                </select>
+                <mat-error *ngIf="dataGroup.hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Seleccciona tipo de gracia</mat-label>
+                <select
+                  matNativeControl
+                  required
+                  formControlName="tipo_de_Gracia2"
+                >
+                  <option value="S">Sin Gracia</option>
+                  <option value="P">Parcial</option>
+                  <option value="T">Total</option>
+                </select>
+                <mat-error *ngIf="dataGroup.hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
+              de plazo de gracia parcial (cuotas Nº 7 a 12)
+            </p>
           </div>
         </div>
         <!------------------------------------------Costes/Gatos iniciales------------------------------------------>
@@ -170,25 +345,27 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline" color="primary">
-            <mat-label> % de Seguro de desgravamen: </mat-label>
+            <mat-label> Porcentaje de Seguro de desgravamen: </mat-label>
             <input
               class="example-right-align"
               type="number"
               matInput
               formControlName="porcentaje_de_seguro_desgravamen"
-              placeholder="0.0%"
+              placeholder="0.00"
             />
+            <mat-icon matSuffix>percentage</mat-icon>
           </mat-form-field>
 
           <mat-form-field appearance="outline" color="primary">
-            <mat-label>% de Seguro de riesgo: </mat-label>
+            <mat-label>Porcentaje de Seguro de riesgo: </mat-label>
             <input
               class="example-right-align"
               type="number"
               matInput
               formControlName="porcentaje_de_seguro_riesgo"
-              placeholder="0.0%"
+              placeholder="0.00"
             />
+            <mat-icon matSuffix>percentage</mat-icon>
           </mat-form-field>
         </div>
         <!------------------------------------------Costo de Oportunidad------------------------------------------>
@@ -202,8 +379,9 @@
               type="number"
               matInput
               formControlName="tasa_de_descuento"
-              placeholder="0.0%"
+              placeholder="0.00"
             />
+            <mat-icon matSuffix>percentage</mat-icon>
           </mat-form-field>
 
           <button
@@ -393,16 +571,11 @@
                   matInput
                   formControlName="pSegDesPer"
                   readonly
-                /> </mat-form-field
-              ><mat-form-field color="primary">
-                <input
-                  type="number"
-                  class="example-right-align"
-                  matInput
-                  formControlName="pSegDesPer"
-                  readonly
-                /> </mat-form-field
-              ><mat-form-field color="primary">
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+              
+              <mat-form-field color="primary">
                 <input
                   type="number"
                   class="example-right-align"
@@ -410,6 +583,18 @@
                   formControlName="pSegDesPer"
                   readonly
                 />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+              
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="pSegDesPer"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
               </mat-form-field>
             </div>
 
@@ -642,16 +827,22 @@
                   matInput
                   formControlName="COKi"
                   readonly
-                /> </mat-form-field
-              ><mat-form-field color="primary">
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
                 <input
                   type="number"
                   class="example-right-align"
                   matInput
                   formControlName="COKi_Frances"
                   readonly
-                /> </mat-form-field
-              ><mat-form-field color="primary">
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
                 <input
                   type="number"
                   class="example-right-align"
@@ -659,6 +850,7 @@
                   formControlName="COKi_Americano"
                   readonly
                 />
+                <mat-icon matSuffix>percentage</mat-icon>
               </mat-form-field>
             </div>
 
@@ -671,16 +863,22 @@
                   matInput
                   formControlName="TIR"
                   readonly
-                /> </mat-form-field
-              ><mat-form-field color="primary">
+                /> 
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
                 <input
                   type="number"
                   class="example-right-align"
                   matInput
                   formControlName="TIR_Frances"
                   readonly
-                /> </mat-form-field
-              ><mat-form-field color="primary">
+                /> 
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
                 <input
                   type="number"
                   class="example-right-align"
@@ -688,6 +886,7 @@
                   formControlName="TIR_Americano"
                   readonly
                 />
+                <mat-icon matSuffix>percentage</mat-icon>
               </mat-form-field>
             </div>
 
@@ -701,7 +900,9 @@
                   formControlName="TCEA"
                   readonly
                 />
+                <mat-icon matSuffix>percentage</mat-icon>
               </mat-form-field>
+
               <mat-form-field color="primary">
                 <input
                   type="number"
@@ -710,7 +911,9 @@
                   formControlName="TCEA_Frances"
                   readonly
                 />
+                <mat-icon matSuffix>percentage</mat-icon>
               </mat-form-field>
+
               <mat-form-field color="primary">
                 <input
                   type="number"
@@ -719,6 +922,7 @@
                   formControlName="TCEA_Americano"
                   readonly
                 />
+                <mat-icon matSuffix>percentage</mat-icon>
               </mat-form-field>
             </div>
 

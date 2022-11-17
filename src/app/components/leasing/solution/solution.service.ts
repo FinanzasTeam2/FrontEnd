@@ -1,17 +1,17 @@
 import { FormGroup } from '@angular/forms';
 import { ResultsEquationsService } from './../results/results-equations.service';
-import { UtilsService } from './../utils/utils.service';
 import { Resultados } from './../../../model/resultados.service';
 import { Datos } from './../../../model/datos.service';
 
 import { Injectable } from '@angular/core';
+import { UtilsService } from '../utils/utils.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SolutionService {
   constructor(
-    private utils: UtilsService,
+    private u: UtilsService,
     private resultsEquationsService: ResultsEquationsService
   ) {}
 
@@ -20,7 +20,7 @@ export class SolutionService {
     //----------------------------Resultados----------------------------//
     //-----------------------del financiemiento-----------------------
     results.Saldo = this.resultsEquationsService.Saldo(data.PV, data.pCI);
-    this.utils.updateValue(resultGroup, 'Saldo', results.Saldo);
+    this.u.updateValue(resultGroup, 'Saldo', this.u.roundValueWithNumDecimals(results.Saldo,2));
 
     var costes_gastos_iniciales = [
       data.CostesNotariales,
@@ -33,20 +33,20 @@ export class SolutionService {
       results.Saldo,
       costes_gastos_iniciales
     );
-    this.utils.updateValue(resultGroup, 'Prestamo', results.Prestamo);
+    this.u.updateValue(resultGroup, 'Prestamo', this.u.roundValueWithNumDecimals(results.Prestamo,2));
 
     results.NCxA = this.resultsEquationsService.NCxA(data.NDxA, data.frec);
-    this.utils.updateValue(resultGroup, 'NCxA', results.NCxA);
+    this.u.updateValue(resultGroup, 'NCxA', results.NCxA);
 
     results.N = this.resultsEquationsService.N(results.NCxA, data.NA);
-    this.utils.updateValue(resultGroup, 'N', results.N);
+    this.u.updateValue(resultGroup, 'N', results.N);
 
     //-----------------------Costes / Gastos periodicos-----------------------
     results.pSegDesPer = this.resultsEquationsService.pSegDesPer(
       data.pSegDes,
       data.frec
     );
-    this.utils.updateValue(resultGroup, 'pSegDesPer', results.pSegDesPer);
+    this.u.updateValue(resultGroup, 'pSegDesPer', results.pSegDesPer * 100);
 
     results.SegRiePer = this.resultsEquationsService.SegRiePer(
       data.pSegRie,
@@ -54,7 +54,7 @@ export class SolutionService {
       results.NCxA
     );
 
-    this.utils.updateValue(resultGroup, 'SegRiePer', results.SegRiePer);
+    this.u.updateValue(resultGroup, 'SegRiePer', this.u.roundValueWithNumDecimals(results.SegRiePer,2));
 
     console.log(results);
   }

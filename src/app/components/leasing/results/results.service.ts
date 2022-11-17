@@ -82,98 +82,42 @@ export class ResultsService {
     //------------------------------------Leasing-Results-------------------------------------
 
     if (leasingState == LeasingState.Aleman) {
-      this.u.updateValue(resultGroup, 'Intereses', results.Intereses);
-      this.u.updateValue(
-        resultGroup,
-        'Amortización_del_capital',
-        results.Amortización_del_capital
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Seguro_de_desgravamen',
-        results.Seguro_de_desgravamen
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Seguro_contra_todo_riesgo',
-        results.Seguro_contra_todo_riesgo
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Comisiones_periodicas',
-        results.Comisiones_periodicas
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Portes_o_Gastos_de_adm',
-        results.Portes_o_Gastos_de_adm
-      );
-      this.u.updateValue(resultGroup, 'COKi', results.COKi);
-      this.u.updateValue(resultGroup, 'TIR', TIR_Resultados);
-      this.u.updateValue(resultGroup, 'TCEA', results.TCEA);
-      this.u.updateValue(resultGroup, 'VAN', results.VAN);
+
+      this.u.updateValue(resultGroup, 'Intereses', this.u.roundValueWithNumDecimals(results.Intereses,2)  );  
+      this.u.updateValue(resultGroup, 'Amortización_del_capital', this.u.roundValueWithNumDecimals(results.Amortización_del_capital,2));
+      this.u.updateValue(resultGroup, 'Seguro_de_desgravamen', this.u.roundValueWithNumDecimals(results.Seguro_de_desgravamen,2));
+      this.u.updateValue(resultGroup, 'Seguro_contra_todo_riesgo', this.u.roundValueWithNumDecimals(results.Seguro_contra_todo_riesgo,2));
+      this.u.updateValue(resultGroup, 'Comisiones_periodicas', this.u.roundValueWithNumDecimals(results.Comisiones_periodicas,2));
+      this.u.updateValue(resultGroup, 'Portes_o_Gastos_de_adm', this.u.roundValueWithNumDecimals(results.Portes_o_Gastos_de_adm,2));
+      this.u.updateValue(resultGroup, 'COKi', this.u.roundValueWithNumDecimals(results.COKi * 100,5));
+      this.u.updateValue(resultGroup, 'TIR', this.u.roundValueWithNumDecimals(TIR_Resultados * 100,5));
+      this.u.updateValue(resultGroup, 'TCEA', this.u.roundValueWithNumDecimals(results.TCEA * 100,5));
+      this.u.updateValue(resultGroup, 'VAN', this.u.roundValueWithNumDecimals(results.VAN,2));
+
     } else if (leasingState == LeasingState.Frances) {
-      this.u.updateValue(resultGroup, 'InteresesFrances', results.Intereses);
-      this.u.updateValue(
-        resultGroup,
-        'Amortización_del_capital_Frances',
-        results.Amortización_del_capital
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Seguro_de_desgravamen_Frances',
-        results.Seguro_de_desgravamen
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Seguro_contra_todo_riesgo_Frances',
-        results.Seguro_contra_todo_riesgo
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Comisiones_periodicas_Frances',
-        results.Comisiones_periodicas
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Portes_o_Gastos_de_adm_Frances',
-        results.Portes_o_Gastos_de_adm
-      );
-      this.u.updateValue(resultGroup, 'COKi_Frances', results.COKi);
-      this.u.updateValue(resultGroup, 'TIR_Frances', TIR_Resultados);
-      this.u.updateValue(resultGroup, 'TCEA_Frances', results.TCEA);
-      this.u.updateValue(resultGroup, 'VAN_Frances', results.VAN);
+
+      this.u.updateValue(resultGroup, 'InteresesFrances', this.u.roundValueWithNumDecimals(results.Intereses,2));
+      this.u.updateValue(resultGroup, 'Amortización_del_capital_Frances', this.u.roundValueWithNumDecimals(results.Amortización_del_capital,2));
+      this.u.updateValue(resultGroup, 'Seguro_de_desgravamen_Frances', this.u.roundValueWithNumDecimals(results.Seguro_de_desgravamen,2));
+      this.u.updateValue(resultGroup, 'Seguro_contra_todo_riesgo_Frances', this.u.roundValueWithNumDecimals(results.Seguro_contra_todo_riesgo,2));
+      this.u.updateValue(resultGroup, 'Comisiones_periodicas_Frances', this.u.roundValueWithNumDecimals(results.Comisiones_periodicas,2));
+      this.u.updateValue(resultGroup, 'Portes_o_Gastos_de_adm_Frances', this.u.roundValueWithNumDecimals(results.Portes_o_Gastos_de_adm,2));
+      this.u.updateValue(resultGroup, 'COKi_Frances', this.u.roundValueWithNumDecimals(results.COKi * 100,5));
+      this.u.updateValue(resultGroup, 'TIR_Frances', this.u.roundValueWithNumDecimals(TIR_Resultados * 100,5));
+      this.u.updateValue(resultGroup, 'TCEA_Frances', this.u.roundValueWithNumDecimals(results.TCEA * 100,5));
+      this.u.updateValue(resultGroup, 'VAN_Frances', this.u.roundValueWithNumDecimals(results.VAN,2));
+
     } else if (leasingState == LeasingState.Americano) {
-      this.u.updateValue(resultGroup, 'Intereses_Americano', results.Intereses);
-      this.u.updateValue(
-        resultGroup,
-        'Amortización_del_capital_Americano',
-        results.Amortización_del_capital
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Seguro_de_desgravamenAmericano',
-        results.Seguro_de_desgravamen
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Seguro_contra_todo_riesgo_Americano',
-        results.Seguro_contra_todo_riesgo
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Comisiones_periodicas_Americano',
-        results.Comisiones_periodicas
-      );
-      this.u.updateValue(
-        resultGroup,
-        'Portes_o_Gastos_de_adm_Americano',
-        results.Portes_o_Gastos_de_adm
-      );
-      this.u.updateValue(resultGroup, 'COKi_Americano', results.COKi);
-      this.u.updateValue(resultGroup, 'TIR_Americano', TIR_Resultados);
-      this.u.updateValue(resultGroup, 'TCEA_Americano', results.TCEA);
-      this.u.updateValue(resultGroup, 'VAN_Americano', results.VAN);
+      this.u.updateValue(resultGroup, 'Intereses_Americano', this.u.roundValueWithNumDecimals(results.Intereses,2));
+      this.u.updateValue(resultGroup, 'Amortización_del_capital_Americano', this.u.roundValueWithNumDecimals(results.Amortización_del_capital,2));
+      this.u.updateValue(resultGroup, 'Seguro_de_desgravamenAmericano', this.u.roundValueWithNumDecimals(results.Seguro_de_desgravamen,2));
+      this.u.updateValue(resultGroup, 'Seguro_contra_todo_riesgo_Americano', this.u.roundValueWithNumDecimals(results.Seguro_contra_todo_riesgo,2));
+      this.u.updateValue(resultGroup, 'Comisiones_periodicas_Americano', this.u.roundValueWithNumDecimals(results.Comisiones_periodicas,2));
+      this.u.updateValue(resultGroup, 'Portes_o_Gastos_de_adm_Americano', this.u.roundValueWithNumDecimals(results.Portes_o_Gastos_de_adm,2));
+      this.u.updateValue(resultGroup, 'COKi_Americano', this.u.roundValueWithNumDecimals(results.COKi * 100,5));
+      this.u.updateValue(resultGroup, 'TIR_Americano', this.u.roundValueWithNumDecimals(TIR_Resultados * 100,5));
+      this.u.updateValue(resultGroup, 'TCEA_Americano', this.u.roundValueWithNumDecimals(results.TCEA * 100,5));
+      this.u.updateValue(resultGroup, 'VAN_Americano', this.u.roundValueWithNumDecimals(results.VAN,2));
     }
   }
 }

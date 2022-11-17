@@ -59,7 +59,7 @@ form {
   width: 32%;
   font-size: 17px;
   margin: 0 5px;
-  min-width: 222px;
+  min-width: 275px;
 }
 
 #section_data ::ng-deep .mat-form-field-wrapper {
