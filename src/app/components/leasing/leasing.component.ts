@@ -41,10 +41,9 @@ interface Gracia {
 })
 export class LeasingComponent implements OnInit {
 
-  validatorPatternNumber='^[0-9]*$';
-  validatorPatternPercentage:string="";
-  validatorPatternDecimal:string="";
-
+  validatorPatternNumber=/^-?(0|[0-9]\d*)?$/;
+  validatorPatternNumberDecimals=/^[0-9]\d*(\.\d+)?$/;
+  
   leasingState = {} as LeasingState;
 
   buttonState = ButtonState.left;
@@ -166,14 +165,14 @@ export class LeasingComponent implements OnInit {
       tipo_de_moneda: new FormControl('', Validators.required),
 
       //Tasa efectiva anual
-      porcentaje_tasa_efectiva1:new FormControl('', Validators.required),
-      duracion_tasa_efectiva1: new FormControl('', Validators.required),
-      porcentaje_tasa_efectiva2:new FormControl('', Validators.required),
+      porcentaje_tasa_efectiva1:new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)] ),
+      duracion_tasa_efectiva1: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumber)]),
+      porcentaje_tasa_efectiva2:new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
 
 
       //Tipo de gracia
-      plazo_de_Gracia1: new FormControl('', Validators.required),
-      plazo_de_Gracia2: new FormControl('', Validators.required),
+      plazo_de_Gracia1: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumber)]),
+      plazo_de_Gracia2: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumber)]),
 
       unidad_de_tiempo_plazo_de_gracia1: new FormControl('', Validators.required),
       unidad_de_tiempo_plazo_de_gracia2: new FormControl(null,Validators.required),
@@ -183,25 +182,25 @@ export class LeasingComponent implements OnInit {
       //-------------------------------------------------//
 
       //...del prestamo
-      precio_de_venta_del_activo: new FormControl('',Validators.required),
-      porcentaje_de_cuota_inicial: new FormControl('', Validators.required),
-      num_de_años: new FormControl('', Validators.required),
-      frecuencia_de_pago: new FormControl('', Validators.required),
-      num_dias_por_año: new FormControl('', Validators.required),
+      precio_de_venta_del_activo: new FormControl('',[Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      porcentaje_de_cuota_inicial: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      num_de_años: new FormControl('',[Validators.required,Validators.pattern(this.validatorPatternNumber)]),
+      frecuencia_de_pago: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumber)]),
+      num_dias_por_año: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumber)]),
       //...de los costes/gatos iniciales
-      costes_notariales: new FormControl('', Validators.required),
-      costes_registrales: new FormControl('', Validators.required),
-      tasacion: new FormControl('', Validators.required),
-      comision_de_estudio: new FormControl('', Validators.required),
-      comision_activación: new FormControl('', Validators.required),
+      costes_notariales: new FormControl('',[Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      costes_registrales: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      tasacion: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      comision_de_estudio: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      comision_activación: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
       //...de los costes/gastos periodicos
-      comision_periodica: new FormControl('', Validators.required),
-      portes: new FormControl('', Validators.required),
-      gastos_de_administración: new FormControl('', Validators.required),
-      porcentaje_de_seguro_desgravamen: new FormControl('', Validators.required),
-      porcentaje_de_seguro_riesgo: new FormControl('', Validators.required),
+      comision_periodica: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      portes: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      gastos_de_administración: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      porcentaje_de_seguro_desgravamen: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
+      porcentaje_de_seguro_riesgo: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
       //...del costo de oportunidad
-      tasa_de_descuento: new FormControl('', Validators.required),
+      tasa_de_descuento: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumberDecimals)]),
 
     });
 

@@ -14,9 +14,9 @@
         <mat-form-field appearance="fill">
           <mat-label>Seleccciona tipo de moneda</mat-label>
           <select matNativeControl required formControlName="tipo_de_moneda">
-            <option value="1">Soles (S/.)</option>
-            <option value="3.83">Dollar ($)</option>
-            <option value="3.98">Euro (€)</option>
+            <option value="1">Soles (S/.) = 1 unidad</option>
+            <option value="3.83">Dollar ($) = 3.83 unidad</option>
+            <option value="3.98">Euro (€) = 3.98 unidad</option>
           </select>
           <mat-error *ngIf="dataGroup.hasError('required')">
             This field is required
@@ -93,7 +93,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" color="primary">
-              <mat-label>Porcentaje Cuato Inicial:</mat-label>
+              <mat-label>Porcentaje Cuoto Inicial:</mat-label>
               <input
                 class="example-right-align"
                 type="text"
@@ -111,7 +111,7 @@
                 type="text"
                 matInput
                 formControlName="num_de_años"
-                placeholder="0.00"
+                placeholder="0"
               />
             </mat-form-field>
 
@@ -122,7 +122,7 @@
                 type="text"
                 matInput
                 formControlName="frecuencia_de_pago"
-                placeholder="0.00"
+                placeholder="0"
               />
             </mat-form-field>
 
@@ -133,7 +133,7 @@
                 type="text"
                 matInput
                 formControlName="num_dias_por_año"
-                placeholder="0.00"
+                placeholder="0"
               />
             </mat-form-field>
 
