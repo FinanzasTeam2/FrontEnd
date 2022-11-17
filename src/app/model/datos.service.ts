@@ -1,4 +1,9 @@
 export interface Datos {
+  //--Implementando--//
+  Porcentaje_tasa_efectiva1:number,
+  Duracion_Tasa_Efectiva1:number,
+  UnidadDeTiempoDeLaTasaEfectiva1:string;
+  Porcentaje_tasa_efectiva2:number,
   //------Extras-------/
   TipoMoneda: number;
   PlazoDeGracia1: number;

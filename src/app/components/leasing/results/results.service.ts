@@ -56,7 +56,7 @@ export class ResultsService {
     //Indicadores de rentabilidad
     //Tasa de decuento
     results.COKi = this.eq.COKi({
-      COK: data.COK,
+      COK: data.COK / 100,
       frec: data.frec,
       NDxA: data.NDxA,
     });

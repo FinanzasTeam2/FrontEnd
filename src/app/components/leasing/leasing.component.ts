@@ -50,6 +50,10 @@ export class LeasingComponent implements OnInit {
   emptyResults: Resultados;
 
   data: Datos = {
+    Porcentaje_tasa_efectiva1:10,
+    Duracion_Tasa_Efectiva1:5,
+    UnidadDeTiempoDeLaTasaEfectiva1:'A',
+    Porcentaje_tasa_efectiva2:12,
     TipoMoneda: 1, // Sol:1,Dollar:3.83,Euro:3.93
     PlazoDeGracia1: 6,
     PlazoDeGracia2: 6,
@@ -58,7 +62,7 @@ export class LeasingComponent implements OnInit {
     TipoDeGracia1: 'T',
     TipoDeGracia2: 'P',
     PV: 125000,
-    pCI: 20 / 100,
+    pCI: 20 ,
     NA: 15,
     frec: 30,
     NDxA: 360,
@@ -70,9 +74,9 @@ export class LeasingComponent implements OnInit {
     ComPer: 0,
     PortesPer: 3.5,
     GasAdmPer: 0,
-    pSegDes: 0.05 / 100,
-    pSegRie: 0.3 / 100,
-    COK: 25.0 / 100,
+    pSegDes: 0.05 ,
+    pSegRie: 0.3 ,
+    COK: 25.0 ,
   };
   results: Resultados;
   leasingData: LeasingData;
@@ -155,12 +159,11 @@ export class LeasingComponent implements OnInit {
 
       //-----------------Ultimo Sprint-----------------//
       porcentaje_tasa_efectiva1:new FormControl('', Validators.required),
+      duracion_tasa_efectiva1: new FormControl('', Validators.required),
+      unidad_de_tiempo_de_la_tasa_efectiva:new FormControl(null, Validators.required),
+
       porcentaje_tasa_efectiva2:new FormControl('', Validators.required),
-
-      plazo_tasa_efectiva1:new FormControl(null, Validators.required),
-      plazo_tasa_efectiva2:new FormControl(null, Validators.required),
-
-
+      //------------------------------------------------//
 
       tipo_de_moneda: new FormControl('', Validators.required),
 
@@ -359,7 +362,13 @@ export class LeasingComponent implements OnInit {
     if (this.buttonState == ButtonState.left) {
       if (this.dataGroup.valid) {
 
-        this.emptyData.TipoMoneda= this.dataGroup.value.tipo_de_moneda * 1;
+        this.emptyData.Porcentaje_tasa_efectiva1= this.dataGroup.value.porcentaje_tasa_efectiva1 * 1;
+
+        this.emptyData.Duracion_Tasa_Efectiva1= this.dataGroup.value.duracion_tasa_efectiva1 * 1;
+
+        this.emptyData.UnidadDeTiempoDeLaTasaEfectiva1= this.dataGroup.value.unidad_de_tiempo_de_la_tasa_efectiva;
+
+        this.emptyData.Porcentaje_tasa_efectiva2= this.dataGroup.value.porcentaje_tasa_efectiva2;
 
         this.emptyData.PlazoDeGracia1 = this.dataGroup.value.plazo_de_Gracia1 * 1;
 
@@ -564,6 +573,32 @@ export class LeasingComponent implements OnInit {
 
   btnLLenar_y_Calcular() {
     this.RefreshArrays();
+    //-----------------------------Falta Implementar-----------------------------//    
+    this.utils.updateValue(
+      this.dataGroup,
+      'porcentaje_tasa_efectiva1',
+      this.data.Porcentaje_tasa_efectiva1
+    );
+
+    this.utils.updateValue(
+      this.dataGroup,
+      'duracion_tasa_efectiva1',
+      this.data.Duracion_Tasa_Efectiva1
+    );
+
+    this.utils.updateValue(
+      this.dataGroup,
+      'unidad_de_tiempo_de_la_tasa_efectiva',
+      this.data.UnidadDeTiempoDeLaTasaEfectiva1
+    );
+
+    this.utils.updateValue(
+      this.dataGroup,
+      'porcentaje_tasa_efectiva2',
+      this.data.Porcentaje_tasa_efectiva2
+    );
+
+
     //-----------------------------Implementando-----------------------------//
     this.utils.updateValue(
       this.dataGroup,
@@ -576,6 +611,7 @@ export class LeasingComponent implements OnInit {
       'plazo_de_Gracia1',
       this.data.PlazoDeGracia1
     );
+
     this.utils.updateValue(
       this.dataGroup,
       'plazo_de_Gracia2',
@@ -587,6 +623,7 @@ export class LeasingComponent implements OnInit {
       'unidad_de_tiempo_plazo_de_gracia1',
       this.data.UnidadDeTiempoPlazoDeGracia1
     );
+
     this.utils.updateValue(
       this.dataGroup,
       'unidad_de_tiempo_plazo_de_gracia2',
@@ -598,6 +635,7 @@ export class LeasingComponent implements OnInit {
       'tipo_de_Gracia1',
       this.data.TipoDeGracia1
     );
+
     this.utils.updateValue(
       this.dataGroup,
       'tipo_de_Gracia2',

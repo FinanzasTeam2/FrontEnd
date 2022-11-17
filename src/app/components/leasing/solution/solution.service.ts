@@ -19,7 +19,7 @@ export class SolutionService {
   Solucion(data: Datos, results: Resultados, resultGroup: FormGroup) {
     //----------------------------Resultados----------------------------//
     //-----------------------del financiemiento-----------------------
-    results.Saldo = this.resultsEquationsService.Saldo(data.PV, data.pCI);
+    results.Saldo = this.resultsEquationsService.Saldo(data.PV, data.pCI/100);
     this.u.updateValue(resultGroup, 'Saldo', this.u.roundValueWithNumDecimals(results.Saldo,2));
 
     var costes_gastos_iniciales = [
@@ -43,13 +43,13 @@ export class SolutionService {
 
     //-----------------------Costes / Gastos periodicos-----------------------
     results.pSegDesPer = this.resultsEquationsService.pSegDesPer(
-      data.pSegDes,
+      data.pSegDes/100,
       data.frec
     );
     this.u.updateValue(resultGroup, 'pSegDesPer', results.pSegDesPer * 100);
 
     results.SegRiePer = this.resultsEquationsService.SegRiePer(
-      data.pSegRie,
+      data.pSegRie/100,
       data.PV,
       results.NCxA
     );
