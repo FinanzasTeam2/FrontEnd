@@ -75,7 +75,7 @@ export class LeasingTableService {
     }
 
     //10años -> 10*10 =120
-    for (let i = data.PlazoDeGracia1 + data.PlazoDeGracia2 + 1; i <= 180; i++) {
+    for (let i = data.PlazoDeGracia1 + data.PlazoDeGracia2 + 1; i <= data.NA*12; i++) {
       leasingTable[i].PG = 'S';
     }
 
