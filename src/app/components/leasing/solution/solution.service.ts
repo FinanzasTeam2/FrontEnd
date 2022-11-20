@@ -56,7 +56,5 @@ export class SolutionService {
     );
 
     this.u.updateValue(resultGroup, 'SegRiePer', this.u.roundValueWithNumDecimals(results.SegRiePer,2));
-
-    console.log(results);
   }
 }

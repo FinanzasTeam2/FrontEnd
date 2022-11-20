@@ -1,3 +1,4 @@
+import { ApiService } from 'src/app/service/api.service';
 import { LeasingState } from './../leasing.component';
 import { LeasingData } from './../../../model/leasing-table.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +13,7 @@ import { UtilsService } from '../utils/utils.service';
   providedIn: 'root',
 })
 export class ResultsService {
-  constructor(private eq: ResultsEquationsService, private u: UtilsService) {}
+  constructor(private eq: ResultsEquationsService, private u: UtilsService,private api:ApiService) {}
 
   resultsGenerateData(
     results: Resultados,
@@ -94,6 +95,8 @@ export class ResultsService {
       this.u.updateValue(resultGroup, 'TCEA', this.u.roundValueWithNumDecimals(results.TCEA * 100,5));
       this.u.updateValue(resultGroup, 'VAN', this.u.roundValueWithNumDecimals(results.VAN,2));
 
+      this.postLeasingResult(results,1);
+
     } else if (leasingState == LeasingState.Frances) {
 
       this.u.updateValue(resultGroup, 'InteresesFrances', this.u.roundValueWithNumDecimals(results.Intereses,2));
@@ -106,7 +109,9 @@ export class ResultsService {
       this.u.updateValue(resultGroup, 'TIR_Frances', this.u.roundValueWithNumDecimals(TIR_Resultados * 100,5));
       this.u.updateValue(resultGroup, 'TCEA_Frances', this.u.roundValueWithNumDecimals(results.TCEA * 100,5));
       this.u.updateValue(resultGroup, 'VAN_Frances', this.u.roundValueWithNumDecimals(results.VAN,2));
-
+    
+      this.postLeasingResult(results,2);
+      
     } else if (leasingState == LeasingState.Americano) {
       this.u.updateValue(resultGroup, 'Intereses_Americano', this.u.roundValueWithNumDecimals(results.Intereses,2));
       this.u.updateValue(resultGroup, 'Amortización_del_capital_Americano', this.u.roundValueWithNumDecimals(results.Amortización_del_capital,2));
@@ -118,6 +123,19 @@ export class ResultsService {
       this.u.updateValue(resultGroup, 'TIR_Americano', this.u.roundValueWithNumDecimals(TIR_Resultados * 100,5));
       this.u.updateValue(resultGroup, 'TCEA_Americano', this.u.roundValueWithNumDecimals(results.TCEA * 100,5));
       this.u.updateValue(resultGroup, 'VAN_Americano', this.u.roundValueWithNumDecimals(results.VAN,2));
+    
+      this.postLeasingResult(results,3);
     }
+  }
+
+  postLeasingResult(results:Resultados,leasingMethodId:number){
+    this.api.postLeasingResult(results,leasingMethodId).subscribe({
+      next:(res)=>{
+        alert('LeasingResults added succesfully');
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    });
   }
 }

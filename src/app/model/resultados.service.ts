@@ -19,4 +19,6 @@ export interface Resultados {
   TIR: number; //TIR de la operacion
   TCEA: number; //TCEA de la operacion
   VAN: number; //VAN operacion
+  //Metodo
+  MetodoId:number;
 }

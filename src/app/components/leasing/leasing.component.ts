@@ -1,3 +1,5 @@
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from 'src/app/service/api.service';
 import { SolutionService } from './solution/solution.service';
 import { ResultsEquationsService } from './results/results-equations.service';
 import { ResultsService } from './results/results.service';
@@ -127,6 +129,7 @@ export class LeasingComponent implements OnInit {
     { name: 'Total', value: 'T' },
   ];
 
+  id?:any=0;
   
 
   constructor(
@@ -134,8 +137,11 @@ export class LeasingComponent implements OnInit {
     private leasingTableService: LeasingTableService,
     private resultsService: ResultsService,
     private utils: UtilsService,
-    private solutionService: SolutionService
+    private solutionService: SolutionService,
+    private api: ApiService,
+    private activeRoute:ActivatedRoute,
   ) {
+
     utils = {} as UtilsService;
     solutionService = {} as SolutionService;
 
@@ -258,7 +264,9 @@ export class LeasingComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.id=this.activeRoute.snapshot.paramMap.get('id'); 
+  }
 
   public Calcular() {
     return (this.buttonState = ButtonState.left);
@@ -272,10 +280,8 @@ export class LeasingComponent implements OnInit {
 
   Submit() {
     if (this.buttonState == ButtonState.left) {
-      console.log(this.dataGroup.valid);
+
       if (this.dataGroup.valid) {
-        console.log(this.dataGroup.value.precio_de_venta_del_activo * 1);
-        console.log(this.dataGroup.value.precio_de_venta_del_activo );
 
         this.emptyData.TipoMoneda = this.dataGroup.value.tipo_de_moneda;
 
@@ -329,7 +335,10 @@ export class LeasingComponent implements OnInit {
 
         this.emptyData.COK = this.dataGroup.value.tasa_de_descuento * 1;
 
-        console.log(this.emptyData);
+
+
+        this.postLeasingData(this.emptyData,this.id);
+
         this.btnCalcularDatos(this.emptyData);
       }
     }
@@ -337,6 +346,17 @@ export class LeasingComponent implements OnInit {
     if (this.buttonState == ButtonState.right) {
       this.btnLLenar_y_Calcular();
     }
+  }
+
+  postLeasingData(leasingData:Datos,userId:number){
+    this.api.postLeasingData(leasingData,userId).subscribe({
+      next:(res)=>{
+        alert('LeasingData added succesfully');
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    });
   }
 
   RefreshArrays() {
@@ -488,132 +508,34 @@ export class LeasingComponent implements OnInit {
 
   btnLLenar_y_Calcular() {
     this.RefreshArrays();
-    //-----------------------------Falta Implementar-----------------------------//    
-    this.utils.updateValue(
-      this.dataGroup,
-      'porcentaje_tasa_efectiva1',
-      this.data.Porcentaje_tasa_efectiva1
-    );
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'duracion_tasa_efectiva1',
-      this.data.Duracion_Tasa_Efectiva1
-    );
-
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'porcentaje_tasa_efectiva2',
-      this.data.Porcentaje_tasa_efectiva2
-    );
-
-
-    //-----------------------------Implementando-----------------------------//
-    this.utils.updateValue(
-      this.dataGroup,
-      'tipo_de_moneda',
-      this.data.TipoMoneda
-    );
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'plazo_de_Gracia1',
-      this.data.PlazoDeGracia1
-    );
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'plazo_de_Gracia2',
-      this.data.PlazoDeGracia2
-    );
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'unidad_de_tiempo_plazo_de_gracia1',
-      this.data.UnidadDeTiempoPlazoDeGracia1
-    );
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'unidad_de_tiempo_plazo_de_gracia2',
-      this.data.UnidadDeTiempoPlazoDeGracia2
-    );
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'tipo_de_Gracia1',
-      this.data.TipoDeGracia1
-    );
-
-    this.utils.updateValue(
-      this.dataGroup,
-      'tipo_de_Gracia2',
-      this.data.TipoDeGracia2
-    );
-
-    //----------------------------------------------------------//
-    this.utils.updateValue(
-      this.dataGroup,
-      'precio_de_venta_del_activo',
-      this.data.PV
-    );
-    this.utils.updateValue(
-      this.dataGroup,
-      'porcentaje_de_cuota_inicial',
-      this.data.pCI
-    );
+    this.utils.updateValue(this.dataGroup,'porcentaje_tasa_efectiva1',this.data.Porcentaje_tasa_efectiva1);
+    this.utils.updateValue(this.dataGroup,'duracion_tasa_efectiva1',this.data.Duracion_Tasa_Efectiva1);
+    this.utils.updateValue(this.dataGroup,'porcentaje_tasa_efectiva2',this.data.Porcentaje_tasa_efectiva2);
+    this.utils.updateValue(this.dataGroup,'tipo_de_moneda',this.data.TipoMoneda);
+    this.utils.updateValue(this.dataGroup,'plazo_de_Gracia1',this.data.PlazoDeGracia1);
+    this.utils.updateValue(this.dataGroup,'plazo_de_Gracia2',this.data.PlazoDeGracia2);
+    this.utils.updateValue(this.dataGroup,'unidad_de_tiempo_plazo_de_gracia1',this.data.UnidadDeTiempoPlazoDeGracia1);
+    this.utils.updateValue(this.dataGroup,'unidad_de_tiempo_plazo_de_gracia2',this.data.UnidadDeTiempoPlazoDeGracia2);
+    this.utils.updateValue(this.dataGroup,'tipo_de_Gracia1',this.data.TipoDeGracia1);
+    this.utils.updateValue(this.dataGroup,'tipo_de_Gracia2',this.data.TipoDeGracia2);
+    this.utils.updateValue(this.dataGroup,'precio_de_venta_del_activo',this.data.PV);
+    this.utils.updateValue(this.dataGroup,'porcentaje_de_cuota_inicial',this.data.pCI);
     this.utils.updateValue(this.dataGroup, 'num_de_años', this.data.NA);
-    this.utils.updateValue(
-      this.dataGroup,
-      'frecuencia_de_pago',
-      this.data.frec
-    );
+    this.utils.updateValue(this.dataGroup,'frecuencia_de_pago',this.data.frec);
     this.utils.updateValue(this.dataGroup, 'num_dias_por_año', this.data.NDxA);
-    this.utils.updateValue(
-      this.dataGroup,
-      'costes_notariales',
-      this.data.CostesNotariales
-    );
-    this.utils.updateValue(
-      this.dataGroup,
-      'costes_registrales',
-      this.data.CostesRegistrales
-    );
+    this.utils.updateValue(this.dataGroup,'costes_notariales',this.data.CostesNotariales);
+    this.utils.updateValue(this.dataGroup,'costes_registrales',this.data.CostesRegistrales);
     this.utils.updateValue(this.dataGroup, 'tasacion', this.data.Tasacion);
-    this.utils.updateValue(
-      this.dataGroup,
-      'comision_de_estudio',
-      this.data.ComisionEstudio
-    );
-    this.utils.updateValue(
-      this.dataGroup,
-      'comision_activación',
-      this.data.ComisionActivacion
-    );
-    this.utils.updateValue(
-      this.dataGroup,
-      'comision_periodica',
-      this.data.ComPer
-    );
+    this.utils.updateValue(this.dataGroup,'comision_de_estudio',this.data.ComisionEstudio);
+    this.utils.updateValue(this.dataGroup,'comision_activación',this.data.ComisionActivacion);
+    this.utils.updateValue(this.dataGroup,'comision_periodica',this.data.ComPer);
     this.utils.updateValue(this.dataGroup, 'portes', this.data.PortesPer);
-    this.utils.updateValue(
-      this.dataGroup,
-      'gastos_de_administración',
-      this.data.GasAdmPer
-    );
-    this.utils.updateValue(
-      this.dataGroup,
-      'porcentaje_de_seguro_desgravamen',
-      this.data.pSegDes 
-    );
-    this.utils.updateValue(
-      this.dataGroup,
-      'porcentaje_de_seguro_riesgo',
-      this.data.pSegRie
-    );
+    this.utils.updateValue(this.dataGroup,'gastos_de_administración',this.data.GasAdmPer);
+    this.utils.updateValue(this.dataGroup,'porcentaje_de_seguro_desgravamen',this.data.pSegDes);
+    this.utils.updateValue(this.dataGroup,'porcentaje_de_seguro_riesgo',this.data.pSegRie);
     this.utils.updateValue(this.dataGroup, 'tasa_de_descuento', this.data.COK);
-    console.log(this.data);
+
+
 
     //----------------------------Solution----------------------------//
 

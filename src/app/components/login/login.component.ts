@@ -39,10 +39,10 @@ export class LoginComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            localStorage.setItem('addUsuario', JSON.stringify(res));
+            
             this.loginForm.reset();
             alert('Bienvenido');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/leasing',res.resource.id]);
           },
           error: (err) => {
             console.log(err);

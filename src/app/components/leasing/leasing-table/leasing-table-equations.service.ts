@@ -20,7 +20,6 @@ export class LeasingTableEquationsService {
     frec: number;
     NDxA: number;
   }) {
-    console.log('ESTO', NC, N, TEA, frec, NDxA);
     if (NC <= N) {
       return Math.pow(1 + TEA, frec / NDxA) - 1;
     } else {
