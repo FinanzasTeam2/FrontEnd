@@ -185,9 +185,6 @@ export class LeasingComponent implements OnInit {
       plazo_de_Gracia1: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumber)]),
       plazo_de_Gracia2: new FormControl('', [Validators.required,Validators.pattern(this.validatorPatternNumber)]),
 
-      unidad_de_tiempo_plazo_de_gracia1: new FormControl('', Validators.required),
-      unidad_de_tiempo_plazo_de_gracia2: new FormControl(null,Validators.required),
-
       tipo_de_Gracia1: new FormControl(null, Validators.required),
       tipo_de_Gracia2: new FormControl(null, Validators.required),
       //-------------------------------------------------//
@@ -286,6 +283,7 @@ export class LeasingComponent implements OnInit {
   Submit() {
     if (this.buttonState == ButtonState.left) {
 
+      console.log(this.emptyData,"data a calular");
       if (this.dataGroup.valid) {
 
         this.emptyData.TipoMoneda = this.dataGroup.value.tipo_de_moneda;
