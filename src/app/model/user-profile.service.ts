@@ -1,6 +1,6 @@
 export interface UserProfile {
-  firstname: String;
-  lastName: String;
-  email: String;
-  password: String;
+  nombre: String;
+  apellido: String;
+  correo: String;
+  contrasenia: String;
 }

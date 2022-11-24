@@ -1,5 +1,5 @@
 export interface Leasing_Results {
-  id: number;
+  //id: number;
   saldo_a_Financiar: number;
   monto_del_Prestamo: number;
   numero_de_Cuotas_por_Anio: number;
@@ -16,5 +16,6 @@ export interface Leasing_Results {
   tiR_de_la_Operacion: number;
   tceA_de_la_Operacion: number;
   vaN_Operacion: number;
+  leasingDataId:number;
   leasingMethodId: number;
 }

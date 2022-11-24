@@ -1,3 +1,4 @@
+import { UserProfile } from './../model/user-profile.service';
 import { LeasingData } from './../model/leasing-table.service';
 import { Leasing_Results } from './../model/api/leasing_results.service';
 
@@ -19,8 +20,8 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   //Register
-  postUser(data: any) {
-    return this.http.post<any>(this.basepath + 'user', data);
+  postUser(user: UserProfile) {
+    return this.http.post<any>(this.basepath + 'user', user);
   }
 
   //Login
@@ -38,7 +39,6 @@ export class ApiService {
   //LeasingResult
   postLeasingResult(results: Resultados, leasingMethodId: number, leasingDataId:number) {
     this.leasingResults = {
-      id: leasingDataId,
       saldo_a_Financiar: results.Saldo,
       monto_del_Prestamo: results.Prestamo,
       numero_de_Cuotas_por_Anio: results.NCxA,
@@ -55,6 +55,7 @@ export class ApiService {
       tiR_de_la_Operacion: results.TIR,
       tceA_de_la_Operacion: results.TCEA,
       vaN_Operacion: results.VAN,
+      leasingDataId:leasingDataId,
       leasingMethodId: leasingMethodId,
     };
 

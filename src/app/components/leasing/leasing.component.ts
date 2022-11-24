@@ -63,8 +63,6 @@ export class LeasingComponent implements OnInit {
     TipoMoneda: 1, // Sol:1,Dollar:3.83,Euro:3.93
     PlazoDeGracia1: 6,
     PlazoDeGracia2: 6,
-    UnidadDeTiempoPlazoDeGracia1: 'M',
-    UnidadDeTiempoPlazoDeGracia2: 'M',
     TipoDeGracia1: 'T',
     TipoDeGracia2: 'P',
     PV: 125000,
@@ -301,11 +299,7 @@ export class LeasingComponent implements OnInit {
         this.emptyData.PlazoDeGracia1 = this.dataGroup.value.plazo_de_Gracia1 * 1;
 
         this.emptyData.PlazoDeGracia2 = this.dataGroup.value.plazo_de_Gracia2 * 1;
-        
-        this.emptyData.UnidadDeTiempoPlazoDeGracia1 = this.dataGroup.value.unidad_de_tiempo_plazo_de_gracia1 ;
-        
-        this.emptyData.UnidadDeTiempoPlazoDeGracia2 = this.dataGroup.value.unidad_de_tiempo_plazo_de_gracia2 ;
-        
+              
         this.emptyData.TipoDeGracia1 = this.dataGroup.value.tipo_de_Gracia1 ;
         
         this.emptyData.TipoDeGracia2 = this.dataGroup.value.tipo_de_Gracia2 ;
@@ -512,8 +506,6 @@ export class LeasingComponent implements OnInit {
     this.utils.updateValue(this.dataGroup,'tipo_de_moneda',this.data.TipoMoneda);
     this.utils.updateValue(this.dataGroup,'plazo_de_Gracia1',this.data.PlazoDeGracia1);
     this.utils.updateValue(this.dataGroup,'plazo_de_Gracia2',this.data.PlazoDeGracia2);
-    this.utils.updateValue(this.dataGroup,'unidad_de_tiempo_plazo_de_gracia1',this.data.UnidadDeTiempoPlazoDeGracia1);
-    this.utils.updateValue(this.dataGroup,'unidad_de_tiempo_plazo_de_gracia2',this.data.UnidadDeTiempoPlazoDeGracia2);
     this.utils.updateValue(this.dataGroup,'tipo_de_Gracia1',this.data.TipoDeGracia1);
     this.utils.updateValue(this.dataGroup,'tipo_de_Gracia2',this.data.TipoDeGracia2);
     this.utils.updateValue(this.dataGroup,'precio_de_venta_del_activo',this.data.PV);

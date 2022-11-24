@@ -4,7 +4,7 @@
     <section class="container-login">
       <form
         class="example-form"
-        (ngSubmit)="this.registerUser(registerForm.value)"
+        (ngSubmit)="this.registerButton(registerForm.value)"
         [formGroup]="registerForm"
       >
         <div class="main-text">
@@ -16,7 +16,7 @@
             <input
               type="text"
               placeholder="Ingrese Nombres"
-              formControlName="firstName"
+              formControlName="nombre"
             />
           </div>
           <div class="container-lastname">
@@ -24,7 +24,7 @@
             <input
               type="text"
               placeholder="Ingrese Apellidos"
-              formControlName="lastName"
+              formControlName="apellido"
             />
           </div>
           <div class="container-email">
@@ -32,7 +32,7 @@
             <input
               type="email"
               placeholder="Ingrese Email"
-              formControlName="email"
+              formControlName="correo"
             />
           </div>
           <div class="container-password">
@@ -40,17 +40,24 @@
             <input
               type="text"
               placeholder="Ingrese contraseña"
-              formControlName="password"
+              formControlName="contrasenia"
             />
           </div>
           <button
             class="btn-success"
             type="submit"
-            (click)="this.registerButton()"
             [disabled]="!registerForm.valid"
           >
             Registrate
           </button>
+
+          <button
+          class="btn-success"
+          type="button"
+          (click)="home()"
+          >
+          Atrás
+        </button>
         </div>
       </form>
     </section>
