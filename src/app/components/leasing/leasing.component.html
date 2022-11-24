@@ -1,0 +1,1336 @@
+<mat-toolbar class="narvar" color="primary">
+  <span routerLink="/">Calculadora Leasing Alemán, Francés y Americano</span>
+</mat-toolbar>
+
+<div id="page">
+  <!------------------------------------------Datos------------------------------------------>
+  <section id="section_data">
+    <form [formGroup]="dataGroup" (ngSubmit)="this.Submit()">
+      <h2>Datos</h2>
+
+      <div>
+        <h3>Tipo de moneda</h3>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccciona tipo de moneda</mat-label>
+          <select matNativeControl required formControlName="tipo_de_moneda">
+            <option value="1">Soles (S/.) = 1 unidad</option>
+            <option value="3.83">Dollar ($) = 3.83 unidad</option>
+            <option value="3.98">Euro (€) = 3.98 unidad</option>
+          </select>
+          <mat-error *ngIf="dataGroup.hasError('required')">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+
+        <h3>Tasa Efectiva Anual</h3>
+
+        <div style="padding-top: 20px">
+          <span style="font-size: 18px">* Primera tasa efectiva</span>
+        </div>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Porcentaje de la tasa: </mat-label>
+          <input
+            type="text"
+            class="example-right-align"
+            matInput
+            formControlName="porcentaje_tasa_efectiva1"
+            placeholder="0.00"
+          />
+          <mat-icon matSuffix>percentage</mat-icon>
+        </mat-form-field>
+
+        <div style="padding-top: 10px">
+          <span style="font-size: 18px">Duración (Anual)</span>
+        </div>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Duración de la tasa efectiva </mat-label>
+          <input
+            type="text"
+            class="example-right-align"
+            matInput
+            formControlName="duracion_tasa_efectiva1"
+            placeholder="0"
+          />
+        </mat-form-field>
+
+
+
+
+        <div style="padding-top: 20px">
+          <span style="font-size: 18px">* Segunda tasa efectiva: (Resto del tiempo)</span>
+        </div>
+
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Porcentaje de la tasa: </mat-label>
+          <input
+            type="text"
+            class="example-right-align"
+            matInput
+            formControlName="porcentaje_tasa_efectiva2"
+            placeholder="0.00"
+          />
+          <mat-icon matSuffix>percentage</mat-icon>
+        </mat-form-field>
+
+
+        <!------------------------------------------Prestamo------------------------------------------>
+        <div>
+          <h3>Préstamo</h3>
+
+          <div class="container-values">
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Precio de Venta del Activo: </mat-label>
+              <input
+                type="text"
+                class="example-right-align"
+                matInput
+                formControlName="precio_de_venta_del_activo"
+                placeholder="0.00"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Porcentaje Cuota Inicial:</mat-label>
+              <input
+                class="example-right-align"
+                type="text"
+                matInput
+                formControlName="porcentaje_de_cuota_inicial"
+                placeholder="0.00"
+              />
+              <mat-icon matSuffix>percentage</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Número de años a pagar:</mat-label>
+              <input
+                class="example-right-align"
+                type="text"
+                matInput
+                formControlName="num_de_años"
+                placeholder="0"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Frecuencia de pago (días):</mat-label>
+              <input
+                class="example-right-align"
+                type="text"
+                matInput
+                formControlName="frecuencia_de_pago"
+                placeholder="0"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" color="primary">
+              <mat-label>Número de días por año:</mat-label>
+              <input
+                class="example-right-align"
+                type="text"
+                matInput
+                formControlName="num_dias_por_año"
+                placeholder="0"
+              />
+            </mat-form-field>
+
+            <h3>Plazos de gracia:</h3>
+            <div style="padding-top: 20px">
+              <span style="font-size: 18px">* Primer Plazo de Gracia (Meses)</span>
+            </div>
+            <p>
+              <mat-form-field appearance="outline" color="primary">
+                <mat-label>Plazo de Gracia:</mat-label>
+                <input
+                  class="example-right-align"
+                  type="text"
+                  matInput
+                  formControlName="plazo_de_Gracia1"
+                  placeholder="0"
+                />
+                
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Seleccciona tipo de gracia</mat-label>
+                <select
+                  matNativeControl
+                  required
+                  formControlName="tipo_de_Gracia1"
+                >
+                  <option value="S">Sin Gracia</option>
+                  <option value="P">Parcial</option>
+                  <option value="T">Total</option>
+                </select>
+                <mat-error *ngIf="dataGroup.hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <div style="padding-top: 20px">
+              <span style="font-size: 18px">* Segundo Plazo de Gracia (Meses)</span>
+            </div>
+            <p>
+              <mat-form-field appearance="outline" color="primary">
+                <mat-label>Plazo de Gracia:</mat-label>
+                <input
+                  class="example-right-align"
+                  type="text"
+                  matInput
+                  formControlName="plazo_de_Gracia2"
+                  placeholder="0"
+                />
+              </mat-form-field>
+
+
+              <mat-form-field appearance="fill">
+                <mat-label>Seleccciona tipo de gracia</mat-label>
+                <select
+                  matNativeControl
+                  required
+                  formControlName="tipo_de_Gracia2"
+                >
+                  <option value="S">Sin Gracia</option>
+                  <option value="P">Parcial</option>
+                  <option value="T">Total</option>
+                </select>
+                <mat-error *ngIf="dataGroup.hasError('required')">
+                  This field is required
+                </mat-error>
+              </mat-form-field>
+            </p>
+          </div>
+        </div>
+        <!------------------------------------------Costes/Gatos iniciales------------------------------------------>
+        <div>
+          <h3>Costes / Gastos iniciales</h3>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Costes Notariales:</mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="costes_notariales"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Costes Registrales: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="costes_registrales"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Tasación: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="tasacion"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Comision de estudio: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="comision_de_estudio"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Comisión de activación: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="comision_activación"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+        </div>
+        <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
+        <div>
+          <h3>Costes / Gastos periodicos</h3>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Comisión periodica:</mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="comision_periodica"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Portes: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="portes"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Gastos de Administración:</mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="gastos_de_administración"
+              placeholder="0.00"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Porcentaje de Seguro de desgravamen: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="porcentaje_de_seguro_desgravamen"
+              placeholder="0.00"
+            />
+            <mat-icon matSuffix>percentage</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label>Porcentaje de Seguro de riesgo: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="porcentaje_de_seguro_riesgo"
+              placeholder="0.00"
+            />
+            <mat-icon matSuffix>percentage</mat-icon>
+          </mat-form-field>
+        </div>
+        <!------------------------------------------Costo de Oportunidad------------------------------------------>
+        <div>
+          <h3>Costo de oportunidad</h3>
+
+          <mat-form-field appearance="outline" color="primary">
+            <mat-label> Tasa de descuento: </mat-label>
+            <input
+              class="example-right-align"
+              type="text"
+              matInput
+              formControlName="tasa_de_descuento"
+              placeholder="0.00"
+            />
+            <mat-icon matSuffix>percentage</mat-icon>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="warn"
+            type="submit"
+            (click)="Calcular()"
+            style="margin-left: 20px; margin-top: 20px"
+          >
+            Calcular
+          </button>
+          <button
+            mat-raised-button
+            style="margin-left: 20px; margin-top: 20px; margin-bottom: 20px"
+            color="primary"
+            type="submit"
+            (click)="Llenar_y_Calcular()"
+          >
+            Llenar y Calcular valores por defecto
+          </button>
+          <button
+            mat-raised-button
+            style="margin-left: 20px; margin-bottom: 20px"
+            color="accent"
+            type="reset"
+            (click)="Reset()"
+          >
+            Limpiar Datos
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <!------------------------------------------Resultados------------------------------------------>
+  <section id="section_results">
+    <div>
+      <form [formGroup]="resultGroup">
+        <h2>Resultados</h2>
+
+        <!------------------------------------------Financiamiento------------------------------------------>
+        <div>
+          <div class="results_container">
+            <div>
+              <label id="Financiemiento" style="display: inline-block"
+                >Financiamiento</label
+              >
+              <h3 style="display: inline-block">Aleman</h3>
+              <h3 style="display: inline-block">Francés</h3>
+              <h3 style="display: inline-block">Americano</h3>
+            </div>
+
+            <div>
+              <label> Saldo a financiar: </label>
+              <mat-form-field color="primary">
+                <input
+                  class="example-right-align"
+                  matInput
+                  type="number"
+                  formControlName="Saldo"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  class="example-right-align"
+                  matInput
+                  type="number"
+                  formControlName="Saldo"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  class="example-right-align"
+                  matInput
+                  type="number"
+                  formControlName="Saldo"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label> Monto del préstamo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Prestamo"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Prestamo"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Prestamo"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Nº de Cuotas por Año:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="NCxA"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="NCxA"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="NCxA"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Nº Total de Cuotas:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="N"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="N"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="N"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <!------------------------------------------Costes/Gastos periodicos------------------------------------------>
+          <div class="results_container">
+            <h3>Costes / Gastos periodicos</h3>
+
+            <div>
+              <label>% de Seguro desgravamen periodo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="pSegDesPer"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+              
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="pSegDesPer"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+              
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="pSegDesPer"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Seguro riesgo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="SegRiePer"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <!------------------------------------------Totales por...------------------------------------------>
+          <div class="results_container">
+            <h3>Totales</h3>
+
+            <div>
+              <label>Intereses:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Intereses"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="InteresesFrances"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Intereses_Americano"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Amortización del capital:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Amortización_del_capital"
+                  readonly
+                /> </mat-form-field
+              ><mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Amortización_del_capital_Frances"
+                  readonly
+                /> </mat-form-field
+              ><mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Amortización_del_capital_Americano"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Seguro de desgravamen:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Seguro_de_desgravamen"
+                  readonly
+                /> </mat-form-field
+              ><mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Seguro_de_desgravamen_Frances"
+                  readonly
+                /> </mat-form-field
+              ><mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Seguro_de_desgravamenAmericano"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Seguro contra todo riesgo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Seguro_contra_todo_riesgo"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Seguro_contra_todo_riesgo_Frances"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Seguro_contra_todo_riesgo_Americano"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Comisiones periodicas riesgo:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Comisiones_periodicas"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Comisiones_periodicas_Frances"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Comisiones_periodicas_Americano"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>Portes / Gastos de administración:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Portes_o_Gastos_de_adm"
+                  readonly
+                /> </mat-form-field
+              ><mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Portes_o_Gastos_de_adm_Frances"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="Portes_o_Gastos_de_adm_Americano"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <!------------------------------------------Indicadores de Rentabilidad------------------------------------------>
+          <div>
+            <h3>Indicadores de Rentabilidad</h3>
+
+            <div>
+              <label>Tasa de descuento:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="COKi"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="COKi_Frances"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="COKi_Americano"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>TIR de la operación:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="TIR"
+                  readonly
+                /> 
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="TIR_Frances"
+                  readonly
+                /> 
+                <mat-icon matSuffix>percentage</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="TIR_Americano"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>TCEA de la operación:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="TCEA"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="TCEA_Frances"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="TCEA_Americano"
+                  readonly
+                />
+                <mat-icon matSuffix>percentage</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <label>VAN operación:</label>
+              <mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="VAN"
+                  readonly
+                /> </mat-form-field
+              ><mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="VAN_Frances"
+                  readonly
+                /> </mat-form-field
+              ><mat-form-field color="primary">
+                <input
+                  type="number"
+                  class="example-right-align"
+                  matInput
+                  formControlName="VAN_Americano"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <!------------------------------------------Leasing------------------------------------------>
+  <h1>Leasing Mensual</h1>
+  <div id="excel_buttons">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        exporterAleman.exportTable('xlsx', { fileName: 'Leasing Aleman' })
+      "
+      style="margin-right: 20px; margin-bottom: 20px"
+    >
+      Exportar Excel Aleman
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        exporterFrances.exportTable('xlsx', { fileName: 'Leasing Frances' })
+      "
+      style="margin-right: 20px; margin-bottom: 20px"
+    >
+      Exportar Excel Frances
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        exporterAmericano.exportTable('xlsx', { fileName: 'Leasing Americano' })
+      "
+      style="margin-bottom: 20px"
+    >
+      Exportar Excel Americano
+    </button>
+  </div>
+  <mat-tab-group style="height: 900px" id="leasing_table">
+    <mat-tab label="Aleman">
+      <table
+        mat-table
+        [dataSource]="dataSourceAleman"
+        class="leasing_table mat-elevation-z8"
+        matTableExporter
+        #exporterAleman="matTableExporter"
+      >
+        <!-- Position Column -->
+        <ng-container matColumnDef="NC">
+          <th mat-header-cell *matHeaderCellDef>Nº</th>
+          <td mat-cell *matCellDef="let element">{{ element.NC }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="TEA">
+          <th mat-header-cell *matHeaderCellDef>TEA (%)</th>
+          <td mat-cell *matCellDef="let element">{{ element.TEA }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="i">
+          <th mat-header-cell *matHeaderCellDef>i'=TEP=TEM (%)</th>
+          <td mat-cell *matCellDef="let element">{{ element.TEP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="IA">
+          <th mat-header-cell *matHeaderCellDef>IA</th>
+          <td mat-cell *matCellDef="let element">{{ element.IA }} %</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="IP">
+          <th mat-header-cell *matHeaderCellDef>IP</th>
+          <td mat-cell *matCellDef="let element">{{ element.IP }} %</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="PG">
+          <th mat-header-cell *matHeaderCellDef>P.G.</th>
+          <td mat-cell *matCellDef="let element">{{ element.PG }}</td>
+        </ng-container>
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="SI">
+          <th mat-header-cell *matHeaderCellDef>Saldo Inicial</th>
+          <td mat-cell *matCellDef="let element">{{ element.SI }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SII">
+          <th mat-header-cell *matHeaderCellDef>Saldo Inicial Indexado</th>
+          <td mat-cell *matCellDef="let element">{{ element.SII }}</td>
+        </ng-container>
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="I">
+          <th mat-header-cell *matHeaderCellDef>Interes</th>
+          <td mat-cell *matCellDef="let element">{{ element.I }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Cuota">
+          <th mat-header-cell *matHeaderCellDef>Cuota (inc Seg Des)</th>
+          <td mat-cell *matCellDef="let element">{{ element.Cuota }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="A">
+          <th mat-header-cell *matHeaderCellDef>Amortización</th>
+          <td mat-cell *matCellDef="let element">{{ element.A }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="PP">
+          <th mat-header-cell *matHeaderCellDef>Prepago</th>
+          <td mat-cell *matCellDef="let element">{{ element.PP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SegDes">
+          <th mat-header-cell *matHeaderCellDef>Seguro desgrav</th>
+          <td mat-cell *matCellDef="let element">{{ element.SegDes }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SegRie">
+          <th mat-header-cell *matHeaderCellDef>Seguro riesgo</th>
+          <td mat-cell *matCellDef="let element">{{ element.SegRie }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Comision">
+          <th mat-header-cell *matHeaderCellDef>Comision</th>
+          <td mat-cell *matCellDef="let element">{{ element.Comision }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Portes">
+          <th mat-header-cell *matHeaderCellDef>Portes</th>
+          <td mat-cell *matCellDef="let element">{{ element.Portes }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="GasAdm">
+          <th mat-header-cell *matHeaderCellDef>Gastos Administrativos</th>
+          <td mat-cell *matCellDef="let element">{{ element.GasAdm }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SF">
+          <th mat-header-cell *matHeaderCellDef>Saldo Final</th>
+          <td mat-cell *matCellDef="let element">{{ element.SF }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Flujo">
+          <th mat-header-cell *matHeaderCellDef>Flujo</th>
+          <td mat-cell *matCellDef="let element">{{ element.Flujo }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-tab>
+    <mat-tab label="Frances">
+      <table
+        mat-table
+        [dataSource]="dataSourceFrances"
+        class="leasing_table mat-elevation-z8"
+        matTableExporter
+        #exporterFrances="matTableExporter"
+      >
+        <!-- Position Column -->
+        <ng-container matColumnDef="NC">
+          <th mat-header-cell *matHeaderCellDef>Nº</th>
+          <td mat-cell *matCellDef="let element">{{ element.NC }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="TEA">
+          <th mat-header-cell *matHeaderCellDef>TEA</th>
+          <td mat-cell *matCellDef="let element">{{ element.TEA }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="i">
+          <th mat-header-cell *matHeaderCellDef>i'=TEP=TEM</th>
+          <td mat-cell *matCellDef="let element">{{ element.TEP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="IA">
+          <th mat-header-cell *matHeaderCellDef>IA</th>
+          <td mat-cell *matCellDef="let element">{{ element.IA }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="IP">
+          <th mat-header-cell *matHeaderCellDef>IP</th>
+          <td mat-cell *matCellDef="let element">{{ element.IP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="PG">
+          <th mat-header-cell *matHeaderCellDef>P.G.</th>
+          <td mat-cell *matCellDef="let element">{{ element.PG }}</td>
+        </ng-container>
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="SI">
+          <th mat-header-cell *matHeaderCellDef>Saldo Inicial</th>
+          <td mat-cell *matCellDef="let element">{{ element.SI }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SII">
+          <th mat-header-cell *matHeaderCellDef>Saldo Inicial Indexado</th>
+          <td mat-cell *matCellDef="let element">{{ element.SII }}</td>
+        </ng-container>
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="I">
+          <th mat-header-cell *matHeaderCellDef>Interes</th>
+          <td mat-cell *matCellDef="let element">{{ element.I }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Cuota">
+          <th mat-header-cell *matHeaderCellDef>Cuota (inc Seg Des)</th>
+          <td mat-cell *matCellDef="let element">{{ element.Cuota }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="A">
+          <th mat-header-cell *matHeaderCellDef>Amortización</th>
+          <td mat-cell *matCellDef="let element">{{ element.A }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="PP">
+          <th mat-header-cell *matHeaderCellDef>Prepago</th>
+          <td mat-cell *matCellDef="let element">{{ element.PP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SegDes">
+          <th mat-header-cell *matHeaderCellDef>Seguro desgrav</th>
+          <td mat-cell *matCellDef="let element">{{ element.SegDes }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SegRie">
+          <th mat-header-cell *matHeaderCellDef>Seguro riesgo</th>
+          <td mat-cell *matCellDef="let element">{{ element.SegRie }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Comision">
+          <th mat-header-cell *matHeaderCellDef>Comision</th>
+          <td mat-cell *matCellDef="let element">{{ element.Comision }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Portes">
+          <th mat-header-cell *matHeaderCellDef>Portes</th>
+          <td mat-cell *matCellDef="let element">{{ element.Portes }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="GasAdm">
+          <th mat-header-cell *matHeaderCellDef>Gastos Administrativos</th>
+          <td mat-cell *matCellDef="let element">{{ element.GasAdm }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SF">
+          <th mat-header-cell *matHeaderCellDef>Saldo Final</th>
+          <td mat-cell *matCellDef="let element">{{ element.SF }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Flujo">
+          <th mat-header-cell *matHeaderCellDef>Flujo</th>
+          <td mat-cell *matCellDef="let element">{{ element.Flujo }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-tab>
+    <mat-tab label="Americano">
+      <table
+        mat-table
+        [dataSource]="dataSourceAmericano"
+        class="leasing_table mat-elevation-z8"
+        matTableExporter
+        #exporterAmericano="matTableExporter"
+      >
+        <!-- Position Column -->
+        <ng-container matColumnDef="NC">
+          <th mat-header-cell *matHeaderCellDef>Nº</th>
+          <td mat-cell *matCellDef="let element">{{ element.NC }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="TEA">
+          <th mat-header-cell *matHeaderCellDef>TEA</th>
+          <td mat-cell *matCellDef="let element">{{ element.TEA }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="i">
+          <th mat-header-cell *matHeaderCellDef>i'=TEP=TEM</th>
+          <td mat-cell *matCellDef="let element">{{ element.TEP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="IA">
+          <th mat-header-cell *matHeaderCellDef>IA</th>
+          <td mat-cell *matCellDef="let element">{{ element.IA }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="IP">
+          <th mat-header-cell *matHeaderCellDef>IP</th>
+          <td mat-cell *matCellDef="let element">{{ element.IP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="PG">
+          <th mat-header-cell *matHeaderCellDef>P.G.</th>
+          <td mat-cell *matCellDef="let element">{{ element.PG }}</td>
+        </ng-container>
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="SI">
+          <th mat-header-cell *matHeaderCellDef>Saldo Inicial</th>
+          <td mat-cell *matCellDef="let element">{{ element.SI }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SII">
+          <th mat-header-cell *matHeaderCellDef>Saldo Inicial Indexado</th>
+          <td mat-cell *matCellDef="let element">{{ element.SII }}</td>
+        </ng-container>
+        <!-- Symbol Column -->
+
+        <ng-container matColumnDef="I">
+          <th mat-header-cell *matHeaderCellDef>Interes</th>
+          <td mat-cell *matCellDef="let element">{{ element.I }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Cuota">
+          <th mat-header-cell *matHeaderCellDef>Cuota (inc Seg Des)</th>
+          <td mat-cell *matCellDef="let element">{{ element.Cuota }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="A">
+          <th mat-header-cell *matHeaderCellDef>Amortización</th>
+          <td mat-cell *matCellDef="let element">{{ element.A }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="PP">
+          <th mat-header-cell *matHeaderCellDef>Prepago</th>
+          <td mat-cell *matCellDef="let element">{{ element.PP }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SegDes">
+          <th mat-header-cell *matHeaderCellDef>Seguro desgrav</th>
+          <td mat-cell *matCellDef="let element">{{ element.SegDes }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SegRie">
+          <th mat-header-cell *matHeaderCellDef>Seguro riesgo</th>
+          <td mat-cell *matCellDef="let element">{{ element.SegRie }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Comision">
+          <th mat-header-cell *matHeaderCellDef>Comision</th>
+          <td mat-cell *matCellDef="let element">{{ element.Comision }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Portes">
+          <th mat-header-cell *matHeaderCellDef>Portes</th>
+          <td mat-cell *matCellDef="let element">{{ element.Portes }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="GasAdm">
+          <th mat-header-cell *matHeaderCellDef>Gastos Administrativos</th>
+          <td mat-cell *matCellDef="let element">{{ element.GasAdm }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="SF">
+          <th mat-header-cell *matHeaderCellDef>Saldo Final</th>
+          <td mat-cell *matCellDef="let element">{{ element.SF }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Flujo">
+          <th mat-header-cell *matHeaderCellDef>Flujo</th>
+          <td mat-cell *matCellDef="let element">{{ element.Flujo }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-tab>
+  </mat-tab-group>
+</div>

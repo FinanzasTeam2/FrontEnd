@@ -3,9 +3,13 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "leansing": {
+    "leasing": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/leansing",
+            "outputPath": "dist/leasing",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -65,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "leansing:build:production"
+              "browserTarget": "leasing:build:production"
             },
             "development": {
-              "browserTarget": "leansing:build:development"
+              "browserTarget": "leasing:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "leansing:build"
+            "browserTarget": "leasing:build"
           }
         },
         "test": {
@@ -100,7 +104,5 @@
       }
     }
   },
-  "cli": {
-    "analytics": "58c0cc4b-15d5-409e-9697-d4b7503c9bba"
-  }
+  "defaultProject": "leasing"
 }
