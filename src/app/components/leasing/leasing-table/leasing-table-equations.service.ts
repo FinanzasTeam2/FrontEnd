@@ -84,7 +84,7 @@ export class LeasingTableEquationsService {
         if (PG == 'P') {
           return I;
         } else {
-          return this.PMT(TEP + pSegDesPer, N - NC + 1, SII, 0, 0);
+          return this.PMT(TEP + pSegDesPer, N - NC + 1, SII);
         }
       }
     } else {
@@ -92,18 +92,11 @@ export class LeasingTableEquationsService {
     }
   }
 
-  PMT(rate: number, nper: number, pv: number, fv: number, type: number) {
-    if (!fv) fv = 0;
-    if (!type) type = 0;
-
-    if (rate == 0) return -(pv + fv) / nper;
+  PMT(rate: number, nper: number, pv: number) {
+    //if (rate == 0) return -pv / nper;
 
     var pvif = Math.pow(1 + rate, nper);
-    var pmt = (rate / (pvif - 1)) * -(pv * pvif + fv);
-
-    if (type == 1) {
-      pmt /= 1 + rate;
-    }
+    var pmt = (rate / (pvif - 1)) * -(pv * pvif);
 
     return pmt;
   }
