@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  passwordType: string = 'password';
   passwordShow: boolean = false;
 
   constructor(
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
           next: (res) => {
             
             this.loginForm.reset();
-            alert('Bienvenido');
+            alert('Bienvenido ' + res.nombre);
             this.router.navigate(['/leasing',res.resource.id]);
           },
           error: (err) => {
@@ -50,6 +51,18 @@ export class LoginComponent implements OnInit {
             alert('User or password incorrect');
           },
         });
+    }else{
+      alert('Please fill the form');
+    }
+  }
+
+  public togglePassword(): void {
+    if (this.passwordShow) {
+      this.passwordShow = false;
+      this.passwordType = 'password';
+    } else {
+      this.passwordShow = true;
+      this.passwordType = 'text';
     }
   }
 }

@@ -26,7 +26,7 @@ body {
 
 h1 {
     align-items: center;
-    color: white;
+    color: black;
 }
 
 label {
@@ -40,23 +40,24 @@ label {
     width: 550px;
     height: 550px;
     border-radius: 20px;
-    background-color: black;
+    background-color: white;
     margin: 90px;
     position: relative;
 }
 
-.container-form {
-    width: 30px;
+.main-form{
+    display: flex;
     justify-content: center;
-    background-color: aqua;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.main-item{
+    width: 80%;
 }
 
-.main-form{
-    margin: 10px 40px 40px 40px;
-}
-.main-form > div{
-    width: 100px;
-    height: 70px;
+.mat-form-field-appearance-outline .mat-form-field-infix {
+   padding: 0;
 }
 
 input {

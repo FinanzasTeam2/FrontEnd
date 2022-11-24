@@ -1,7 +1,7 @@
 <body>
   <section class="container">
     <section class="container-img"></section>
-    <section class="container-login">
+    <section class="container-register">
       <form
         class="example-form"
         (ngSubmit)="this.registerButton(registerForm.value)"
@@ -11,53 +11,58 @@
           <h1>Registrate</h1>
         </div>
         <div class="main-form">
-          <div class="container-name">
-            <label for=""> Nombres:</label>
-            <input
-              type="text"
-              placeholder="Ingrese Nombres"
-              formControlName="nombre"
-            />
-          </div>
-          <div class="container-lastname">
-            <label for="">Apellidos:</label>
-            <input
-              type="text"
-              placeholder="Ingrese Apellidos"
-              formControlName="apellido"
-            />
-          </div>
-          <div class="container-email">
-            <label for="">Email:</label>
-            <input
-              type="email"
-              placeholder="Ingrese Email"
-              formControlName="correo"
-            />
-          </div>
-          <div class="container-password">
-            <label for="">Contraseña:</label>
-            <input
-              type="text"
-              placeholder="Ingrese contraseña"
-              formControlName="contrasenia"
-            />
-          </div>
-          <button
+
+          <mat-form-field appearance="outline" class="main-item">
+            <mat-label>Nombre:</mat-label>
+            <input formControlName="nombre" matInput placeholder="Name*">
+            <mat-error>
+              Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          
+          
+          <mat-form-field appearance="outline" class="main-item">
+            <mat-label>Apellido:</mat-label>
+            <input formControlName="apellido" matInput placeholder="Apellido*">
+            <mat-error>
+              Apellido is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="main-item">
+            <mat-label>Email:</mat-label>
+            <input formControlName="correo" matInput placeholder="Email*">
+            <mat-error>
+              Email is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="main-item">
+            <mat-label>Contraseña:</mat-label>
+            <input formControlName="contrasenia" matInput placeholder="Contraseña*">
+            <mat-error>
+              Contraseña is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <div>
+            <button
+            style="width: 150px ; font-size: 15px ;"
             class="btn-success"
             type="submit"
-            [disabled]="!registerForm.valid"
           >
             Registrate
           </button>
 
           <button
+          style="width: 150px ; font-size: 15px ;"
           class="btn-success"
           type="button"
           (click)="home()"
           >
           Atrás
         </button>
+          </div>
+          
         </div>
       </form>
     </section>

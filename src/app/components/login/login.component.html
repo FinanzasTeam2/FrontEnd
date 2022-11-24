@@ -4,30 +4,31 @@
     <section class="container-login">
       <form class="example-form" [formGroup]="loginForm">
         <div class="main-text">
-          <h1>Inicia sesion</h1>
+          <h1 style="color: black ;">Inicia sesion</h1>
         </div>
         <div class="main-form">
-          <div class="container-email">
-            <label for=""> Email:</label>
-            <input
-              type="email"
-              placeholder="Ingrese correo"
-              formControlName="email"
-            />
-          </div>
-          <div class="container-password">
-            <label for="">Contraseña:</label>
-            <input
-              type="password"
-              placeholder="Contraseña"
-              formControlName="password"
-            />
-          </div>
+          <mat-form-field appearance="outline" class="main-item">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput placeholder="Email*">
+            <mat-error>
+              Email is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="main-item">
+        <mat-label>Password</mat-label>
+        <input formControlName="password" matInput placeholder="Password" [type]="passwordType">
+        <mat-error>
+          Password is <strong>required</strong>
+        </mat-error>
+        <button matSuffix type="button" mat-icon-button>
+          <mat-icon (click)="togglePassword()">{{passwordShow ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+      </mat-form-field>
           <div>
-          <button class="btn-success" type="button" (click)="submitButton()">
+          <button style="width: 150px ; font-size: 15px ;" class="btn-success" type="submit" (click)="submitButton()">
             Iniciar Sesión
           </button>
-          <button class="btn-success" type="button" routerLink="/register">
+          <button style="width: 150px ; font-size: 15px ;" class="btn-success" type="button" routerLink="/register">
             Registrate
           </button>
         </div>
