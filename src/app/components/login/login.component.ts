@@ -41,14 +41,20 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: (res) => {
             
+            console.log(res);
             this.loginForm.reset();
-            alert('Bienvenido ' + res.nombre);
+            if(res.resource!=null){
+              alert('Bienvenido ' + res.resource.nombre);
+            }else{
+              alert('Credenciales Incorrectas');
+            }
+            
             this.router.navigate(['/leasing',res.resource.id]);
           },
           error: (err) => {
             console.log(err);
-            this.loginForm.reset();
             alert('User or password incorrect');
+            this.loginForm.reset();
           },
         });
     }else{

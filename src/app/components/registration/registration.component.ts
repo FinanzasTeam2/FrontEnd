@@ -45,6 +45,7 @@ export class RegistrationComponent implements OnInit {
     this.api.postUser(user).subscribe({
       next: (res) => {
         alert('User added successfully');
+        this.router.navigate(['/login']);
         this.registerForm.reset();
       },
       error: (err) => {
