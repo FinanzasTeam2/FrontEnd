@@ -9,7 +9,7 @@ export interface Resultados {
   SegRiePer: number; //Seguro de riesgo
   //totales por
   Intereses: number;
-  Amortización_del_capital: number;
+  Amortizacion_del_capital: number;
   Seguro_de_desgravamen: number;
   Seguro_contra_todo_riesgo: number;
   Comisiones_periodicas: number;

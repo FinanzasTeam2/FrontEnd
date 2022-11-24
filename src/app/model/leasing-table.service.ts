@@ -1,7 +1,7 @@
 export interface LeasingData {
-  NC: number;
-  TEA: number;
-  TEP: number;
+  NC: number; //Nº
+  TEA: number; 
+  TEP: number; //i'= TEP = TEM
   IA: number;
   IP: number;
   PG: string;
