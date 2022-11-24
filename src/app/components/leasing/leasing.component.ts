@@ -1,3 +1,4 @@
+import { Leasing_Data } from './../../model/api/leasing_data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
 import { SolutionService } from './solution/solution.service';
@@ -131,6 +132,9 @@ export class LeasingComponent implements OnInit {
 
   id?:any=0;
   
+  leasingDataAleman:Leasing_Data;
+  leasingDataFrance: Leasing_Data;
+  leasingDataAmericano:Leasing_Data;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -141,6 +145,9 @@ export class LeasingComponent implements OnInit {
     private api: ApiService,
     private activeRoute:ActivatedRoute,
   ) {
+    this.leasingDataAleman= {} as Leasing_Data; 
+    this.leasingDataFrance= {} as Leasing_Data; 
+    this.leasingDataAmericano= {} as Leasing_Data; 
 
     utils = {} as UtilsService;
     solutionService = {} as SolutionService;
@@ -337,7 +344,7 @@ export class LeasingComponent implements OnInit {
 
 
 
-        this.postLeasingData(this.emptyData,this.id);
+       // this.postLeasingData(this.emptyData,this.id);
 
         this.btnCalcularDatos(this.emptyData);
       }
@@ -348,16 +355,7 @@ export class LeasingComponent implements OnInit {
     }
   }
 
-  postLeasingData(leasingData:Datos,userId:number){
-    this.api.postLeasingData(leasingData,userId).subscribe({
-      next:(res)=>{
-        alert('LeasingData added succesfully');
-      },
-      error:(err)=>{
-        console.log(err);
-      }
-    });
-  }
+
 
   RefreshArrays() {
     this.leasingTableAleman = [];
@@ -391,7 +389,7 @@ export class LeasingComponent implements OnInit {
       this.indexTable,
       emptyData,
       this.emptyResults,
-      LeasingState.Frances
+      LeasingState.Frances 
     );
 
     this.leasingTableService.leasingTableGenerateData(
@@ -477,21 +475,21 @@ export class LeasingComponent implements OnInit {
       emptyData,
       this.leasingTableArr,
       this.resultGroup,
-      LeasingState.Aleman
+      LeasingState.Aleman,this.id,this.leasingDataAleman
     );
     this.resultsService.resultsGenerateData(
       this.emptyResults,
       emptyData,
       this.leasingTableArrFrances,
       this.resultGroup,
-      LeasingState.Frances
+      LeasingState.Frances,this.id,this.leasingDataFrance
     );
     this.resultsService.resultsGenerateData(
       this.emptyResults,
       emptyData,
       this.leasingTableArrAmericano,
       this.resultGroup,
-      LeasingState.Americano
+      LeasingState.Americano,this.id,this.leasingDataAmericano
     );
 
     //...
@@ -641,21 +639,21 @@ export class LeasingComponent implements OnInit {
       this.data,
       this.leasingTableArr,
       this.resultGroup,
-      LeasingState.Aleman
+      LeasingState.Aleman,this.id, this.leasingDataAleman
     );
     this.resultsService.resultsGenerateData(
       this.results,
       this.data,
       this.leasingTableArrFrances,
       this.resultGroup,
-      LeasingState.Frances
+      LeasingState.Frances,this.id,this.leasingDataFrance
     );
     this.resultsService.resultsGenerateData(
       this.results,
       this.data,
       this.leasingTableArrAmericano,
       this.resultGroup,
-      LeasingState.Americano
+      LeasingState.Americano,this.id,this.leasingDataAmericano
     );
 
     //...
